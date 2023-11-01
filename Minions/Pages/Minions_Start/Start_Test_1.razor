@@ -1,0 +1,244 @@
+﻿@page "/Test"
+@using Minions.Data;
+@inject IDialogService Dialog
+
+<!--
+    Anzeigen Arbeits Tage (Tracking der arbeitstage der einzelnen arbeite berücksichtigung fon enderungen (z.b. For anka))
+
+    Anzeige Gelt (Algemeine Daten Über schiff Mit Finanzen und Status (Art; Name; Semener; Ruderer; Tägliche Bezalung; Gesamt Auszalung;  ))
+
+    Anzeigen Personal (Namme;Alta;Rasse;Geschlecht/Namentlich oder Nicht z.b. Ruderer)---
+    Anzeige Zeitarbeiter (Schneles ein und austagen fon No name Cruw)
+
+    Knopf Einzelnes Crow Mitgliet austalen
+    Knopf Gesamte Crow Auszalen
+    Knopf Roderer Geamt auszalen
+    Knopf Einzelner Ruderer auszalen
+    Knopf Nexter tag (eingebare Tages anzal)
+
+
+    Anzeigen Persönliche Daten (Beckraund)
+    Anzeigen Gehalt (Algemeine Gehaltz übersicht mit automatischer anpasung und auszalung)
+    Anzeigen Inventar (Algemeine austatung (Besondere austatungen z.b. Magische gegenstende)
+    Anzeigen Category Beruf (Algemeine Qualifickazion)
+
+    Rang System
+--!>
+
+
+
+
+<EditForm Model="this">
+   
+
+<MudGrid>
+    <MudItem xs="5">
+        <InputText @bind-Value="Shipname" class="form-control value-input" style="font-size: 25px"></InputText>
+        <InputText @bind-Value="ShipClass" class="form-control value-input"></InputText>
+    </MudItem>
+    <MudItem xs="4"></MudItem>
+    <MudItem >
+        <MudIconButton Icon="@Icons.Material.Filled.Bedtime" Size="Size.Large" OnClick="TimeButten" >  </MudIconButton>
+        <InputNumber @bind-Value="Time" class="form-control" > </InputNumber>
+
+    </MudItem>
+</MudGrid>
+
+
+
+
+
+
+
+<br />
+<br />
+<br />
+<br />
+
+<MudGrid>
+    <MudItem xs="2">
+        <MudCard>
+            <MudCardContent Class="border-solid border-2 mud-border pa-8" >
+                <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Sailors</MudText>
+                <MudText Align="Align.Center" Typo="Typo.h6"> @Sailors </MudText>
+            </MudCardContent>
+
+        </MudCard>
+    </MudItem>
+    <MudItem xs="2">
+        <MudCard>
+             <MudCardContent Class="border-solid border-2 mud-border pa-8" >
+
+                <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Rower</MudText>
+                <MudText Align="Align.Center" Typo="Typo.h6"> 1 </MudText>
+
+             </MudCardContent>
+
+        </MudCard>
+    </MudItem>
+            <MudItem  xs="4">
+        <MudCard>
+              <MudCardContent Class="border-solid border-2 mud-border pa-8" >
+
+                       <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Money</MudText>
+                       <MudText Align="Align.Center" Typo="Typo.h6"> 1 </MudText>
+
+             </MudCardContent>
+
+        </MudCard>
+    </MudItem>
+
+        <MudItem xs="2">
+        <MudCard>
+          <MudCardContent Class="border-solid border-2 mud-border pa-8" >
+
+                           <MudText Align="Align.Center" Typo="Typo.h6" Style="text-decoration:underline; white-space:nowrap">Crew Pyament (/Day) </MudText>
+                           <MudText Align="Align.Center" Typo="Typo.h6"> @CrewPaymentDay </MudText>
+
+          </MudCardContent>
+
+        </MudCard>
+    </MudItem>
+        <MudItem xs="2">
+        <MudCard>
+             <MudCardContent Class="border-solid border-2 mud-border pa-8" >
+
+                        <MudText Align="Align.Center" Typo="Typo.h6" Style="text-decoration:underline; white-space:nowrap">Crew Curent Payment</MudText>
+                        <MudText Align="Align.Center" Typo="Typo.h6"> @CrewCurentPayment </MudText>
+
+             </MudCardContent>
+
+        </MudCard>
+    </MudItem>
+    
+</MudGrid>
+
+<br />
+<br />
+<br />
+<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+    <MudButton OnClick="@AddChar">One</MudButton>
+    <MudButton>Two</MudButton>
+    <MudButton>Three</MudButton>
+</MudButtonGroup>
+
+<MudDataGrid T="Element" Items="Elements" SortMode="SortMode.Single" Class="border-solid border-2 mud-border">
+    <Columns>
+        <PropertyColumn Title="Name" Property="x => x.Name"></PropertyColumn>
+        <PropertyColumn Title="Age" Property="x => x.Age"></PropertyColumn>
+        <PropertyColumn Title="Race" Property="x => x.Race"></PropertyColumn>
+        <PropertyColumn Title="Sex" Property="x => x.Sex"></PropertyColumn>
+        <PropertyColumn Title="Job" Property="x => x.Job"></PropertyColumn>
+        <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment"></PropertyColumn>
+        <PropertyColumn Title="Days without pay" Property="x => x.DayWihtoutPay"></PropertyColumn>
+        <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment"></PropertyColumn>
+
+    </Columns>
+</MudDataGrid>
+    </EditForm>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@code {
+
+    public string? Shipname { get; set; }
+    public string? ShipClass { get; set; }
+    public int Time { get; set; }
+
+    public int Sailors => Elements?.Count??0;
+    public int Rower { get; set; }
+    public float Money { get; set; }
+    public float CrewPaymentDay => Elements?.Sum(X => X.Payment)??0;
+    public float CrewCurentPayment => Elements?.Sum(x => x.CurrentPayment)??0;
+
+
+
+
+
+    private List<Element>? Elements { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Elements = new List<Element>()
+        {
+
+       /*
+              Name =
+              Age =
+              Race =
+              Sex =
+              Payment =
+              Job =
+        */
+
+        new  Element
+            {
+
+                Name = "Test",
+                Age = 12,
+                Race = "Humi",
+                Sex = "Orc",
+                Payment = 30,
+                Job = "Moshen",
+
+            },
+
+            new Element
+            {
+              Name ="Igor",
+              Age =50,
+              Race ="Dwarf",
+              Sex ="Male",
+              Payment = 50,
+              Job = "Wörker"
+            }
+
+
+
+        };
+
+
+
+
+
+
+
+    }
+
+    public void TimeButten()
+    {
+
+
+
+        foreach (var item in Elements)
+        {
+            item.DayWihtoutPay = item.DayWihtoutPay + Time;
+        }
+    }
+
+    public async Task AddChar()
+    {
+        var parameter = new DialogParameters<AddCrewDialog>();
+        parameter.Add(x => x.Element, Elements.First());
+        await Dialog.ShowAsync<AddCrewDialog>("AddCrew",parameter);
+
+    }
+
+}

@@ -1,0 +1,85 @@
+﻿@using Minions.Data;
+
+
+
+@*
+    Tages
+
+    Freundlich;     @Icons.Material.Filled.InsertEmoticon
+    Böse;            @Icons.Material.Filled.LocalFireDepartment
+    Gut;             @Icons.Material.Filled.Favorite
+    Agresif;        @Icons.Material.Filled.Bolt;@Icons.Material.Filled.Thunderstorm
+    Kampffäig;      @Icons.Material.Filled.SportsMma
+    Faul;            @Icons.Material.Filled.LocalHotel
+    Fleisig;        @Icons.Material.Filled.DirectionsRun
+    Girig;          @Icons.Material.Filled.Savings
+    Schleimer;      @Icons.Material.Filled.CleanHands
+    Sexsistisch;    @Icons.Material.Filled.CrueltyFree
+    unnachgibig;    @Icons.Material.Filled.Castle
+    Creeatif;       @Icons.Material.Filled.Create
+    Tierfreunt;     @Icons.Material.Filled.Pets
+    Jobs
+
+    Ruderer; @Icons.Material.Filled.Rowing
+
+
+    Mänlich;@Icons.Material.Filled.Male
+    Weiblich;@Icons.Material.Filled.Female
+
+
+    Semman; Zimmerer; Soldat; Ruderer; Koch; Artzt; Magier; Prister; Musicker; Erster/Zweiert/Waffen/ Offizier; Auskuck;
+*@
+
+
+
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">Add Crew</MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (Element != null)
+        {
+            <MudGrid>
+
+
+                <MudItem>
+                    <MudTextField @bind-Value="Element.Name" Label="Name" />
+                    <MudTextField @bind-Value="Element.Age" Label="Age" />
+                </MudItem>
+                <MudItem>
+                    <MudTextField @bind-Value="Element.Race" Label="Race" />
+                    <MudTextField @bind-Value="Element.Sex" Label="Sex" />
+                </MudItem>
+                <MudItem>
+                    <MudTextField @bind-Value="Element.Payment" Label="Payment" />
+                    <MudTextField @bind-Value="Element.Job" Label="Job" />
+                </MudItem>
+                <MudItem>
+                    <MudTextField @bind-Value="Element.DayWihtoutPay" Label="DayWihtoutPay" />
+                    <MudTextField @bind-Value="Element.Name" Label="Name" />
+                </MudItem>
+            </MudGrid>
+
+
+        }
+    </DialogContent>
+    @*     <DialogActions>
+    <MudButton OnClick="Cancel">Cancel</MudButton>
+    <MudButton Color="Color.Error" OnClick="DeleteServer">Delete Server</MudButton>
+    </DialogActions> *@
+</MudDialog>
+
+
+
+
+
+
+
+@code {
+
+    [Parameter] public Element Element { get; set; }
+
+
+
+}
