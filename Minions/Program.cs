@@ -11,6 +11,8 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 builder.Services.AddSingleton<WeatherForecastService>();
 
+builder.Services.AddMinionsData();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,7 +1,10 @@
-﻿namespace Minions.Data;
+﻿using DataAccess.Contracts;
 
-public class Element
+namespace Minions.Data;
+
+public class Element : IModel
 {
+    public string Id { get; set; } = Guid.NewGuid().ToString();
     public required string Name { get; set; }
     public int Age { get; set; }
     public required string Race { get; set; }
