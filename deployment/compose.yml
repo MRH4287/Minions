@@ -1,0 +1,14 @@
+version: '3.3'
+services:
+    minions:
+        build:
+            context: ../Minions/
+            dockerfile: Dockerfile
+        ports:
+            - '8230:80'
+        container_name: minions
+        restart: always
+        volumes:
+            - '/nfs/docker/volumes/minions:/app/_data'
+        image: home-server:5000/mrh4287/minions
+        
