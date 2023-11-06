@@ -20,6 +20,7 @@ steps:
   inputs:
     command: build
     dockerfile: '$(Build.SourcesDirectory)/Minions/Dockerfile'
+    buildContext: '$(Build.SourcesDirectory)/Minions'
     tags: $(tag)
       
 - task: Docker@2
@@ -34,3 +35,4 @@ steps:
     runOptions: 'inline'
     inline: 'docker service update minions_mrh4287 --image=home-server:5000/mrh4287/minions'
     readyTimeout: '20000'
+    args: 
