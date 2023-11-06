@@ -23,12 +23,11 @@ steps:
     buildContext: '$(Build.SourcesDirectory)'
     tags: $(tag)
       
-- task: Docker@2
+
+- task: Bash@3
   inputs:
-    containerRegistry: 'Home-Server Registry'
-    command: 'push'
-    tags: $(tag)
-    
+    targetType: 'inline'
+    script: 'docker push home-server:5000/mrh4287/minions'
 - task: SSH@0
   inputs:
     sshEndpoint: 'Home-Server'
