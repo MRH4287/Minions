@@ -20,7 +20,7 @@ steps:
   inputs:
     command: build
     dockerfile: '$(Build.SourcesDirectory)/Minions/Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)/Minions'
+    buildContext: '$(Build.SourcesDirectory)'
     tags: $(tag)
       
 - task: Docker@2
