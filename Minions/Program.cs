@@ -14,13 +14,14 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMinionsData();
 
 var app = builder.Build();
+app.UsePathBase("/minions");
+app.MapBlazorHub("/minions");
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-
-    app.UsePathBase("/minions");
 }
 
 app.UseHttpsRedirection();
