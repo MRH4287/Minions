@@ -15,14 +15,10 @@ variables:
 
 steps:
 
-- task: Docker@2
-  displayName: Build an image
+- task: Bash@3
   inputs:
-    command: build
-    dockerfile: '$(Build.SourcesDirectory)/Minions/Dockerfile'
-    buildContext: '$(Build.SourcesDirectory)'
-    tags: $(tag)
-      
+    targetType: 'inline'
+    script: 'docker build -f Minions/Dockerfile "$(build.artifactstagingdirectory)" -t home-server:5000/mrh4287/minions'
 
 - task: Bash@3
   inputs:
