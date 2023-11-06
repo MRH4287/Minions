@@ -1,0 +1,33 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+pool: 'Main'
+
+variables:
+  tag: 'home-server:5000/mrh4287/minions'
+
+steps:
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'docker build -f Minions/Dockerfile "$(build.SourcesDirectory)" -t home-server:5000/mrh4287/minions'
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'docker push home-server:5000/mrh4287/minions'
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'Home-Server'
+    runOptions: 'inline'
+    inline: 'docker service update minions_mrh4287 --image=home-server:5000/mrh4287/minions'
+    readyTimeout: '20000'
+    args: 
