@@ -18,7 +18,7 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: 'docker build -f Minions/Dockerfile "$(build.artifactstagingdirectory)" -t home-server:5000/mrh4287/minions $(Build.SourcesDirectory)'
+    script: 'docker build -f Minions/Dockerfile "$(build.SourcesDirectory)" -t home-server:5000/mrh4287/minions'
 
 - task: Bash@3
   inputs:
