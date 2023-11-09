@@ -1,0 +1,189 @@
+﻿@using Minions.Data;
+
+
+
+@*
+
+Sachen die ich will
+
+
+Wie lange Die Person auf dem Schiff ist
+
+ Beförderungs System (Rang 1 - 5) Möglichkeit mit sternchen
+
+ Lon anpasungen
+
+ Job wegsel
+
+ Wan hat er das schiff betreten (datum)
+ Wie lange ist er auf dem schiff (tage)
+
+ Wan ist er gegannegen (datum,Grund)
+
+
+
+
+
+
+
+
+
+*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<MudDialog>
+    <TitleContent>
+        <MudTHeadRow Class="d-flex">
+            <MudText Typo="Typo.h6" Align="Align.Left">@Element.Name</MudText>
+            <MudSpacer></MudSpacer>
+            <MudText Typo="Typo.h6" Align="Align.Center">Sex @Element.Sex</MudText>
+            <MudSpacer></MudSpacer>
+            <MudText Typo="Typo.h6" Align="Align.Right">Age @Element.Age</MudText>
+        </MudTHeadRow>
+
+
+    </TitleContent>
+
+    <DialogContent>
+        @if (Element != null)
+        {
+            <br />
+            <br />
+
+
+            <MudGrid>
+
+                <MudItem xs="4">
+                    <MudTextField T="string" Label="Job" Variant="Variant.Outlined"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="4">
+                    <MudTextField T="string" Label="Rang" Variant="Variant.Outlined"></MudTextField>
+                </MudItem>
+
+                <MudItem>
+                    <MudRating SelectedValue="1" />
+                </MudItem>
+
+            </MudGrid>
+
+
+            <MudGrid>
+                <MudItem>
+                    <MudNumericField Label="Payment(/Day)" Min="0" Variant="Variant.Outlined" HideSpinButtons="true" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Savings"></MudNumericField>
+
+                </MudItem>
+
+
+                <MudItem>
+                    <MudNumericField Label="Days without pay" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
+
+                </MudItem>
+
+                <MudItem>
+                    <MudNumericField Label="Current Payment" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
+
+                </MudItem>
+
+            </MudGrid>
+
+            <MudGrid>
+
+
+                <MudItem xs="4">
+                    <MudTextField T="string" Label="Dienst an bord Begonnen" Variant="Variant.Outlined"></MudTextField>
+                </MudItem>
+
+                <MudItem xs="1">
+                    <MudNumericField Label="Time" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
+                </MudItem>
+            </MudGrid>
+            <MudGrid>
+                <MudItem xs="4">
+                    <MudTextField T="string" Label="Dienst beendet am" Variant="Variant.Outlined"></MudTextField>
+                </MudItem>
+            </MudGrid>
+
+
+
+
+
+
+
+            <br />
+            <br />
+            <br />
+            <MudGrid>
+
+                <MudItem xs="4">
+                    <MudCard Outlined="true">
+                        <MudCardHeader>Inventar</MudCardHeader>
+                        <MudTextField T="string" Variant="Variant.Text" Lines="20"></MudTextField>
+                    </MudCard>
+
+
+                </MudItem>
+
+                <MudItem xs="4">
+                    <MudCard Outlined="true">
+                        <MudCardHeader>Skills</MudCardHeader>
+                        <MudTextField T="string" Variant="Variant.Text" Lines="20"></MudTextField>
+                    </MudCard>
+
+
+                </MudItem>
+                <MudItem xs="4">
+                    <MudCard Outlined="true">
+                        <MudCardHeader>Notes</MudCardHeader>
+                        <MudTextField T="string" Variant="Variant.Text" Lines="20"></MudTextField>
+                    </MudCard>
+
+
+                </MudItem>
+
+
+
+            </MudGrid>
+        }
+    </DialogContent>
+
+</MudDialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public Element Element { get; set; }
+
+
+
+
+
+
+
+}
