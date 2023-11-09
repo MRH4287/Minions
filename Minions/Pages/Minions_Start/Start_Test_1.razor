@@ -173,9 +173,9 @@
 
     public int Sailors => Liste?.Count(x=> x.Job != Job.Rower)??0;
     public int Rower => Liste?.Count(x => x.Job == Job.Rower) ?? 0;
-    public float Money { get; set; }
-    public float CrewPaymentDay => Liste?.Sum(X => X.Payment)??0;
-    public float CrewCurentPayment => Liste?.Sum(x => x.CurrentPayment)??0;
+    public double Money { get; set; }
+    public double CrewPaymentDay => Liste?.Sum(X => X.Payment)??0;
+    public double CrewCurentPayment => Liste?.Sum(x => x.CurrentPayment) ?? 0;
 
 
 
@@ -263,8 +263,11 @@
         foreach (var item in Liste)
         {
             item.DayWihtoutPay = item.DayWihtoutPay + Time;
+            item.TimeOnBord = item.TimeOnBord + Time;
+
             await repo.Save(item);
         }
+        Time = 1;
     }
 
     public async Task AddChar()
@@ -281,6 +284,9 @@
         var result = await dialog.Result;
         if (!result.Canceled)
         {
+
+            element.TimeOnBord = element.DayWihtoutPay;
+
             Liste.Add(element);
             await repo.Save(element);
         }
@@ -315,5 +321,7 @@
         element.DayWihtoutPay = 0; 
         await repo.Save(element);
     }
+
+
 
 }

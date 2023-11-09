@@ -49,7 +49,7 @@
 
                 <MudItem xs="6">
                     <MudTextField @bind-Value="Element.Name" Label="Name" />
-                    <MudTextField @bind-Value="Element.Age" Label="Age" />
+                    <MudNumericField @bind-Value="Element.Age" Label="Age" />
                 </MudItem>
                 <MudItem xs="6">
                     <MudSelect @bind-Value="Element.Race" T="Race" Label="Race" AnchorOrigin="Origin.BottomCenter">
@@ -68,7 +68,7 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="6">
-                    <MudTextField @bind-Value="Element.Payment" Label="Payment" />
+                    <MudNumericField @bind-Value="Element.Payment" Label="Payment" />
                     <MudSelect @bind-Value="Element.Job" T="Job" Label="Job" AnchorOrigin="Origin.BottomCenter">
 
                         @foreach (Job item in Enum.GetValues(typeof(Job)))
@@ -78,7 +78,7 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="6">
-                    <MudTextField @bind-Value="Element.DayWihtoutPay" Label="DayWihtoutPay" />
+                    <MudNumericField @bind-Value="Element.DayWihtoutPay" Label="DayWihtoutPay" />
                     <MudTextField @bind-Value="Element.Name" Label="Name" />
                 </MudItem>
             </MudGrid>

@@ -9,10 +9,12 @@ public class Element : IModel
     public int Age { get; set; }
     public Race Race { get; set; }
     public Sex Sex { get; set; }
-    public float Payment { get; set; }
+    public double Payment { get; set; }
     public Job Job { get; set; }
-    public float CurrentPayment => Payment * DayWihtoutPay;
+    public double CurrentPayment => Payment * DayWihtoutPay;
     public int DayWihtoutPay { get; set; }
+
+    public int TimeOnBord {  get; set; }
 
 }
     public enum Sex { Male, Female, Other };

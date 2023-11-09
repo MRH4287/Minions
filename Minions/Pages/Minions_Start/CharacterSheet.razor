@@ -68,7 +68,13 @@ Wie lange Die Person auf dem Schiff ist
             <MudGrid>
 
                 <MudItem xs="4">
-                    <MudTextField T="string" Label="Job" Variant="Variant.Outlined"></MudTextField>
+                    <MudSelect @bind-Value="Element.Job" T="Job" Label="Job" AnchorOrigin="Origin.BottomCenter">
+
+                        @foreach (Job item in Enum.GetValues(typeof(Job)))
+                        {
+                            <MudSelectItem Value="@item">@item</MudSelectItem>
+                        }
+                    </MudSelect>
                 </MudItem>
 
                 <MudItem xs="4">
@@ -84,18 +90,18 @@ Wie lange Die Person auf dem Schiff ist
 
             <MudGrid>
                 <MudItem>
-                    <MudNumericField Label="Payment(/Day)" Min="0" Variant="Variant.Outlined" HideSpinButtons="true" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Savings"></MudNumericField>
+                    <MudNumericField @bind-Value="Element.Payment" Label="Payment(/Day)" Min="0" Variant="Variant.Outlined" HideSpinButtons="true" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Savings"></MudNumericField>
 
                 </MudItem>
 
 
                 <MudItem>
-                    <MudNumericField Label="Days without pay" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
+                    <MudNumericField @bind-Value="Element.DayWihtoutPay" Label="Days without pay" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
 
                 </MudItem>
 
                 <MudItem>
-                    <MudNumericField Label="Current Payment" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
+                    <MudNumericField Value="Element.CurrentPayment" ReadOnly="true" Label="Current Payment" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
 
                 </MudItem>
 
@@ -109,7 +115,7 @@ Wie lange Die Person auf dem Schiff ist
                 </MudItem>
 
                 <MudItem xs="1">
-                    <MudNumericField Label="Time" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
+                    <MudNumericField Value="Element.TimeOnBord" Label="Time" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
                 </MudItem>
             </MudGrid>
             <MudGrid>
