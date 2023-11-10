@@ -3,6 +3,7 @@
     public interface IRepository<T> where T : class, IModel
     {
         void Delete(string id);
+        bool Exists(string id);
         Task<T?> Get(string id);
         Task<IEnumerable<T>> GetAll();
         Task Save(T item);
@@ -16,6 +17,8 @@
         void SetCollectionId(TKey collectionId);
 
         void Delete(TKey collectionId, string id);
+
+        bool Exists(TKey collectionId, string id);
 
         Task<TValue?> Get(TKey collectionId, string id);
 

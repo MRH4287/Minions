@@ -116,6 +116,14 @@ namespace DataAccess.Repository
             }
         }
 
+        public bool Exists(string id) => Exists(CollectionId, id);
+        public bool Exists(TKey? collectionId, string id)
+        {
+            ValidatePath(collectionId);
+            var filePath = GetFilePath(collectionId, id);
+            return File.Exists(filePath);
+        }
+
         private string GetFilePath(TKey? collectionId, string id)
         {
             var basePath = _basePath;

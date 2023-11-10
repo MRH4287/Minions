@@ -2,6 +2,7 @@
 @using Minions.Data;
 @inject IDialogService Dialog
 @inject ICollectionRepository<Element> repo
+@inject IRepository<Asset> assetRepo
 
 <!--
     Anzeigen Arbeits Tage (Tracking der arbeitstage der einzelnen arbeite berücksichtigung fon enderungen (z.b. For anka))
@@ -30,123 +31,127 @@
 
 
 <EditForm Model="this">
-   
+    @if (Asset != null)
+    {
 
-<MudGrid>
-    <MudItem xs="5">
-        <InputText @bind-Value="Shipname" class="form-control value-input" style="font-size: 25px"></InputText>
-        <InputText @bind-Value="ShipClass" class="form-control value-input"></InputText>
-    </MudItem>
-    <MudItem xs="4"></MudItem>
-    <MudItem >
-        <MudIconButton Icon="@Icons.Material.Filled.Bedtime" Size="Size.Large" OnClick="TimeButten" >  </MudIconButton>
-        <InputNumber @bind-Value="Time" class="form-control" > </InputNumber>
+            <MudGrid>
+                <MudItem xs="5">
+                        <InputText @bind-Value="Asset.Name" @bind-Value:after="SaveAsset" class="form-control value-input" style="font-size: 25px"></InputText>
+                        <InputText @bind-Value="Asset.Type" @bind-Value:after="SaveAsset" class="form-control value-input"></InputText>
+                </MudItem>
+                <MudItem xs="4"></MudItem>
+                <MudItem >
+                    <MudIconButton Icon="@Icons.Material.Filled.Bedtime" Size="Size.Large" OnClick="TimeButten" >  </MudIconButton>
+                    <InputNumber @bind-Value="Time" class="form-control" > </InputNumber>
 
-    </MudItem>
-</MudGrid>
-
-
-
+                </MudItem>
+            </MudGrid>
 
 
 
 
-<br />
-<br />
-<br />
-<br />
 
-<MudGrid>
-    <MudItem xs="2">
-        <MudCard>
-            <MudCardContent Class="border-solid border-2 mud-border pa-8" >
-                <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Sailors</MudText>
-                <MudText Align="Align.Center" Typo="Typo.h6"> @Sailors </MudText>
-            </MudCardContent>
 
-        </MudCard>
-    </MudItem>
-    <MudItem xs="2">
-        <MudCard>
-             <MudCardContent Class="border-solid border-2 mud-border pa-8" >
 
-                <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Rower</MudText>
-                <MudText Align="Align.Center" Typo="Typo.h6"> @Rower </MudText>
+            <br />
+            <br />
+            <br />
+            <br />
 
-             </MudCardContent>
+            <MudGrid>
+                <MudItem xs="2">
+                    <MudCard>
+                        <MudCardContent Class="border-solid border-2 mud-border pa-8" >
+                            <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Sailors</MudText>
+                            <MudText Align="Align.Center" Typo="Typo.h6"> @Sailors </MudText>
+                        </MudCardContent>
 
-        </MudCard>
-    </MudItem>
-            <MudItem  xs="4">
-        <MudCard>
-              <MudCardContent Class="border-solid border-2 mud-border pa-8" >
+                    </MudCard>
+                </MudItem>
+                <MudItem xs="2">
+                    <MudCard>
+                        <MudCardContent Class="border-solid border-2 mud-border pa-8" >
 
-                       <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Money</MudText>
-                       <MudText Align="Align.Center" Typo="Typo.h6"> 1 </MudText>
+                            <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Rower</MudText>
+                            <MudText Align="Align.Center" Typo="Typo.h6"> @Rower </MudText>
 
-             </MudCardContent>
+                        </MudCardContent>
 
-        </MudCard>
-    </MudItem>
+                    </MudCard>
+                </MudItem>
+                <MudItem  xs="4">
+                    <MudCard>
+                        <MudCardContent Class="border-solid border-2 mud-border pa-8" >
 
-        <MudItem xs="2">
-        <MudCard>
-          <MudCardContent Class="border-solid border-2 mud-border pa-8" >
+                            <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Money</MudText>
+                            <MudText Align="Align.Center" Typo="Typo.h6"> 1 </MudText>
 
-                           <MudText Align="Align.Center" Typo="Typo.h6" Style="text-decoration:underline; white-space:nowrap">Crew Pyament (/Day) </MudText>
-                           <MudText Align="Align.Center" Typo="Typo.h6"> @CrewPaymentDay </MudText>
+                        </MudCardContent>
 
-          </MudCardContent>
+                    </MudCard>
+                </MudItem>
 
-        </MudCard>
-    </MudItem>
-        <MudItem xs="2">
-        <MudCard>
-             <MudCardContent Class="border-solid border-2 mud-border pa-8" >
+                <MudItem xs="2">
+                    <MudCard>
+                        <MudCardContent Class="border-solid border-2 mud-border pa-8" >
 
-                        <MudText Align="Align.Center" Typo="Typo.h6" Style="text-decoration:underline; white-space:nowrap">Crew Curent Payment</MudText>
-                        <MudText Align="Align.Center" Typo="Typo.h6"> @CrewCurentPayment </MudText>
+                            <MudText Align="Align.Center" Typo="Typo.h6" Style="text-decoration:underline; white-space:nowrap">Crew Pyament (/Day) </MudText>
+                            <MudText Align="Align.Center" Typo="Typo.h6"> @CrewPaymentDay </MudText>
 
-             </MudCardContent>
+                        </MudCardContent>
 
-        </MudCard>
-    </MudItem>
-    
-</MudGrid>
+                    </MudCard>
+                </MudItem>
+                <MudItem xs="2">
+                    <MudCard>
+                        <MudCardContent Class="border-solid border-2 mud-border pa-8" >
 
-<br />
-<br />
-<br />
-<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-    <MudButton OnClick="@AddChar">One</MudButton>
-    <MudButton>Two</MudButton>
-    <MudButton>Three</MudButton>
-</MudButtonGroup>
+                            <MudText Align="Align.Center" Typo="Typo.h6" Style="text-decoration:underline; white-space:nowrap">Crew Curent Payment</MudText>
+                            <MudText Align="Align.Center" Typo="Typo.h6"> @CrewCurentPayment </MudText>
 
-<MudDataGrid T="Element" Items="Liste" SortMode="SortMode.Single" Class="border-solid border-2 mud-border">
-    <Columns>
-        <PropertyColumn Title="Name" Property="x => x.Name"></PropertyColumn>
-        <PropertyColumn Title="Age" Property="x => x.Age"></PropertyColumn>
-        <PropertyColumn Title="Race" Property="x => x.Race"></PropertyColumn>
-        <PropertyColumn Title="Sex" Property="x => x.Sex"></PropertyColumn>
-        <PropertyColumn Title="Job" Property="x => x.Job"></PropertyColumn>
-        <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment"></PropertyColumn>
-        <PropertyColumn Title="Days without pay" Property="x => x.DayWihtoutPay"></PropertyColumn>
-        <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment"></PropertyColumn>
-       
-        <TemplateColumn CellClass="d-flex justify-end">
-            <CellTemplate Context="cellContext">
-                <MudStack Row>
-                    <MudButton      OnClick="@(()=>Pay(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Success">Pay</MudButton>
-                    <MudButton      OnClick="@(()=>Fire(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Fire</MudButton>
-                    <MudIconButton  OnClick="@(()=>CharacterSheet(cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete" ></MudIconButton>
-                </MudStack>
-            </CellTemplate>
-        </TemplateColumn>
+                        </MudCardContent>
 
-    </Columns>
-</MudDataGrid>
-    </EditForm>
+                    </MudCard>
+                </MudItem>
+
+            </MudGrid>
+
+            <br />
+            <br />
+            <br />
+            <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+                <MudButton OnClick="@AddChar">One</MudButton>
+                <MudButton>Two</MudButton>
+                <MudButton>Three</MudButton>
+            </MudButtonGroup>
+
+            <MudDataGrid T="Element" Items="Liste" SortMode="SortMode.Single" Class="border-solid border-2 mud-border">
+                <Columns>
+                    <PropertyColumn Title="Name" Property="x => x.Name"></PropertyColumn>
+                    <PropertyColumn Title="Age" Property="x => x.Age"></PropertyColumn>
+                    <PropertyColumn Title="Race" Property="x => x.Race"></PropertyColumn>
+                    <PropertyColumn Title="Sex" Property="x => x.Sex"></PropertyColumn>
+                    <PropertyColumn Title="Job" Property="x => x.Job"></PropertyColumn>
+                    <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment"></PropertyColumn>
+                    <PropertyColumn Title="Days without pay" Property="x => x.DayWihtoutPay"></PropertyColumn>
+                    <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment"></PropertyColumn>
+
+                    <TemplateColumn CellClass="d-flex justify-end">
+                        <CellTemplate Context="cellContext">
+                            <MudStack
+                    Row
+                              >
+                                  <MudButton      OnClick="@(()=>Pay(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Success">Pay</MudButton>
+                                  <MudButton      OnClick="@(()=>Fire(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Fire</MudButton>
+                                  <MudIconButton  OnClick="@(()=>CharacterSheet(cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete" ></MudIconButton>
+                              </MudStack>
+                          </CellTemplate>
+                      </TemplateColumn>
+
+                  </Columns>
+              </MudDataGrid>
+    }
+</EditForm>
 
 
 
@@ -166,15 +171,16 @@
 
 
 @code {
+    // This is just for now, later this will be changed
+    public string AssetId { get; set; } = "Test";
+    public Asset? Asset { get; set; }
 
-    public string? Shipname { get; set; }
-    public string? ShipClass { get; set; }
     public int Time { get; set; }
 
-    public int Sailors => Liste?.Count(x=> x.Job != Job.Rower)??0;
+    public int Sailors => Liste?.Count(x => x.Job != Job.Rower) ?? 0;
     public int Rower => Liste?.Count(x => x.Job == Job.Rower) ?? 0;
     public double Money { get; set; }
-    public double CrewPaymentDay => Liste?.Sum(X => X.Payment)??0;
+    public double CrewPaymentDay => Liste?.Sum(X => X.Payment) ?? 0;
     public double CrewCurentPayment => Liste?.Sum(x => x.CurrentPayment) ?? 0;
 
 
@@ -186,7 +192,18 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-@* 
+        if (!assetRepo.Exists(AssetId))
+        {
+            var newAsset = new Asset()
+                {
+                    Id = AssetId
+                };
+            await assetRepo.Save(newAsset);
+        }
+        Asset = await assetRepo.Get(AssetId);
+        repo.SetCollectionId(AssetId);
+
+        @*
         Liste = new List<Element>()
         {
 
@@ -274,13 +291,13 @@
     {
         var options = new DialogOptions()
             {
-                CloseButton = true   
-    };
+                CloseButton = true
+            };
 
         var parameter = new DialogParameters<AddCrewDialog>();
         var element = new Element();
         parameter.Add(x => x.Element, element);
-        var dialog =  await Dialog.ShowAsync<AddCrewDialog>("AddCrew",parameter,options);
+        var dialog = await Dialog.ShowAsync<AddCrewDialog>("AddCrew", parameter, options);
         var result = await dialog.Result;
         if (!result.Canceled)
         {
@@ -309,23 +326,25 @@
         var result = await dialog.Result;
     }
 
-    public void Fire (Element element)
+    public void Fire(Element element)
     {
         Liste.Remove(element);
         repo.Delete(element.Id);
 
     }
 
-    public async Task Pay (Element element)
+    public async Task Pay(Element element)
     {
-        element.DayWihtoutPay = 0; 
+        element.DayWihtoutPay = 0;
         await repo.Save(element);
     }
 
-    protected override void OnInitialized()
+    public async Task SaveAsset()
     {
-        base.OnInitialized();
-
-        repo.SetCollectionId("Test");
+        if (Asset == null)
+        {
+            return;
+        }
+        await assetRepo.Save(Asset);
     }
 }
