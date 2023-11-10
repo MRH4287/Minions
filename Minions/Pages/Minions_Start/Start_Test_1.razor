@@ -1,7 +1,7 @@
 ﻿@page "/Test"
 @using Minions.Data;
 @inject IDialogService Dialog
-@inject IRepository<Element> repo
+@inject ICollectionRepository<Element> repo
 
 <!--
     Anzeigen Arbeits Tage (Tracking der arbeitstage der einzelnen arbeite berücksichtigung fon enderungen (z.b. For anka))
@@ -299,4 +299,10 @@
         await repo.Save(element);
     }
 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        repo.SetCollectionId("Test");
+    }
 }

@@ -10,6 +10,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             serviceProvider.AddOptions<MinionsDataOptions>().Configure(data => data.BasePath = "./_data");
             serviceProvider.AddScoped(typeof(IRepository<>), typeof(FileBasedRepository<>));
+            serviceProvider.AddScoped(typeof(ICollectionRepository<,>), typeof(FileBasedCollectionRepository<,>));
+            serviceProvider.AddScoped(typeof(ICollectionRepository<>), typeof(FileBasedRepository<>));
         }
     }
 }
