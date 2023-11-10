@@ -49,17 +49,17 @@
 
                 <MudItem xs="6">
                     <MudTextField @bind-Value="Element.Name" Label="Name" />
-                    <MudTextField @bind-Value="Element.Age" Label="Age" />
+                    <MudNumericField @bind-Value="Element.Age" Label="Age" />
                 </MudItem>
                 <MudItem xs="6">
-                    <MudSelect T="Race" Label="Sex" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelect @bind-Value="Element.Race" T="Race" Label="Race" AnchorOrigin="Origin.BottomCenter">
 
                         @foreach (Race item in Enum.GetValues(typeof(Race)))
                         {
                             <MudSelectItem Value="@item">@item</MudSelectItem>
                         }
                     </MudSelect>
-                    <MudSelect T="Sex" Label="Sex" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelect @bind-Value="Element.Sex" T="Sex" Label="Sex" AnchorOrigin="Origin.BottomCenter">
 
                         @foreach (Sex item in Enum.GetValues(typeof(Sex)))
                         {
@@ -68,11 +68,17 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="6">
-                    <MudTextField @bind-Value="Element.Payment" Label="Payment" />
-                    <MudTextField @bind-Value="Element.Job" Label="Job" />
+                    <MudNumericField @bind-Value="Element.Payment" Label="Payment" />
+                    <MudSelect @bind-Value="Element.Job" T="Job" Label="Job" AnchorOrigin="Origin.BottomCenter">
+
+                        @foreach (Job item in Enum.GetValues(typeof(Job)))
+                        {
+                            <MudSelectItem Value="@item">@item</MudSelectItem>
+                        }
+                    </MudSelect>
                 </MudItem>
                 <MudItem xs="6">
-                    <MudTextField @bind-Value="Element.DayWihtoutPay" Label="DayWihtoutPay" />
+                    <MudNumericField @bind-Value="Element.DayWihtoutPay" Label="DayWihtoutPay" />
                     <MudTextField @bind-Value="Element.Name" Label="Name" />
                 </MudItem>
             </MudGrid>
@@ -105,90 +111,5 @@
         MudDialog.Close(DialogResult.Ok(Element));
     }
 
-    public enum Sex { Male, Female, Other };
-    public enum Race
-    {
-        Aarakocra,
-        Aasimar,
-        Aetherborn,
-        Astral_Elf,
-        Autognome,
-        Aven,
-        Bugbear,
-        Bullywug,
-        Centaur,
-        Changeling,
-        Deep_Gnome,
-        Dhampir,
-        Dragonborn,
-        Duergar,
-        Dwarf,
-        Eladrin,
-        Elf,
-        Fairy,
-        Firbolg,
-        Genasi,
-        Giff,
-        Gith,
-        Githyanki,
-        Githzerai,
-        Glitchling,
-        Gnoll,
-        Gnome,
-        Goblin,
-        Goliath,
-        Grimlock,
-        Grung,
-        Hadozee,
-        Half_Elf,
-        Half_Orc,
-        Halfling,
-        Harengon,
-        Hexblood,
-        Hobgoblin,
-        Human,
-        Kalashtar,
-        Kender,
-        Kenku,
-        Khenra,
-        Kobold,
-        Kor,
-        Kuo_Toa,
-        Leonin,
-        Lizardfolk,
-        Locathah,
-        Loxodon,
-        Merfolk,
-        Minotaur,
-        Naga,
-        Nekomata,
-        Orc,
-        Owlfolk,
-        Owlin,
-        Plasmoid,
-        Rabbitfolk,
-        Reborn,
-        Revenant,
-        Satyr,
-        Sea_Elf,
-        Shadar_Kai,
-        Shifter,
-        Simic_Hybrid,
-        Siren,
-        Skeleton,
-        Tabaxi,
-        Thri_kreen,
-        Tiefling,
-        Tortle,
-        Triton,
-        Troglodyte,
-        Vampire,
-        Vedalken,
-        Verdan,
-        Viashino,
-        Warforged,
-        Yuan_Ti,
-        Yuan_ti_Pureblood,
-        Zombie
-    }
+
 }
