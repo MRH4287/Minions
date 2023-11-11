@@ -1,7 +1,7 @@
 ﻿@page "/Test"
 @using Minions.Data;
 @inject IDialogService Dialog
-@inject ICollectionRepository<Element> repo
+@inject ICollectionRepository<Worker> repo
 @inject IRepository<Asset> assetRepo
 
 
@@ -178,7 +178,9 @@
             <MudButton>Three</MudButton>
         </MudButtonGroup>
 
-        <MudDataGrid T="Element" Items="Liste" SortMode="SortMode.Single" Class="border-solid border-2 mud-border">
+
+
+        <MudDataGrid T="Worker" Items="Liste" SortMode="SortMode.Single" Class="border-solid border-2 mud-border">
             <Columns>
                 <PropertyColumn Title="Name" Property="x => x.Name"></PropertyColumn>
                 <PropertyColumn Title="Age" Property="x => x.Age"></PropertyColumn>
@@ -198,9 +200,12 @@
                      </MudStack>
                  </CellTemplate>
              </TemplateColumn>
-
          </Columns>
      </MudDataGrid>
+
+
+
+
  </EditForm>
 
 }
@@ -238,12 +243,12 @@
     public int Rower => Liste?.Count(x => x.Job == Job.Rower) ?? 0;
     public double CrewPaymentDay => Liste?.Sum(X => X.Payment) ?? 0;
     public double CrewCurentPayment => Liste?.Sum(x => x.CurrentPayment) ?? 0;
+    bool open;
 
 
 
 
-
-    private List<Element>? Liste { get; set; }
+    private List<Worker>? Liste { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -258,51 +263,10 @@
         }
         Asset = await assetRepo.Get(AssetId);
         repo.SetCollectionId(AssetId);
-
-        @*
-        Liste = new List<Element>()
-        {
-
-       /*
-              Name =
-              Age =
-              Race =
-              Sex =
-              Payment =
-              Job =
-        */
-
-        new  Element
-            {
-
-                Name = "Test",
-                Age = 12,
-                Race = "Humi",
-                Sex = "Orc",
-                Payment = 30,
-                Job = "Moshen",
-
-            },
-
-            new Element
-            {
-              Name ="Igor",
-              Age =50,
-              Race ="Dwarf",
-              Sex ="Male",
-              Payment = 50,
-              Job = "Wörker"
-            }
-
-
-
-        }; *@
-
-
         Liste = (await repo.GetAll()).ToList();
         if (Liste.Count == 0)
         {
-            await repo.Save(new Element
+            await repo.Save(new Worker
                 {
 
                     Name = "Test",
@@ -313,8 +277,7 @@
                     Job = Job.Magus,
 
                 });
-
-            await repo.Save(new Element
+            await repo.Save(new Worker
                 {
                     Name = "Igor",
                     Age = 50,
@@ -323,10 +286,11 @@
                     Payment = 50,
                     Job = Job.Rower,
                 });
-
             Liste = (await repo.GetAll()).ToList();
         }
     }
+
+
 
     public async Task TimeButten()
     {
@@ -343,7 +307,6 @@
         }
         Time = 1;
     }
-
     public async Task AddChar()
     {
         var options = new DialogOptions()
@@ -352,7 +315,7 @@
             };
 
         var parameter = new DialogParameters<AddCrewDialog>();
-        var element = new Element();
+        var element = new Worker();
         parameter.Add(x => x.Element, element);
         var dialog = await Dialog.ShowAsync<AddCrewDialog>("AddCrew", parameter, options);
         var result = await dialog.Result;
@@ -369,8 +332,7 @@
 
 
     }
-
-    private async Task CharacterSheet(Element element)
+    private async Task CharacterSheet(Worker element)
     {
         var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Medium, FullWidth = true };
         var parameter = new DialogParameters<CharacterSheet>();
@@ -382,15 +344,13 @@
         var dialog = await Dialog.ShowAsync<CharacterSheet>("CharacterSheet", parameter, options);
         var result = await dialog.Result;
     }
-
-    public void Fire(Element element)
+    public void Fire(Worker element)
     {
         Liste.Remove(element);
         repo.Delete(element.Id);
 
     }
-
-    public async Task Pay(Element element)
+    public async Task Pay(Worker element)
     {
 
         Money = Money - element.CurrentPayment;
@@ -400,9 +360,6 @@
 
 
     }
-
-    bool open;
-
     public void GetMoney()
     {
         Money = Money + InPay;
@@ -415,7 +372,6 @@
         Extract = 0;
 
     }
-
     public async Task SaveAsset()
     {
         if (Asset == null)
@@ -424,10 +380,9 @@
         }
         await assetRepo.Save(Asset);
     }
-
     void OpenDrawer()
     {
-        open = !open;
+        open = true;
 
     }
 
