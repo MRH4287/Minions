@@ -68,7 +68,7 @@ Wie lange Die Person auf dem Schiff ist
             <MudGrid>
 
                 <MudItem xs="4">
-                    <MudSelect @bind-Value="Element.Job" T="Job" Label="Job" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelect @bind-Value="Element.Job" T="Job" Label="Job" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
 
                         @foreach (Job item in Enum.GetValues(typeof(Job)))
                         {
@@ -87,6 +87,7 @@ Wie lange Die Person auf dem Schiff ist
 
             </MudGrid>
 
+            <br />
 
             <MudGrid>
                 <MudItem>
@@ -107,20 +108,33 @@ Wie lange Die Person auf dem Schiff ist
 
             </MudGrid>
 
+            <br />
+
             <MudGrid>
 
 
                 <MudItem xs="4">
-                    <MudTextField T="string" Label="Dienst an bord Begonnen" Variant="Variant.Outlined"></MudTextField>
+                    <MudTextField T="string" Label="Service started on board" Variant="Variant.Outlined"></MudTextField>
                 </MudItem>
 
-                <MudItem xs="1">
-                    <MudNumericField Value="Element.TimeOnBord" Label="Time" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
+                <MudItem xs="2">
+                    <MudNumericField 
+                        Value="Element.TimeOnBord" 
+                        Adornment="Adornment.End" 
+                        AdornmentText="Days" 
+                        Label="Time on bord" 
+                        Min="0" 
+                        Variant="Variant.Outlined" 
+                        HideSpinButtons="true">
+                    </MudNumericField>
                 </MudItem>
-            </MudGrid>
-            <MudGrid>
+
                 <MudItem xs="4">
-                    <MudTextField T="string" Label="Dienst beendet am" Variant="Variant.Outlined"></MudTextField>
+                    <MudTextField 
+                        T="string" 
+                        Label="Service end on board" 
+                        Variant="Variant.Outlined">
+                    </MudTextField>
                 </MudItem>
             </MudGrid>
 
@@ -164,6 +178,8 @@ Wie lange Die Person auf dem Schiff ist
 
 
             </MudGrid>
+
+            <br />
         }
     </DialogContent>
 
