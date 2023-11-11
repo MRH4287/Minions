@@ -1,7 +1,8 @@
 ﻿@page "/Test"
 @using Minions.Data;
 @inject IDialogService Dialog
-@inject IRepository<Element> repo
+@inject ICollectionRepository<Element> repo
+@inject IRepository<Asset> assetRepo
 
 
 
@@ -14,14 +15,16 @@
     <MudGrid>
         <MudItem xs="5">
 
-            <MudTextField @bind-Value="Shipname"
+            <MudTextField @bind-Value="Asset.Name"
+                          @bind-Value:after="SaveAsset"
                           class="form-control value-input"
                           Label="Shipname"
                           style="font-size: 25px"
                           Variant="Variant.Outlined">
             </MudTextField>
 
-            <MudTextField @bind-Value="ShipClass"
+            <MudTextField @bind-Value="Asset.Type"
+                          @bind-Value:after="SaveAsset"
                           class="form-control value-input"
                           Label="Shipclass"
                           Variant="Variant.Outlined">
@@ -217,6 +220,9 @@
 
 
 @code {
+    // This is just for now, later this will be changed
+    public string AssetId { get; set; } = "Test";
+    public Asset? Asset { get; set; }
 
     public double Money { get; set; }
     public string? Shipname { get; set; }
@@ -226,7 +232,7 @@
     public double Extract { get; set; }
     public int broke => (int)Double.Floor(Money / CrewPaymentDay);
 
-    public int Sailors => Liste?.Count(x => x.Job != Job.Rower) ?? 0;
+    public int Sailors => Liste?.Count(x=> x.Job != Job.Rower)??0;
     public int Rower => Liste?.Count(x => x.Job == Job.Rower) ?? 0;
     public double CrewPaymentDay => Liste?.Sum(X => X.Payment) ?? 0;
     public double CrewCurentPayment => Liste?.Sum(x => x.CurrentPayment) ?? 0;
@@ -240,6 +246,17 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        if (!assetRepo.Exists(AssetId))
+        {
+            var newAsset = new Asset()
+                {
+                    Id = AssetId
+                };
+            await assetRepo.Save(newAsset);
+        }
+        Asset = await assetRepo.Get(AssetId);
+        repo.SetCollectionId(AssetId);
+
         @*
         Liste = new List<Element>()
         {
@@ -395,6 +412,15 @@
         Money = Money - Extract;
         Extract = 0;
 
+    }
+
+    public async Task SaveAsset()
+    {
+        if (Asset == null)
+        {
+            return;
+        }
+        await assetRepo.Save(Asset);
     }
 
     void OpenDrawer()
