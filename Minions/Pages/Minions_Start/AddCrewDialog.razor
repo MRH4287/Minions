@@ -69,9 +69,9 @@
                 </MudItem>
                 <MudItem xs="6">
                     <MudNumericField @bind-Value="Element.Payment" Label="Payment" />
-                    <MudSelect @bind-Value="Element.Job" T="Job" Label="Job" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelect @bind-Value="Element.Job" T="JobType" Label="Job" AnchorOrigin="Origin.BottomCenter">
 
-                        @foreach (Job item in Enum.GetValues(typeof(Job)))
+                        @foreach (JobType item in Enum.GetValues(typeof(JobType)))
                         {
                             <MudSelectItem Value="@item">@item</MudSelectItem>
                         }
@@ -102,6 +102,9 @@
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     [Parameter] public Worker Element { get; set; }
+
+
+
     private void Cancel()
     {
         MudDialog.Cancel();

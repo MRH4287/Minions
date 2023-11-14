@@ -1,0 +1,89 @@
+﻿<h3>AddCamp</h3>
+
+
+
+
+
+
+
+
+
+
+<MudDialog>
+    <TitleContent>
+        <MudTHeadRow Class="d-flex">
+            <MudText Typo="Typo.h6">New Camp</MudText>
+        </MudTHeadRow>
+
+
+    </TitleContent>
+
+    <DialogContent>
+
+
+           @if (Camp != null)
+        {
+            <MudGrid>
+
+                <MudItem>
+                    <MudTextField @bind-Value="Camp.Name" Label="Name">test</MudTextField>
+                </MudItem>
+
+                <MudItem>
+                    <MudTextField @bind-Value="Camp.Description" Label="Description">test</MudTextField>
+                </MudItem>
+
+                <MudItem>
+                    <MudTextField @bind-Value="Camp.GM" Label="GM">test</MudTextField>
+                </MudItem>
+
+                <MudItem>
+                    <MudTextField @bind-Value="Camp.PlayerCount" Label="Name">test</MudTextField>
+                </MudItem>
+
+            </MudGrid>
+            
+        }
+
+</DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Error" OnClick="Create">Delete Server</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Campaign Camp { get; set; }
+
+
+
+
+
+
+
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+    public void Create()
+    {
+        MudDialog.Close(DialogResult.Ok(Camp));
+    }
+}

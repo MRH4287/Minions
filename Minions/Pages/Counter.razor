@@ -1,4 +1,5 @@
 ﻿@page "/counter"
+@inject NavigationManager Nav;
 
 <PageTitle>Counter</PageTitle>
 
@@ -8,6 +9,46 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+
+<MudGrid>
+
+    <MudItem>
+
+        <MudButton Href="http://localhost:5266/test"
+                   Variant="Variant.Outlined"> test </MudButton>
+    </MudItem>
+
+
+    <MudItem>
+
+        <MudButton 
+            Href="/Cam" 
+            Variant="Variant.Outlined"> campaigns </MudButton>
+    </MudItem>
+    <MudItem>
+
+        <MudButton Href="/Ass"
+                   Variant="Variant.Outlined"> Asset </MudButton>
+    </MudItem>
+    <MudItem>
+
+        <MudButton Href="/Job"
+                   Variant="Variant.Outlined"> Job </MudButton>
+    </MudItem>
+
+    <MudItem>
+
+        <MudButton OnClick="Goto"
+                   Variant="Variant.Outlined"> Job </MudButton>
+    </MudItem>
+
+
+
+
+
+</MudGrid>
+
+
 @code {
     private int currentCount = 0;
 
@@ -15,4 +56,10 @@
     {
         currentCount++;
     }
+
+    public void Goto()
+    {
+        Nav.NavigateTo("/Job");
+    }
+
 }

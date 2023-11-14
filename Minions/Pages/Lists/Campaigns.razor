@@ -1,0 +1,112 @@
+﻿@page "/Cam"
+@using Minions.Pages.Dialog;
+@inject IDialogService Dialog
+
+
+<h3>campaigns</h3>
+
+
+
+<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+    <MudButton OnClick="@AddCamp">Add new campaigns</MudButton>
+    <MudButton>Nix</MudButton>
+    <MudButton>Nix</MudButton>
+</MudButtonGroup>
+
+<MudDataGrid T="Campaign" Items="Liste" SortMode="SortMode.Single" Class="border-solid border-2 mud-border">
+    <Columns>
+        <PropertyColumn Title="Name" Property="x => x.Name"></PropertyColumn>
+        <PropertyColumn Title="Description" Property="x => x.Description"></PropertyColumn>
+        <PropertyColumn Title="GM" Property="x => x.GM"></PropertyColumn>
+        <PropertyColumn Title="PlayerCount" Property="x => x.PlayerCount"></PropertyColumn>
+        <PropertyColumn Title="PlayerNames" Property="x =>x.PlayerDisplay"></PropertyColumn>
+        <PropertyColumn Title="DateTime" Property="x => x.DateTime"></PropertyColumn>
+        <PropertyColumn Title="RunTime" Property="x => x.RunTime"></PropertyColumn>
+
+
+        <TemplateColumn CellClass="d-flex justify-end">
+            <CellTemplate Context="cellContext">
+                <MudStack Row>
+
+                    <MudButton OnClick="@(()=>Remove (cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Remove</MudButton>
+                    @* <MudIconButton OnClick="@(()=>Eddite (cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete"></MudIconButton> *@
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+
+
+
+
+
+
+
+
+
+@code {
+    public List<Campaign>? Liste { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Liste = new List<Campaign>()
+        {
+            new Campaign()
+            {
+                GM  = "MEW",
+                 Name = "Katzenhaus",
+                  PlayerCount = 4,
+                  PlayerNames = new List<string>(){"Tia","Linda","Kolagan","Nie"},  
+                DateTime = DateTime.Now,
+                Description = "Test Hallo",
+
+
+            }
+        };
+    }
+
+
+
+
+
+
+    public void Remove(Campaign remove)
+    {
+        Liste.Remove(remove);
+        // repo.Delete(remufe.Id);
+
+    }
+
+    public async Task AddCamp()
+    {
+        var options = new DialogOptions()
+            {
+                CloseButton = true
+            };
+
+        var parameter = new DialogParameters<AddCampaigns>();
+        var element = new Campaign();
+         parameter.Add(x => x.Camp, element);
+
+
+        var dialog = await Dialog.ShowAsync<AddCampaigns>("AddCampaigns", parameter, options);
+        var result = await dialog.Result;
+
+
+        if (!result.Canceled)
+        {
+
+            // element.TimeOnBord = element.DayWihtoutPay;
+
+            // Liste.Add(element);
+            // // await repo.Save(element);
+        }
+
+
+
+
+    }
+}

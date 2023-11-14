@@ -52,6 +52,9 @@
                 </MudTooltip>
 
             </MudItem>
+
+          
+
             <MudItem>
                 <MudIconButton Icon="@Icons.Material.Filled.Settings" OnClick="OpenDrawer"></MudIconButton>
             </MudItem>
@@ -239,8 +242,8 @@
     public double Extract { get; set; }
     public int broke => (int)Double.Floor(Money / CrewPaymentDay);
 
-    public int Sailors => Liste?.Count(x => x.Job != Job.Rower) ?? 0;
-    public int Rower => Liste?.Count(x => x.Job == Job.Rower) ?? 0;
+    public int Sailors => Liste?.Count(x => x.Job != JobType.Rower) ?? 0;
+    public int Rower => Liste?.Count(x => x.Job == JobType.Rower) ?? 0;
     public double CrewPaymentDay => Liste?.Sum(X => X.Payment) ?? 0;
     public double CrewCurentPayment => Liste?.Sum(x => x.CurrentPayment) ?? 0;
     bool open;
@@ -274,7 +277,7 @@
                     Race = Race.Nekomata,
                     Sex = Sex.Female,
                     Payment = 30,
-                    Job = Job.Magus,
+                    Job = JobType.Magus,
 
                 });
             await repo.Save(new Worker
@@ -284,7 +287,7 @@
                     Race = Race.Dragonborn,
                     Sex = Sex.Male,
                     Payment = 50,
-                    Job = Job.Rower,
+                    Job = JobType.Rower,
                 });
             Liste = (await repo.GetAll()).ToList();
         }

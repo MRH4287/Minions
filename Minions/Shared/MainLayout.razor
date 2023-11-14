@@ -12,12 +12,30 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+
+
+       <div class="top-row">
+            <MudButtonGroup Variant="Variant.Outlined">
+                <MudButton Href="/Test"
+                           Variant="Variant.Outlined"> Test </MudButton>
+                <MudButton Href="/Job"
+                           Variant="Variant.Outlined"> Job </MudButton>
+                <MudButton Href="/Ass"
+                           Variant="Variant.Outlined"> Asset </MudButton>
+                <MudButton Href="/Cam"
+                           Variant="Variant.Outlined"> campaigns </MudButton>
+            </MudButtonGroup>
+       </div>
+
+
 
         <article class="content px-4">
             @Body
         </article>
     </main>
+
+
+
+
+
 </div>

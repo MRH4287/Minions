@@ -68,7 +68,7 @@ Wie lange Die Person auf dem Schiff ist
             <MudGrid>
 
                 <MudItem xs="4">
-                    <MudSelect @bind-Value="Element.Job" T="Job" Label="Job" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelect @bind-Value="Element.Job" T="JobType" Label="Job" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
 
                         @foreach (Job item in Enum.GetValues(typeof(Job)))
                         {
