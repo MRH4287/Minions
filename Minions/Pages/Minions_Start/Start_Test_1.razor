@@ -122,7 +122,7 @@
                                <MudTooltip  Text="@("Brock in "+broke.ToString()+" Days")">
                                 <MudItem>
                                     <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Money</MudText>
-                                    <MudText Align="Align.Center" Typo="Typo.h6"> @Money </MudText>
+                                    <MudText Align="Align.Center" Typo="Typo.h6"> @Asset.Money </MudText>
                                 </MudItem>
                                </MudTooltip>
                            
@@ -216,13 +216,10 @@
     public Asset? Asset { get; set; }
     public List<Job> Jobs { get; set; } = new List<Job>();
 
-    public double Money { get; set; }
-    public string? Shipname { get; set; }
-    public string? ShipClass { get; set; }
     public int Time { get; set; } = 1;
     public double InPay { get; set; }
     public double Extract { get; set; }
-    public int broke => (int)Double.Floor((Money - CrewCurentPayment) / CrewPaymentDay);
+    public int broke => (int)Double.Floor((Asset.Money - CrewCurentPayment) / CrewPaymentDay);
 
     public int Sailors => Liste?.Count(x => x.Job?.Name != "Rower") ?? 0;
     public int Rower => Liste?.Count(x => x.Job?.Name == "Rower") ?? 0;
@@ -357,24 +354,24 @@
     public async Task Pay(Worker element)
     {
 
-        Money = Money - element.CurrentPayment;
+        Asset.Money = Asset.Money - element.CurrentPayment;
         element.DayWithoutPay = 0;
         element.CurrentPayment = 0;
         await repo.Save(element);
-
+        await assetRepo.Save(Asset);
 
     }
-    public void GetMoney()
+    public async Task GetMoney()
     {
-        Money = Money + InPay;
+        Asset.Money = Asset.Money + InPay;
         InPay = 0;
-
+        await assetRepo.Save(Asset);
     }
-    public void ExtractMoney()
+    public async Task ExtractMoney()
     {
-        Money = Money - Extract;
+        Asset.Money = Asset.Money - Extract;
         Extract = 0;
-
+        await assetRepo.Save(Asset);
     }
     public async Task SaveAsset()
     {

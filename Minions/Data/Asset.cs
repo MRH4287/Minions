@@ -7,6 +7,7 @@ namespace Minions.Data
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string? Name { get; set; }
         public string? Type { get; set; }
+        public double Money { get; set; }
 
     }
 }
