@@ -10,7 +10,7 @@ public class Worker : IModel
     public Race Race { get; set; }
     public Sex Sex { get; set; }
     public double Payment { get; set; }
-    public JobType Job { get; set; }
+    public Job Job { get; set; }
     public double CurrentPayment { get; set; }
     public int DayWihtoutPay { get; set; }
 

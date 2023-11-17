@@ -1,7 +1,4 @@
-﻿<h3>AddCamp</h3>
-
-
-
+﻿<h3>AddJob</h3>
 
 
 
@@ -12,7 +9,7 @@
 <MudDialog>
     <TitleContent>
         <MudTHeadRow Class="d-flex">
-            <MudText Typo="Typo.h6">New Camp</MudText>
+            <MudText Typo="Typo.h6">New Job</MudText>
         </MudTHeadRow>
 
 
@@ -21,31 +18,31 @@
     <DialogContent>
 
 
-           @if (Camp != null)
+        @if (Job != null)
         {
             <MudGrid>
 
                 <MudItem>
-                    <MudTextField @bind-Value="Camp.Name" Label="Name">test</MudTextField>
+                    <MudTextField @bind-Value="Job.Name" Label="Name"></MudTextField>
                 </MudItem>
 
                 <MudItem>
-                    <MudTextField @bind-Value="Camp.Description" Label="Description">test</MudTextField>
+                    <MudTextField @bind-Value="Job.Description" Label="Description"></MudTextField>
                 </MudItem>
 
                 <MudItem>
-                    <MudTextField @bind-Value="Camp.GM" Label="GM">test</MudTextField>
+                    <MudTextField @bind-Value="Job.Payment" Label="Payment"></MudTextField>
                 </MudItem>
 
                 <MudItem>
-                    <MudTextField @bind-Value="Camp.PlayerCount" Label="Name">test</MudTextField>
+                    <MudTextField @bind-Value="Job.Requirement" Label="Requirement"></MudTextField>
                 </MudItem>
 
             </MudGrid>
-            
+
         }
 
-</DialogContent>
+    </DialogContent>
 
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -69,7 +66,7 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter] public Campaign Camp { get; set; }
+    [Parameter] public Job Job { get; set; }
 
 
 
@@ -84,6 +81,6 @@
     }
     public void Create()
     {
-        MudDialog.Close(DialogResult.Ok(Camp));
+        MudDialog.Close(DialogResult.Ok(Job));
     }
 }

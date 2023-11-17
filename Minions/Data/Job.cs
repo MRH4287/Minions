@@ -13,10 +13,13 @@ namespace Minions.Data
         public double Payment { get; set; }
 
         public string? Requirement { get; set; }
-            
 
 
 
+        public override string ToString()
+        {
+            return Name??"";
+        }
 
 
 

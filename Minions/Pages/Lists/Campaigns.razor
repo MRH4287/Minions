@@ -1,7 +1,7 @@
 ﻿@page "/Cam"
 @using Minions.Pages.Dialog;
 @inject IDialogService Dialog
-
+@inject IRepository<Campaign> repo
 
 <h3>campaigns</h3>
 
@@ -99,10 +99,10 @@
         if (!result.Canceled)
         {
 
-            // element.TimeOnBord = element.DayWihtoutPay;
+            
 
-            // Liste.Add(element);
-            // // await repo.Save(element);
+             Liste.Add(element);
+            await repo.Save(element);
         }
 
 

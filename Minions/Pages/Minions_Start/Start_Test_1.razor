@@ -3,6 +3,7 @@
 @inject IDialogService Dialog
 @inject ICollectionRepository<Worker> repo
 @inject IRepository<Asset> assetRepo
+@inject IRepository<Job> RepoJob
 
 
 
@@ -53,7 +54,7 @@
 
             </MudItem>
 
-          
+
 
             <MudItem>
                 <MudIconButton Icon="@Icons.Material.Filled.Settings" OnClick="OpenDrawer"></MudIconButton>
@@ -126,19 +127,23 @@
                     <MudCardContent Class="border-solid border-2 mud-border pa-8">
                         <MudGrid>
                             <MudSpacer></MudSpacer>
-                            <MudItem>
-                                <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Money</MudText>
-                                <MudText Align="Align.Center" Typo="Typo.h6"> @Money </MudText>
-                            </MudItem>
-                            <MudSpacer></MudSpacer>
-                            <MudItem>
+
+                               <MudTooltip  Text="@("Brock in "+broke.ToString()+" Days")">
+                                <MudItem>
+                                    <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Money</MudText>
+                                    <MudText Align="Align.Center" Typo="Typo.h6"> @Money </MudText>
+                                </MudItem>
+                               </MudTooltip>
+                           
+                          
+                     @*        <MudItem>
                                 <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">broke in</MudText>
                                 <MudText Align="Align.Center" Typo="Typo.h6"> @broke </MudText>
-                            </MudItem>
+                            </MudItem> *@
                             <MudSpacer></MudSpacer>
                         </MudGrid>
 
-
+                        
 
                     </MudCardContent>
 
@@ -233,6 +238,7 @@
     // This is just for now, later this will be changed
     public string AssetId { get; set; } = "Test";
     public Asset? Asset { get; set; }
+    public List<Job> Jobs { get; set; }
 
     public double Money { get; set; }
     public string? Shipname { get; set; }
@@ -240,10 +246,10 @@
     public int Time { get; set; } = 1;
     public double InPay { get; set; }
     public double Extract { get; set; }
-    public int broke => (int)Double.Floor(Money / CrewPaymentDay);
+    public int broke => (int)Double.Floor((Money - CrewCurentPayment) / CrewPaymentDay);
 
-    public int Sailors => Liste?.Count(x => x.Job != JobType.Rower) ?? 0;
-    public int Rower => Liste?.Count(x => x.Job == JobType.Rower) ?? 0;
+    public int Sailors => Liste?.Count(x => x.Job?.Name != "Rower") ?? 0;
+    public int Rower => Liste?.Count(x => x.Job?.Name == "Rower") ?? 0;
     public double CrewPaymentDay => Liste?.Sum(X => X.Payment) ?? 0;
     public double CrewCurentPayment => Liste?.Sum(x => x.CurrentPayment) ?? 0;
     bool open;
@@ -267,6 +273,8 @@
         Asset = await assetRepo.Get(AssetId);
         repo.SetCollectionId(AssetId);
         Liste = (await repo.GetAll()).ToList();
+        Jobs = (await RepoJob.GetAll()).ToList();
+
         if (Liste.Count == 0)
         {
             await repo.Save(new Worker
@@ -277,7 +285,7 @@
                     Race = Race.Nekomata,
                     Sex = Sex.Female,
                     Payment = 30,
-                    Job = JobType.Magus,
+                    Job = Jobs.FirstOrDefault(),
 
                 });
             await repo.Save(new Worker
@@ -287,11 +295,17 @@
                     Race = Race.Dragonborn,
                     Sex = Sex.Male,
                     Payment = 50,
-                    Job = JobType.Rower,
+                    Job = Jobs.FirstOrDefault(),
                 });
             Liste = (await repo.GetAll()).ToList();
+
+
+
+
         }
     }
+
+
 
 
 

@@ -1,5 +1,5 @@
 ﻿@using Minions.Data;
-
+ @inject IRepository<Job> RepoJob
 
 
 @*
@@ -68,11 +68,11 @@ Wie lange Die Person auf dem Schiff ist
             <MudGrid>
 
                 <MudItem xs="4">
-                    <MudSelect @bind-Value="Element.Job" T="JobType" Label="Job" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelect @bind-Value="Element.Job" T="Job" Label="Job" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
 
-                        @foreach (Job item in Enum.GetValues(typeof(Job)))
+                        @foreach (Job item in Jobs)
                         {
-                            <MudSelectItem Value="@item">@item</MudSelectItem>
+                            <MudSelectItem Value="@item">@item.Name</MudSelectItem>
                         }
                     </MudSelect>
                 </MudItem>
@@ -201,11 +201,15 @@ Wie lange Die Person auf dem Schiff ist
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
     [Parameter] public Worker Element { get; set; }
+    public List<Job> Jobs { get; set; } = new List<Job>();
 
 
 
-
-
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Jobs = (await RepoJob.GetAll()).ToList();
+    }
 
 
 }

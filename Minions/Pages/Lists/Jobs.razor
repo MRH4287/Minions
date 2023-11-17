@@ -1,41 +1,44 @@
 ﻿@page "/Job"
+@using Minions.Pages.Dialog;
+@inject IDialogService Dialog
+@inject IRepository<Job> repo
+
 
 <h3>Jobs</h3>
 
 
 
-
-
-
-@* <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-    <MudButton OnClick="@AddChar">Add new Crew</MudButton>
-    <MudButton>Two</MudButton>
-    <MudButton>Three</MudButton>
+<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+    <MudButton OnClick="@AddJobs">Add new Job</MudButton>
+    <MudButton>Nix</MudButton>
+    <MudButton>Nix</MudButton>
 </MudButtonGroup>
 
 <MudDataGrid T="Job" Items="Liste" SortMode="SortMode.Single" Class="border-solid border-2 mud-border">
     <Columns>
         <PropertyColumn Title="Name" Property="x => x.Name"></PropertyColumn>
-        <PropertyColumn Title="Age" Property="x => x.Age"></PropertyColumn>
-        <PropertyColumn Title="Race" Property="x => x.Race"></PropertyColumn>
-        <PropertyColumn Title="Sex" Property="x => x.Sex"></PropertyColumn>
-        <PropertyColumn Title="Job" Property="x => x.Job"></PropertyColumn>
-        <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment"></PropertyColumn>
-        <PropertyColumn Title="Days without pay" Property="x => x.DayWihtoutPay"></PropertyColumn>
-        <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment"></PropertyColumn>
+        <PropertyColumn Title="Description" Property="x => x.Description"></PropertyColumn>
+        <PropertyColumn Title="Payment" Property="x => x.Payment"></PropertyColumn>
+        <PropertyColumn Title="Requirement" Property="x => x.Requirement"></PropertyColumn>
+
+
 
         <TemplateColumn CellClass="d-flex justify-end">
             <CellTemplate Context="cellContext">
                 <MudStack Row>
-                   
-                    <MudButton OnClick="@(()=>Remove(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Remove</MudButton>
-                 @*    <MudIconButton OnClick="@(()=>CharacterSheet(cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete"></MudIconButton>  * @    
+
+                    <MudButton OnClick="@(()=>Remove (cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Remove</MudButton>
+                    @* <MudIconButton OnClick="@(()=>Eddite (cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete"></MudIconButton> *@
                 </MudStack>
             </CellTemplate>
         </TemplateColumn>
     </Columns>
 </MudDataGrid>
- *@
+
+
+
+
+
 
 
 
@@ -45,12 +48,68 @@
 
 
 
-    public void Remove(Job remove)
+    protected override async Task OnInitializedAsync()
     {
-        Liste.Remove(remove);
-        // repo.Delete(remufe.Id);
+        await base.OnInitializedAsync();
+        Liste = (await repo.GetAll()).ToList();
 
+        {
+            if (Liste.Count == 0)
+            {
+                  await repo.Save(new Job
+                {
+                    Name = "Kartzenhüter",
+                    Description = "Wacht Über Kätzechen",
+                    Payment = 5,
+                    Requirement = "Katzenlibhaber",
+                }); 
+                Liste = (await repo.GetAll()).ToList();
+
+            }
+
+         
+        };
     }
 
 
+
+
+
+
+    public void Remove(Job remove)
+    {
+        Liste.Remove(remove);
+        repo.Delete(remove.Id);
+
+    }
+
+    public async Task AddJobs()
+    {
+        var options = new DialogOptions()
+            {
+                CloseButton = true
+            };
+
+        var parameter = new DialogParameters<AddJob>();
+        var element = new Job();
+        parameter.Add(x => x.Job, element);
+
+
+        var dialog = await Dialog.ShowAsync<AddJob>("AddJob", parameter, options);
+        var result = await dialog.Result;
+
+
+        if (!result.Canceled)
+        {
+
+
+
+            Liste.Add(element);
+            await repo.Save(element);
+        }
+
+
+
+
+    }
 }
