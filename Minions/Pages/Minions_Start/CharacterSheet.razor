@@ -1,5 +1,5 @@
 ﻿@using Minions.Data;
- @inject IRepository<Job> RepoJob
+@inject IRepository<Job> RepoJob
 
 
 @*
@@ -78,11 +78,11 @@ Wie lange Die Person auf dem Schiff ist
                 </MudItem>
 
                 <MudItem xs="4">
-                    <MudTextField T="string" Label="Rang" Variant="Variant.Outlined"></MudTextField>
+                    <MudTextField @bind-Value="Element.Rank" T="string" Label="Rang" Variant="Variant.Outlined"></MudTextField>
                 </MudItem>
 
                 <MudItem>
-                    <MudRating SelectedValue="1" />
+                    <MudRating @bind-SelectedValue="Element.Rating" />
                 </MudItem>
 
             </MudGrid>
@@ -97,12 +97,12 @@ Wie lange Die Person auf dem Schiff ist
 
 
                 <MudItem>
-                    <MudNumericField @bind-Value="Element.DayWihtoutPay" Label="Days without pay" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
+                    <MudNumericField @bind-Value="Element.DayWithoutPay" Label="Days without pay" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
 
                 </MudItem>
 
                 <MudItem>
-                    <MudNumericField Value="Element.CurrentPayment" ReadOnly="true" Label="Current Payment" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
+                    <MudNumericField @bind-Value="Element.CurrentPayment" ReadOnly="true" Label="Current Payment" Min="0" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
 
                 </MudItem>
 
@@ -114,26 +114,25 @@ Wie lange Die Person auf dem Schiff ist
 
 
                 <MudItem xs="4">
-                    <MudTextField T="string" Label="Service started on board" Variant="Variant.Outlined"></MudTextField>
+                    <MudTextField @bind-Value="Element.ServiceStarted" T="string" Label="Service started on board" Variant="Variant.Outlined"></MudTextField>
                 </MudItem>
 
                 <MudItem xs="2">
-                    <MudNumericField 
-                        Value="Element.TimeOnBord" 
-                        Adornment="Adornment.End" 
-                        AdornmentText="Days" 
-                        Label="Time on bord" 
-                        Min="0" 
-                        Variant="Variant.Outlined" 
-                        HideSpinButtons="true">
+                    <MudNumericField Value="Element.TimeOnBord"
+                                     Adornment="Adornment.End"
+                                     AdornmentText="Days"
+                                     Label="Time on bord"
+                                     Min="0"
+                                     Variant="Variant.Outlined"
+                                     HideSpinButtons="true">
                     </MudNumericField>
                 </MudItem>
 
                 <MudItem xs="4">
-                    <MudTextField 
-                        T="string" 
-                        Label="Service end on board" 
-                        Variant="Variant.Outlined">
+                    <MudTextField T="string"
+                    @bind-Value="Element.ServiceEnded"
+                                  Label="Service end on board"
+                                  Variant="Variant.Outlined">
                     </MudTextField>
                 </MudItem>
             </MudGrid>
@@ -152,7 +151,7 @@ Wie lange Die Person auf dem Schiff ist
                 <MudItem xs="4">
                     <MudCard Outlined="true">
                         <MudCardHeader>Inventar</MudCardHeader>
-                        <MudTextField T="string" Variant="Variant.Text" Lines="20"></MudTextField>
+                        <MudTextField T="string" @bind-Value="Element.Inventory" Variant="Variant.Text" Lines="20"></MudTextField>
                     </MudCard>
 
 
@@ -161,7 +160,7 @@ Wie lange Die Person auf dem Schiff ist
                 <MudItem xs="4">
                     <MudCard Outlined="true">
                         <MudCardHeader>Skills</MudCardHeader>
-                        <MudTextField T="string" Variant="Variant.Text" Lines="20"></MudTextField>
+                        <MudTextField @bind-Value="Element.Skillls" T="string" Variant="Variant.Text" Lines="20"></MudTextField>
                     </MudCard>
 
 
@@ -169,7 +168,7 @@ Wie lange Die Person auf dem Schiff ist
                 <MudItem xs="4">
                     <MudCard Outlined="true">
                         <MudCardHeader>Notes</MudCardHeader>
-                        <MudTextField T="string" Variant="Variant.Text" Lines="20"></MudTextField>
+                        <MudTextField @bind-Value="Element.Notes" T="string" Variant="Variant.Text" Lines="20"></MudTextField>
                     </MudCard>
 
 
@@ -184,14 +183,6 @@ Wie lange Die Person auf dem Schiff ist
     </DialogContent>
 
 </MudDialog>
-
-
-
-
-
-
-
-
 
 
 

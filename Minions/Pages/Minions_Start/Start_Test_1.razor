@@ -6,13 +6,9 @@
 @inject IRepository<Job> RepoJob
 
 
-
-
 @if (Asset != null)
 {
-
     <EditForm Model="this">
-
 
         <MudGrid>
             <MudItem xs="5">
@@ -60,11 +56,6 @@
                 <MudIconButton Icon="@Icons.Material.Filled.Settings" OnClick="OpenDrawer"></MudIconButton>
             </MudItem>
         </MudGrid>
-
-
-
-
-
 
 
         <br />
@@ -147,8 +138,6 @@
 
                     </MudCardContent>
 
-
-
                 </MudCard>
             </MudItem>
 
@@ -196,7 +185,7 @@
                 <PropertyColumn Title="Sex" Property="x => x.Sex"></PropertyColumn>
                 <PropertyColumn Title="Job" Property="x => x.Job"></PropertyColumn>
                 <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment"></PropertyColumn>
-                <PropertyColumn Title="Days without pay" Property="x => x.DayWihtoutPay"></PropertyColumn>
+                <PropertyColumn Title="Days without pay" Property="x => x.DayWithoutPay"></PropertyColumn>
                 <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment"></PropertyColumn>
 
                 <TemplateColumn CellClass="d-flex justify-end">
@@ -221,24 +210,11 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 @code {
     // This is just for now, later this will be changed
     public string AssetId { get; set; } = "Test";
     public Asset? Asset { get; set; }
-    public List<Job> Jobs { get; set; }
+    public List<Job> Jobs { get; set; } = new List<Job>();
 
     public double Money { get; set; }
     public string? Shipname { get; set; }
@@ -255,9 +231,7 @@
     bool open;
 
 
-
-
-    private List<Worker>? Liste { get; set; }
+    private List<Worker>? Liste { get; set; } = new List<Worker>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -272,8 +246,21 @@
         }
         Asset = await assetRepo.Get(AssetId);
         repo.SetCollectionId(AssetId);
-        Liste = (await repo.GetAll()).ToList();
+        await UpdateList();
         Jobs = (await RepoJob.GetAll()).ToList();
+
+        if (Jobs.Count == 0)
+        {
+            await RepoJob.Save(new Job
+                {
+                    Name = "Kartzenhüter",
+                    Description = "Wacht Über Kätzechen",
+                    Payment = 5,
+                    Requirement = "Katzenlibhaber",
+                });
+            Jobs = (await RepoJob.GetAll()).ToList();
+
+        }
 
         if (Liste.Count == 0)
         {
@@ -297,26 +284,21 @@
                     Payment = 50,
                     Job = Jobs.FirstOrDefault(),
                 });
-            Liste = (await repo.GetAll()).ToList();
-
-
-
-
+            await UpdateList();
         }
     }
 
-
-
-
+    private async Task UpdateList()
+    {
+        Liste = (await repo.GetAll()).Where(i => !i.Deleted).ToList();
+    }
 
     public async Task TimeButten()
     {
 
-
-
         foreach (var item in Liste)
         {
-            item.DayWihtoutPay = item.DayWihtoutPay + Time;
+            item.DayWithoutPay = item.DayWithoutPay + Time;
             item.TimeOnBord = item.TimeOnBord + Time;
             item.CurrentPayment = item.CurrentPayment + (item.Payment * Time);
 
@@ -339,7 +321,7 @@
         if (!result.Canceled)
         {
 
-            element.TimeOnBord = element.DayWihtoutPay;
+            element.TimeOnBord = element.DayWithoutPay;
 
             Liste.Add(element);
             await repo.Save(element);
@@ -360,18 +342,23 @@
 
         var dialog = await Dialog.ShowAsync<CharacterSheet>("CharacterSheet", parameter, options);
         var result = await dialog.Result;
+        await repo.Save(element);
     }
-    public void Fire(Worker element)
+    public async void Fire(Worker element)
     {
-        Liste.Remove(element);
-        repo.Delete(element.Id);
+        element.Deleted = true;
+        await repo.Save(element);
+        await UpdateList();
 
+        StateHasChanged();
+        // Liste.Remove(element);
+        // repo.Delete(element.Id);
     }
     public async Task Pay(Worker element)
     {
 
         Money = Money - element.CurrentPayment;
-        element.DayWihtoutPay = 0;
+        element.DayWithoutPay = 0;
         element.CurrentPayment = 0;
         await repo.Save(element);
 

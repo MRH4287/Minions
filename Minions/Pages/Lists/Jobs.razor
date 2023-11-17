@@ -53,22 +53,18 @@
         await base.OnInitializedAsync();
         Liste = (await repo.GetAll()).ToList();
 
+        if (Liste.Count == 0)
         {
-            if (Liste.Count == 0)
-            {
-                  await repo.Save(new Job
+            await repo.Save(new Job
                 {
                     Name = "Kartzenhüter",
                     Description = "Wacht Über Kätzechen",
                     Payment = 5,
                     Requirement = "Katzenlibhaber",
-                }); 
-                Liste = (await repo.GetAll()).ToList();
+                });
+            Liste = (await repo.GetAll()).ToList();
 
-            }
-
-         
-        };
+        }
     }
 
 
