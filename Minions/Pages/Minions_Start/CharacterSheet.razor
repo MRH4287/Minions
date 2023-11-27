@@ -1,5 +1,5 @@
 ﻿@using Minions.Data;
- @inject IRepository<Job> RepoJob
+@inject IRepository<Job> RepoJob
 
 
 @*
@@ -47,12 +47,42 @@ Wie lange Die Person auf dem Schiff ist
 
 <MudDialog>
     <TitleContent>
+
         <MudTHeadRow Class="d-flex">
-            <MudText Typo="Typo.h6" Align="Align.Left">@Element.Name</MudText>
+
+            <MudTextField Typo="Typo.h6"
+            @bind-Value="Element.Name"
+                          Align="Align.Left"
+                          Label="Name"
+                          Variant="Variant.Outlined">@Element.Name</MudTextField>
+
+            <MudTextField Typo="Typo.h6"
+            @bind-Value="Element.Surname"
+                          Align=" Align.Left"
+                          Label="Surname"
+                          Variant="Variant.Outlined">@Element.Surname</MudTextField>
+
+
             <MudSpacer></MudSpacer>
-            <MudText Typo="Typo.h6" Align="Align.Center">Sex @Element.Sex</MudText>
+
+            
+            <MudSelect @bind-Value="Element.Sex" T="Sex" Label="Sex" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+
+                @foreach (Sex item in Enum.GetValues(typeof(Sex)))
+                {
+                    <MudSelectItem Value="@item">@item</MudSelectItem>
+                }
+            </MudSelect>
+
             <MudSpacer></MudSpacer>
-            <MudText Typo="Typo.h6" Align="Align.Right">Age @Element.Age</MudText>
+
+            <MudTextField @bind-Value="Element.Age"
+                          Typo="Typo.h6"
+                          Label="Age"
+                          Variant="Variant.Outlined"
+                          Align="Align.Right">Age @Element.Age</MudTextField>
+            
+
         </MudTHeadRow>
 
 
@@ -118,22 +148,20 @@ Wie lange Die Person auf dem Schiff ist
                 </MudItem>
 
                 <MudItem xs="2">
-                    <MudNumericField 
-                        Value="Element.TimeOnBord" 
-                        Adornment="Adornment.End" 
-                        AdornmentText="Days" 
-                        Label="Time on bord" 
-                        Min="0" 
-                        Variant="Variant.Outlined" 
-                        HideSpinButtons="true">
+                    <MudNumericField Value="Element.TimeOnBord"
+                                     Adornment="Adornment.End"
+                                     AdornmentText="Days"
+                                     Label="Time on bord"
+                                     Min="0"
+                                     Variant="Variant.Outlined"
+                                     HideSpinButtons="true">
                     </MudNumericField>
                 </MudItem>
 
                 <MudItem xs="4">
-                    <MudTextField 
-                        T="string" 
-                        Label="Service end on board" 
-                        Variant="Variant.Outlined">
+                    <MudTextField T="string"
+                                  Label="Service end on board"
+                                  Variant="Variant.Outlined">
                     </MudTextField>
                 </MudItem>
             </MudGrid>

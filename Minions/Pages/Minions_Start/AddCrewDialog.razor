@@ -48,13 +48,18 @@
 
 
                 <MudItem xs="6">
-                    <MudTextField @bind-Value="Element.Name" Label="Name" />
-                    <MudNumericField @bind-Value="Element.Age" Label="Age" />
-                </MudItem>
-                <MudItem xs="6">
-                    <MudSelect @bind-Value="Element.Race" T="Race" Label="Race" AnchorOrigin="Origin.BottomCenter">
 
-                        @foreach (Race item in Enum.GetValues(typeof(Race)))
+                    <MudStack Row>
+                     <MudTextField @bind-Value="Element.Name" Label="Name" />
+                     <MudTextField @bind-Value="Element.Surname" Label="Surname" />
+                 </MudStack>
+
+                 <MudNumericField @bind-Value="Element.Age" Label="Age" />
+             </MudItem>
+             <MudItem xs="6">
+                 <MudSelect @bind-Value="Element.Race" T="Race" Label="Race" AnchorOrigin="Origin.BottomCenter">
+
+                     @foreach (Race item in Enum.GetValues(typeof(Race)))
                         {
                             <MudSelectItem Value="@item">@item</MudSelectItem>
                         }

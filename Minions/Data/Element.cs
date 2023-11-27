@@ -6,6 +6,8 @@ public class Worker : IModel
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public string? Name { get; set; }
+
+    public string? Surname { get; set; }
     public int Age { get; set; }
     public Race Race { get; set; }
     public Sex Sex { get; set; }

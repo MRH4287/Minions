@@ -128,22 +128,22 @@
                         <MudGrid>
                             <MudSpacer></MudSpacer>
 
-                               <MudTooltip  Text="@("Brock in "+broke.ToString()+" Days")">
+                            <MudTooltip Text="@("Brock in "+broke.ToString()+" Days")">
                                 <MudItem>
                                     <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">Money</MudText>
                                     <MudText Align="Align.Center" Typo="Typo.h6"> @Money </MudText>
                                 </MudItem>
-                               </MudTooltip>
-                           
-                          
-                     @*        <MudItem>
-                                <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">broke in</MudText>
-                                <MudText Align="Align.Center" Typo="Typo.h6"> @broke </MudText>
-                            </MudItem> *@
+                            </MudTooltip>
+
+
+                            @*        <MudItem>
+                        <MudText Align="Align.Center" Typo="Typo.h5" Style="text-decoration:underline">broke in</MudText>
+                        <MudText Align="Align.Center" Typo="Typo.h6"> @broke </MudText>
+                        </MudItem> *@
                             <MudSpacer></MudSpacer>
                         </MudGrid>
 
-                        
+
 
                     </MudCardContent>
 
@@ -190,7 +190,16 @@
 
         <MudDataGrid T="Worker" Items="Liste" SortMode="SortMode.Single" Class="border-solid border-2 mud-border">
             <Columns>
-                <PropertyColumn Title="Name" Property="x => x.Name"></PropertyColumn>
+
+
+
+                <PropertyColumn Title="Name" Property="x => x.Name">
+                    <CellTemplate Context="cellContext">
+                        @cellContext.Item.Name <br />
+                        @cellContext.Item.Surname
+                    </CellTemplate>
+                </PropertyColumn>
+
                 <PropertyColumn Title="Age" Property="x => x.Age"></PropertyColumn>
                 <PropertyColumn Title="Race" Property="x => x.Race"></PropertyColumn>
                 <PropertyColumn Title="Sex" Property="x => x.Sex"></PropertyColumn>
