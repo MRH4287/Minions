@@ -37,46 +37,37 @@
 </MudDataGrid>
 
 
-
-
-
-
-
-
-
 @code {
-    public List<Campaign>? Liste { get; set; }
+    public List<Campaign>? Liste { get; set; } = new List<Campaign>();
 
-
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        await base.OnInitializedAsync();
 
-        Liste = new List<Campaign>()
+        Liste = (await repo.GetAll()).ToList();
+
+        if (Liste.Count == 0)
         {
-            new Campaign()
-            {
-                GM  = "MEW",
-                 Name = "Katzenhaus",
-                  PlayerCount = 4,
-                  PlayerNames = new List<string>(){"Tia","Linda","Kolagan","Nie"},  
-                DateTime = DateTime.Now,
-                Description = "Test Hallo",
-
-
-            }
-        };
+            await repo.Save(
+                new Campaign()
+                    {
+                        GM = "MEW",
+                        Name = "Katzenhaus",
+                        PlayerCount = 4,
+                        PlayerNames = new List<string>() { "Tia", "Linda", "Kolagan", "Nie" },
+                        DateTime = DateTime.Now,
+                        Description = "Test Hallo",
+                    }
+            );
+            Liste = (await repo.GetAll()).ToList();
+        }
     }
-
-
-
-
 
 
     public void Remove(Campaign remove)
     {
         Liste.Remove(remove);
-        // repo.Delete(remufe.Id);
+        repo.Delete(remove.Id);
 
     }
 
@@ -89,7 +80,7 @@
 
         var parameter = new DialogParameters<AddCampaigns>();
         var element = new Campaign();
-         parameter.Add(x => x.Camp, element);
+        parameter.Add(x => x.Camp, element);
 
 
         var dialog = await Dialog.ShowAsync<AddCampaigns>("AddCampaigns", parameter, options);
@@ -98,10 +89,7 @@
 
         if (!result.Canceled)
         {
-
-            
-
-             Liste.Add(element);
+            Liste.Add(element);
             await repo.Save(element);
         }
 
