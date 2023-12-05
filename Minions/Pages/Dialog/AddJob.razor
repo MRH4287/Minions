@@ -1,42 +1,39 @@
-﻿<h3>AddJob</h3>
+﻿
 
 
 
 <MudDialog>
-    <TitleContent>
-        <MudTHeadRow Class="d-flex">
-            <MudText Typo="Typo.h6">New Job</MudText>
-        </MudTHeadRow>
 
-
-    </TitleContent>
 
     <DialogContent>
 
 
         @if (Job != null)
         {
-            <MudGrid>
-
-                <MudItem>
-                    <MudTextField @bind-Value="Job.Name" Label="Name"></MudTextField>
-                </MudItem>
-
-                <MudItem>
-                    <MudTextField @bind-Value="Job.Description" Label="Description"></MudTextField>
-                </MudItem>
-
-                <MudItem>
-                    <MudTextField @bind-Value="Job.Payment" Label="Payment"></MudTextField>
-                </MudItem>
-
-                <MudItem>
-                    <MudTextField @bind-Value="Job.Requirement" Label="Requirement"></MudTextField>
-                </MudItem>
-
-            </MudGrid>
+            <MudText Typo="Typo.h6">New Job</MudText>
+            <br />
+            <br />
+            <MudTextField @bind-Value="Job.Name" Label="Name" Variant="Variant.Outlined"></MudTextField>
+            <br />
+            <MudTextField @bind-Value="Job.Payment" Label="Payment" Variant="Variant.Outlined"></MudTextField>
+            <br />
+            <MudTextField @bind-Value="Job.Description" Label="Description" Variant="Variant.Outlined" Lines="4"></MudTextField>
+            <br />
+            <MudTextField @bind-Value="Job.Requirement" Label="Requirement" Variant="Variant.Outlined" Lines="4"></MudTextField>
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
 
     </DialogContent>
 

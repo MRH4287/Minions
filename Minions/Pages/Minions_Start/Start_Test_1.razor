@@ -1,5 +1,6 @@
 ﻿@page "/Test"
 @using Minions.Data;
+@using Minions.Pages.Dialog;
 @inject IDialogService Dialog
 @inject ICollectionRepository<Worker> repo
 @inject IRepository<Asset> assetRepo
@@ -202,7 +203,7 @@
                         <MudStack Row>
                          <MudButton OnClick="@(()=>Pay(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Success">Pay</MudButton>
                          <MudButton OnClick="@(()=>Fire(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Fire</MudButton>
-                         <MudIconButton OnClick="@(()=>CharacterSheet(cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete"></MudIconButton>
+                         <MudIconButton OnClick="@(()=>CharacterSheet(cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small"  aria-label="delete"></MudIconButton>
                      </MudStack>
                  </CellTemplate>
              </TemplateColumn>
@@ -316,7 +317,9 @@
     {
         var options = new DialogOptions()
             {
-                CloseButton = true
+                CloseButton = true,
+                NoHeader = true
+                    
             };
 
         var parameter = new DialogParameters<AddCrewDialog>();
@@ -339,10 +342,10 @@
     }
     private async Task CharacterSheet(Worker element)
     {
-        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Medium, FullWidth = true };
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Medium, FullWidth = true, NoHeader = true };
         var parameter = new DialogParameters<CharacterSheet>();
 
-
+        
         parameter.Add(x => x.Element, element);
 
 

@@ -1,4 +1,4 @@
-﻿<h3>AddCamp</h3>
+﻿
 
 
 <MudDialog>
@@ -13,31 +13,61 @@
     <DialogContent>
 
 
-           @if (Camp != null)
+        @if (Camp != null)
         {
+
             <MudGrid>
 
-                <MudItem>
-                    <MudTextField @bind-Value="Camp.Name" Label="Name">test</MudTextField>
+                <MudItem xs="6">
+                    <MudGrid>
+                        <MudItem >
+                            <MudTextField @bind-Value="Camp.Name" Variant="Variant.Outlined" Label="Name">test</MudTextField>
+                        </MudItem>
+
+                        <MudItem >
+                            <MudDatePicker Label="DateTime" Editable="true" @bind-Date="Camp.DateTime" Variant="Variant.Outlined" Placeholder="Select Date" />
+
+                        </MudItem>
+
+                        <MudItem >
+                            <MudTextField @bind-Value="Camp.GM" Variant="Variant.Outlined" Label="GM">test</MudTextField>
+                        </MudItem>
+                        <MudItem >
+                            <MudNumericField @bind-Value="Camp.PlayerCount"
+                                             Label="Name"
+                                             Variant="Variant.Outlined"
+                                             Adornment="Adornment.End"
+                                             AdornmentIcon="@Icons.Material.Filled.Add"
+                                             OnAdornmentClick="AddPlayerName"></MudNumericField>
+
+                        </MudItem>
+                    </MudGrid>
+                   
                 </MudItem>
 
-                <MudItem>
-                    <MudTextField @bind-Value="Camp.Description" Label="Description">test</MudTextField>
-                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="Camp.Description" Variant="Variant.Outlined" Label="Description" Lines="14">test</MudTextField>
 
-                <MudItem>
-                    <MudTextField @bind-Value="Camp.GM" Label="GM">test</MudTextField>
-                </MudItem>
-
-                <MudItem>
-                    <MudTextField @bind-Value="Camp.PlayerCount" Label="Name">test</MudTextField>
                 </MudItem>
 
             </MudGrid>
-            
+
+            <MudList>
+                @if (Player != null)
+                {
+                    @for (var i = 0; i < Player.Count; i++)
+                    {
+                        var item = Player[i];
+                        <MudTextField @bind-Value="item.Name" @bind-Value:after="update" T="string" Label="@(i + " Player")" Variant="Variant.Outlined"></MudTextField>
+                    }
+                }
+
+            </MudList>
+
+
         }
 
-</DialogContent>
+    </DialogContent>
 
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
@@ -51,6 +81,11 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Campaign Camp { get; set; }
+    public List<Player> Player { get; set; } = new List<Player>();
+
+
+
+
 
 
     private void Cancel()
@@ -59,6 +94,40 @@
     }
     public void Create()
     {
+
+
+
         MudDialog.Close(DialogResult.Ok(Camp));
     }
+
+    public void AddPlayerName()
+    {
+
+        Camp.PlayerCount++;
+        Player.Add(new Player());
+    }
+
+    public void update()
+    {
+        Camp.PlayerNames.Clear();
+
+
+        for (var i = 0; i < Player.Count; i++)
+        {
+            Camp.PlayerNames.Add(Player[i].Name);
+        }
+
+
+
+    }
+
+
 }
+
+
+
+
+   @*
+
+   Beüllen Cam.Playernames
+ *@

@@ -1,0 +1,65 @@
+﻿
+
+
+
+@if (Camp != null)
+{
+    <MudDialog>
+        <DialogContent>
+           
+
+            @for (var i = 0; i < Players.Count; i++)
+            {
+                var items = Players[i];
+                <MudTextField @bind-Value="items.Name" @bind-Value:after="update" T="string" Label="@(i + " Player")" Variant="Variant.Outlined"></MudTextField>
+            }
+
+
+           
+        </DialogContent>
+    </MudDialog>
+
+
+
+
+}
+
+
+
+
+
+
+@code {
+    [Parameter] public Campaign Camp { get; set; }
+
+
+    public List<Player> Players { get; set; } = new List<Player>();
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        foreach(var item in Camp.PlayerNames)
+        {
+          Players.Add(new Player(){Name=item});  
+        }
+        
+    }
+
+    public void update()
+    {
+       Camp.PlayerNames.Clear();
+
+
+        for (var i = 0; i < Players.Count; i++)
+        {
+            Camp.PlayerNames.Add(Players[i].Name);
+        }
+
+
+
+    }
+
+
+}

@@ -34,37 +34,40 @@
 
 
 <MudDialog>
-    <TitleContent>
-        <MudTHeadRow Class="d-flex">
-            <MudText Typo="Typo.h6">New Crew</MudText>
-        </MudTHeadRow>
-
-
-    </TitleContent>
+   
     <DialogContent>
         @if (Element != null)
         {
+            <MudGrid>
+                <MudItem>
+                    <MudText Typo="Typo.h6">New Crew</MudText>
+                </MudItem>
+            </MudGrid>
+
+              <br />
+            <br />
+
             <MudGrid>
 
 
                 <MudItem xs="6">
 
                     <MudStack Row>
-                     <MudTextField @bind-Value="Element.Name" Label="Name" />
-                     <MudTextField @bind-Value="Element.Surname" Label="Surname" />
+                     <MudTextField @bind-Value="Element.Name" Label="Name" Variant="Variant.Outlined" />
+                     <MudTextField @bind-Value="Element.Surname" Label="Surname" Variant="Variant.Outlined" />
                  </MudStack>
 
-                 <MudNumericField @bind-Value="Element.Age" Label="Age" />
+                 <MudNumericField @bind-Value="Element.Age" Label="Age" Variant="Variant.Outlined" />
              </MudItem>
              <MudItem xs="6">
-                 <MudSelect @bind-Value="Element.Race" T="Race" Label="Race" AnchorOrigin="Origin.BottomCenter">
+                 <MudSelect @bind-Value="Element.Race" T="Race" Label="Race" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
 
                      @foreach (Race item in Enum.GetValues(typeof(Race)))
                         {
                             <MudSelectItem Value="@item">@item</MudSelectItem>
                         }
                     </MudSelect>
-                    <MudSelect @bind-Value="Element.Sex" T="Sex" Label="Sex" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelect @bind-Value="Element.Sex" T="Sex" Label="Sex" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
 
                         @foreach (Sex item in Enum.GetValues(typeof(Sex)))
                         {
@@ -73,9 +76,9 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="6">
-                    <MudNumericField @bind-Value="Element.Payment" Label="Payment" />
+                    <MudNumericField @bind-Value="Element.Payment" Label="Payment" Variant="Variant.Outlined" />
 
-                    <MudSelect @bind-Value="Element.Job" T="Job" Label="Job" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelect @bind-Value="Element.Job" T="Job" Label="Job" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
 
                         @foreach (Job item in Jobs)
                         {
@@ -97,8 +100,8 @@
 
                 </MudItem>
                 <MudItem xs="6">
-                    <MudNumericField @bind-Value="Element.DayWithoutPay" Label="DayWihtoutPay" />
-                    <MudTextField @bind-Value="Element.Name" Label="Name" />
+                    <MudNumericField @bind-Value="Element.DayWithoutPay" Label="DayWihtoutPay" Variant="Variant.Outlined" />
+                    <MudTextField @bind-Value="Element.Name" Label="Name" Variant="Variant.Outlined" />
                 </MudItem>
             </MudGrid>
 
@@ -107,7 +110,7 @@
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Error" OnClick="Create">Add</MudButton>
+
     </DialogActions>
 </MudDialog>
 
@@ -143,10 +146,7 @@
     {
         MudDialog.Cancel();
     }
-    public void Create()
-    {
-        MudDialog.Close(DialogResult.Ok(Element));
-    }
+   
 
 
 }

@@ -1,0 +1,136 @@
+﻿@inject IDialogService Dialog
+
+
+
+<MudDialog>
+
+
+    <DialogContent>
+        @if (Element != null)
+        {
+            <br />
+
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudGrid Class="flex-column">
+
+
+                        <MudItem>
+                            <MudTextField @bind-Value="Element.Name" T="string" Label="Name" Variant="Variant.Outlined"></MudTextField>
+                        </MudItem>
+
+                        <MudItem>
+                            <MudTextField @bind-Value="Element.Description" T="string" Label="Description" Variant="Variant.Outlined" Lines="7"></MudTextField>
+                        </MudItem>
+
+
+
+                    </MudGrid>
+                </MudItem>
+                <MudItem xs="6">
+                    <MudGrid Class="flex-column">
+
+                        <MudItem>
+                            <MudGrid>
+                                <MudItem xs="6">
+                                    <MudDatePicker Label="DateTime" Editable="true" @bind-Date="Element.DateTime" Variant="Variant.Outlined" Placeholder="Select Date" />
+
+                                </MudItem>
+
+                                <MudItem xs="6">
+                                    <MudNumericField T="double" Label="Run Time" Variant="Variant.Outlined" HideSpinButtons="true">@Element.RunTime</MudNumericField>
+
+                                </MudItem>
+
+                            </MudGrid>
+                        </MudItem>
+
+                        <MudItem>
+                            <MudGrid>
+                                <MudItem xs="6">
+                                    <MudTextField @bind-Value="Element.GM" T="string" Label="GM" Variant="Variant.Outlined"></MudTextField>
+                                </MudItem>
+
+                                <MudItem xs="6">
+                                    <MudNumericField @bind-Value="Element.PlayerCount" T="int" Label="Player Count" Variant="Variant.Outlined" HideSpinButtons="true"></MudNumericField>
+                                </MudItem>
+
+                            </MudGrid>
+                        </MudItem>
+
+
+                        <MudItem>
+
+                            <MudItem>
+                                <MudTextField Value="Element.PlayerDisplay"
+                                              T="string"
+                                              Label="Players"
+                                              Variant="Variant.Outlined"
+                                              Lines="2"
+                                              Adornment="Adornment.End"
+                                              AdornmentIcon="@Icons.Material.Filled.Add"
+                                              OnAdornmentClick="EditPlayer"
+                                              ></MudTextField>
+                            </MudItem>
+
+
+
+                        </MudItem>
+
+
+
+                    </MudGrid>
+
+                </MudItem>
+            </MudGrid>
+
+
+
+
+            <br />
+
+
+
+
+        }
+
+
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+
+    </DialogActions>
+</MudDialog>
+
+
+
+   
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public Campaign Element { get; set; }
+    DateTime? date = DateTime.Today;
+
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    private async Task EditPlayer()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Small, FullWidth = true, NoHeader = true };
+        var parameter = new DialogParameters<EditPlayer>();
+
+
+        parameter.Add(x => x.Camp, Element);
+
+
+        var dialog = await Dialog.ShowAsync<EditPlayer>("EditPlayer", parameter, options);
+        var result = await dialog.Result;
+        
+    }
+}

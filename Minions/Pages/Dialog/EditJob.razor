@@ -1,0 +1,54 @@
+﻿@using Minions.Data;
+@inject IRepository<Job> RepoJob
+
+
+
+
+<MudDialog>
+
+
+    <DialogContent>
+        @if (Element != null)
+        {
+            <br />
+
+
+
+            <MudTextField @bind-Value="Element.Name" T="string" Label="Name" Variant="Variant.Outlined"></MudTextField>
+            <br />
+            <MudNumericField @bind-Value="Element.Payment" T="double" Label="Payment" HideSpinButtons="true" Variant="Variant.Outlined"></MudNumericField>
+            <br />
+            <MudTextField @bind-Value="Element.Description" T="string" Label="Description" Variant="Variant.Outlined" Lines="4"></MudTextField>
+            <br />
+            <MudTextField @bind-Value="Element.Requirement" T="string" Label="Requirement" Variant="Variant.Outlined" Lines="4"></MudTextField>
+
+
+        }
+
+
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+
+    </DialogActions>
+</MudDialog>
+
+
+
+
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public Job Element { get; set; }
+
+
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+}

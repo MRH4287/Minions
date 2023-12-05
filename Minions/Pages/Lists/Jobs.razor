@@ -20,14 +20,15 @@
         <PropertyColumn Title="Description" Property="x => x.Description"></PropertyColumn>
         <PropertyColumn Title="Payment" Property="x => x.Payment"></PropertyColumn>
         <PropertyColumn Title="Requirement" Property="x => x.Requirement"></PropertyColumn>
-
+       
 
 
         <TemplateColumn CellClass="d-flex justify-end">
             <CellTemplate Context="cellContext">
                 <MudStack Row>
 
-                    <MudButton OnClick="@(()=>Remove (cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Remove</MudButton>
+                    <MudButton OnClick="@(()=>Remove (cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Remove</MudButton> 
+                    <MudIconButton OnClick="@(()=>EditJob(cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete"></MudIconButton>
                     @* <MudIconButton OnClick="@(()=>Eddite (cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete"></MudIconButton> *@
                 </MudStack>
             </CellTemplate>
@@ -67,7 +68,19 @@
         }
     }
 
+    private async Task EditJob(Job element)
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Small, FullWidth = true, NoHeader = true };
+        var parameter = new DialogParameters<EditJob>();
 
+
+        parameter.Add(x => x.Element, element);
+
+
+        var dialog = await Dialog.ShowAsync<EditJob>("CharacterSheet", parameter, options);
+        var result = await dialog.Result;
+        await repo.Save(element);
+    }
 
 
 
@@ -83,7 +96,10 @@
     {
         var options = new DialogOptions()
             {
-                CloseButton = true
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small,
+                CloseButton = true,
+                NoHeader = true
             };
 
         var parameter = new DialogParameters<AddJob>();

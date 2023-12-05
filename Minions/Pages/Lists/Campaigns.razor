@@ -29,6 +29,7 @@
                 <MudStack Row>
 
                     <MudButton OnClick="@(()=>Remove (cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Remove</MudButton>
+                    <MudIconButton OnClick="@(()=>EditCampaign(cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete"></MudIconButton>
                     @* <MudIconButton OnClick="@(()=>Eddite (cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete"></MudIconButton> *@
                 </MudStack>
             </CellTemplate>
@@ -63,6 +64,19 @@
         }
     }
 
+    private async Task EditCampaign(Campaign element)
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Medium, FullWidth = true, NoHeader = true };
+        var parameter = new DialogParameters<EditCampaigns>();
+
+
+        parameter.Add(x => x.Element, element);
+
+
+        var dialog = await Dialog.ShowAsync<EditCampaigns>("CharacterSheet", parameter, options);
+        var result = await dialog.Result;
+        await repo.Save(element);
+    }
 
     public void Remove(Campaign remove)
     {
