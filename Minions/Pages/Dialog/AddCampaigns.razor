@@ -20,19 +20,19 @@
 
                 <MudItem xs="6">
                     <MudGrid>
-                        <MudItem >
+                        <MudItem xs="12">
                             <MudTextField @bind-Value="Camp.Name" Variant="Variant.Outlined" Label="Name">test</MudTextField>
                         </MudItem>
 
-                        <MudItem >
+                        <MudItem xs="12">
                             <MudDatePicker Label="DateTime" Editable="true" @bind-Date="Camp.DateTime" Variant="Variant.Outlined" Placeholder="Select Date" />
 
                         </MudItem>
 
-                        <MudItem >
+                        <MudItem xs="12">
                             <MudTextField @bind-Value="Camp.GM" Variant="Variant.Outlined" Label="GM">test</MudTextField>
                         </MudItem>
-                        <MudItem >
+                        <MudItem xs="12">
                             <MudNumericField @bind-Value="Camp.PlayerCount"
                                              Label="Name"
                                              Variant="Variant.Outlined"

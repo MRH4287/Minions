@@ -34,83 +34,126 @@
 
 
 <MudDialog>
-   
+
+    <TitleContent>
+        <MudTHeadRow Class="d-flex">
+            <MudText Typo="Typo.h6">Add Crew</MudText>
+        </MudTHeadRow>
+
+
+    </TitleContent>
+
+
+
+
     <DialogContent>
         @if (Element != null)
         {
-            <MudGrid>
-                <MudItem>
-                    <MudText Typo="Typo.h6">New Crew</MudText>
-                </MudItem>
-            </MudGrid>
 
-              <br />
-            <br />
+
+
+
 
             <MudGrid>
+                <MudItem xs="6">
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <MudStack Row>
+                             <MudTextField @bind-Value="Element.Name" Label="Name" Variant="Variant.Outlined" />
+
+                             <MudTextField @bind-Value="Element.Surname" Label="Surname" Variant="Variant.Outlined" />
+                         </MudStack>
+                     </MudItem>
+                     <MudItem xs="12">
+                         <MudNumericField @bind-Value="Element.Age" Label="Age" Variant="Variant.Outlined" />
+                     </MudItem>
+
+                     <MudItem xs="12">
+                         <MudNumericField @bind-Value="Element.Payment" Label="Payment" Variant="Variant.Outlined" />
+                     </MudItem>
+                     <MudItem xs="12">
+                         <MudSelect @bind-Value="Element.Job" T="Job" Label="Job" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+
+                             @foreach (Job item in Jobs)
+                                {
+
+
+                                    <MudSelectItem Value="@item">
+
+
+                                        <MudTooltip Value="@item"
+                                                    Text="@item.Requirement"
+                                                    Arrow="true"
+                                                    Placement="Placement.Left"
+                                                    Class="onTop">
+                                               <div>
+                                                @item.Name
+                                               </div>
+                                             
+
+                                        </MudTooltip>
+                                    </MudSelectItem>
+
+
+
+
+                                }
+                            </MudSelect>
+                        </MudItem>
+                    </MudGrid>
+                </MudItem>
+
+                @*
+
+
+            *@
 
 
                 <MudItem xs="6">
+                    <MudGrid>
+                        <MudItem xs="12">
+                            <MudSelect @bind-Value="Element.Race" T="Race" Label="Race" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
 
-                    <MudStack Row>
-                     <MudTextField @bind-Value="Element.Name" Label="Name" Variant="Variant.Outlined" />
-                     <MudTextField @bind-Value="Element.Surname" Label="Surname" Variant="Variant.Outlined" />
-                 </MudStack>
+                                @foreach (Race item in Enum.GetValues(typeof(Race)))
+                                {
+                                    <MudSelectItem Value="@item">@item</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudSelect @bind-Value="Element.Sex" T="Sex" Label="Sex" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
 
-                 <MudNumericField @bind-Value="Element.Age" Label="Age" Variant="Variant.Outlined" />
-             </MudItem>
-             <MudItem xs="6">
-                 <MudSelect @bind-Value="Element.Race" T="Race" Label="Race" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                                @foreach (Sex item in Enum.GetValues(typeof(Sex)))
+                                {
+                                    <MudSelectItem Value="@item">@item</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudNumericField @bind-Value="Element.DayWithoutPay" Label="DayWihtoutPay" Variant="Variant.Outlined" />
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="Element.Name" Label="Name" Variant="Variant.Outlined" />
+                        </MudItem>
 
-                     @foreach (Race item in Enum.GetValues(typeof(Race)))
-                        {
-                            <MudSelectItem Value="@item">@item</MudSelectItem>
-                        }
-                    </MudSelect>
-                    <MudSelect @bind-Value="Element.Sex" T="Sex" Label="Sex" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
 
-                        @foreach (Sex item in Enum.GetValues(typeof(Sex)))
-                        {
-                            <MudSelectItem Value="@item">@item</MudSelectItem>
-                        }
-                    </MudSelect>
+
+                    </MudGrid>
                 </MudItem>
-                <MudItem xs="6">
-                    <MudNumericField @bind-Value="Element.Payment" Label="Payment" Variant="Variant.Outlined" />
-
-                    <MudSelect @bind-Value="Element.Job" T="Job" Label="Job" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
-
-                        @foreach (Job item in Jobs)
-                        {
-
-                            <MudTooltip Value="@item"
-                                        Text="@item.Requirement"
-                                        Arrow="true"
-                                        Placement="Placement.Bottom"
-                                        Class="onTop">
-
-                                <MudSelectItem Value="@item">@item.Name</MudSelectItem>
-
-                            </MudTooltip>
-
-                        }
-                    </MudSelect>
 
 
-
-                </MudItem>
-                <MudItem xs="6">
-                    <MudNumericField @bind-Value="Element.DayWithoutPay" Label="DayWihtoutPay" Variant="Variant.Outlined" />
-                    <MudTextField @bind-Value="Element.Name" Label="Name" Variant="Variant.Outlined" />
-                </MudItem>
             </MudGrid>
+
+
+
+
 
 
         }
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
-
+        <MudButton Color="Color.Error" OnClick="Create">Add</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -146,7 +189,13 @@
     {
         MudDialog.Cancel();
     }
-   
 
 
+    public void Create()
+    {
+
+
+
+        MudDialog.Close(DialogResult.Ok(Element));
+    }
 }

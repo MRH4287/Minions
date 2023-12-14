@@ -10,8 +10,6 @@
 
 <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
     <MudButton OnClick="@AddJobs">Add new Job</MudButton>
-    <MudButton>Nix</MudButton>
-    <MudButton>Nix</MudButton>
 </MudButtonGroup>
 
 <MudDataGrid T="Job" Items="Liste" SortMode="SortMode.Single" Class="border-solid border-2 mud-border">
@@ -70,7 +68,7 @@
 
     private async Task EditJob(Job element)
     {
-        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Small, FullWidth = true, NoHeader = true };
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Small, FullWidth = true, CloseButton = true, };
         var parameter = new DialogParameters<EditJob>();
 
 
@@ -99,7 +97,7 @@
                 FullWidth = true,
                 MaxWidth = MaxWidth.Small,
                 CloseButton = true,
-                NoHeader = true
+                
             };
 
         var parameter = new DialogParameters<AddJob>();

@@ -5,13 +5,20 @@
 
 
 <MudDialog>
+    <TitleContent>
+        <MudTHeadRow Class="d-flex">
+            <MudText Typo="Typo.h6">Edit Job</MudText>
+        </MudTHeadRow>
+
+
+    </TitleContent>
+
 
 
     <DialogContent>
         @if (Element != null)
         {
-            <br />
-
+           
 
 
             <MudTextField @bind-Value="Element.Name" T="string" Label="Name" Variant="Variant.Outlined"></MudTextField>

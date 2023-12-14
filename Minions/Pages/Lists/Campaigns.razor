@@ -3,14 +3,13 @@
 @inject IDialogService Dialog
 @inject IRepository<Campaign> repo
 
-<h3>campaigns</h3>
+<h3>Campaigns</h3>
 
-
+ <br />
+<br />
 
 <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
     <MudButton OnClick="@AddCamp">Add new campaigns</MudButton>
-    <MudButton>Nix</MudButton>
-    <MudButton>Nix</MudButton>
 </MudButtonGroup>
 
 <MudDataGrid T="Campaign" Items="Liste" SortMode="SortMode.Single" Class="border-solid border-2 mud-border">
@@ -66,7 +65,7 @@
 
     private async Task EditCampaign(Campaign element)
     {
-        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Medium, FullWidth = true, NoHeader = true };
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Medium, FullWidth = true,  CloseButton = true };
         var parameter = new DialogParameters<EditCampaigns>();
 
 
@@ -89,7 +88,8 @@
     {
         var options = new DialogOptions()
             {
-                CloseButton = true
+                CloseButton = true ,
+                MaxWidth = MaxWidth.Medium
             };
 
         var parameter = new DialogParameters<AddCampaigns>();

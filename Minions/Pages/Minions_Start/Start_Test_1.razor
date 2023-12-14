@@ -1,10 +1,12 @@
 ﻿@page "/Test"
 @using Minions.Data;
 @using Minions.Pages.Dialog;
+@using Minions.Services;
 @inject IDialogService Dialog
 @inject ICollectionRepository<Worker> repo
 @inject IRepository<Asset> assetRepo
 @inject IRepository<Job> RepoJob
+@inject NotificationService Notify
 
 
 @if (Asset != null)
@@ -318,8 +320,8 @@
         var options = new DialogOptions()
             {
                 CloseButton = true,
-                NoHeader = true
-                    
+                MaxWidth = MaxWidth.Medium,
+                FullWidth = true,
             };
 
         var parameter = new DialogParameters<AddCrewDialog>();
@@ -342,10 +344,10 @@
     }
     private async Task CharacterSheet(Worker element)
     {
-        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Medium, FullWidth = true, NoHeader = true };
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Medium, FullWidth = true, CloseButton = true, };
         var parameter = new DialogParameters<CharacterSheet>();
 
-        
+
         parameter.Add(x => x.Element, element);
 
 
@@ -396,6 +398,17 @@
     void OpenDrawer()
     {
         open = true;
+
+    }
+
+    public async Task addRower() 
+    {
+        
+
+    }
+
+    public async Task addSailor()
+    {
 
     }
 
