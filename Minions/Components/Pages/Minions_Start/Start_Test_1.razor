@@ -1,0 +1,180 @@
+﻿@page "/Test"
+
+@using Minions.Components.Pages.Dialog;
+@using Minions.Services;
+@inject IDialogService Dialog
+@inject ICollectionRepository<Worker> repo
+@inject IRepository<Asset> assetRepo
+@inject IRepository<Job> RepoJob
+@inject NotificationService Notify
+
+     @* <SectionContent SectionName="InHeader">
+
+        <MudTextField @bind-Value="Asset.Name"
+                      @bind-Value:after="SaveAsset"
+                      class="form-control value-input"
+                      
+                      Label="Name"
+                      Variant="Variant.Outlined">
+        </MudTextField>
+
+        <MudTextField @bind-Value="Asset.Type"
+                      @bind-Value:after="SaveAsset"
+                      class="form-control value-input"
+                      Label="Type"
+                      Variant="Variant.Outlined">
+        </MudTextField>
+
+    </SectionContent> *@
+
+@if (Asset != null)
+{
+    
+    
+
+    <EditForm Model="this">
+
+
+
+
+        <div class="general">
+            
+           
+            <testclass1 Header="Sailor" Content="42"></testclass1>  
+             <testclass1 Header="Sailor" Content="42"></testclass1>   
+              <testclass1 Header="Sailor" Content="42"></testclass1>   
+               <testclass1 Header="Sailor" Content="42"></testclass1>
+            <testclass1 Header="Sailor" Content="42"></testclass1>
+
+            <div class="item">
+                <div class="header"> Rower </div>
+                <div class="content-con" @onclick="(() => addRower())">@Rower <span class="smallcon">(@Rowerelement)</span></div>
+                <div class="footer-el left">0,05</div>
+                <div class="footer-el right">65</div>
+
+            </div>
+
+            <div class="item">
+                <div class="header"> Money </div>
+                <div class="content-con">65</div>
+                <div class="footer-el left">0,05</div>
+                <div class="footer-el right">65</div>
+            </div>
+
+            <div class="item">
+                <div class="header"> Payment </div>
+                <div class="content-con">65</div>
+
+            </div>
+
+            <div class="item">
+                <div class="header"> Current Payment </div>
+                <div class="content-con">65</div>
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+       
+
+        <br />
+        <br />
+ 
+        <MudDrawer @bind-Open="@open" Anchor="Anchor.End" Elevation="1" Variant="@DrawerVariant.Temporary">
+            <MudDrawerHeader>
+                <MudText Typo="Typo.h6">Settings</MudText>
+            </MudDrawerHeader>
+            <MudDrawerContainer>
+
+                <MudNumericField @bind-Value="InPay"
+                                 Variant="Variant.Outlined"
+                                 HideSpinButtons="true"
+                                 Label="add Money"
+                                 Adornment="Adornment.Start"
+                                 AdornmentIcon="@Icons.Material.Filled.LocalAtm"
+                                 OnAdornmentClick="GetMoney">
+
+                </MudNumericField>
+                <MudNumericField @bind-Value="Extract"
+                                 Variant="Variant.Outlined"
+                                 HideSpinButtons="true"
+                                 Label="extract Money "
+                                 Adornment="Adornment.Start"
+                                 AdornmentIcon="@Icons.Material.Filled.LocalAtm"
+                                 OnAdornmentClick="ExtractMoney">
+                </MudNumericField>
+
+                <MudButton OnClick="@paymentRower">Payment Rower</MudButton>
+                <MudButton OnClick="@paymentSailor">Payment Sailor</MudButton>
+
+
+            </MudDrawerContainer>
+
+        </MudDrawer>
+
+        <br />
+        <br />
+
+        <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+            <MudButton OnClick="@AddChar">Add new Crew</MudButton>
+            <MudButton OnClick="@addRower">Add new Rower</MudButton>
+            <MudButton OnClick="@addSailor">Add new Sailor</MudButton>
+        </MudButtonGroup>
+
+      
+       @*  Tabelle Vertig *@
+  
+      <MudDataGrid T="Worker" Items="Liste" SortMode="SortMode.Single" Class="border-solid border-2 mud-border">
+         <Columns>
+
+
+
+             <PropertyColumn Title="Name" Property="x => x.Name">
+                 <CellTemplate Context="cellContext">
+                     @cellContext.Item.Name <br />
+                     @cellContext.Item.Surname
+                 </CellTemplate>
+             </PropertyColumn>
+
+             <PropertyColumn Title="Age" Property="x => x.Age"></PropertyColumn>
+             <PropertyColumn Title="Race" Property="x => x.Race"></PropertyColumn>
+             <PropertyColumn Title="Sex" Property="x => x.Sex"></PropertyColumn>
+             <PropertyColumn Title="Job" Property="x => x.Job"></PropertyColumn>
+             <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment"></PropertyColumn>
+             <PropertyColumn Title="Days without pay" Property="x => x.DayWithoutPay"></PropertyColumn>
+             <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment"></PropertyColumn>
+
+             <TemplateColumn CellClass="d-flex justify-end">
+                 <CellTemplate Context="cellContext">
+                     <MudStack Row>
+                         <MudButton OnClick="@(()=>Pay(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Success">Pay</MudButton>
+                         <MudButton OnClick="@(()=>Fire(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Fire</MudButton>
+                         <MudIconButton OnClick="@(()=>CharacterSheet(cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete"></MudIconButton>
+                     </MudStack>
+                 </CellTemplate>
+             </TemplateColumn>
+         </Columns>
+     </MudDataGrid> 
+
+
+
+
+ </EditForm>
+
+}
+
+@code {
+        public string? Test {get; set; }
+
+}

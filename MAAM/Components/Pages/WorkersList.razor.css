@@ -1,0 +1,9 @@
+﻿.general {
+    display: flex;
+    justify-content: space-around;
+    margin-top:15px;
+}
+
+::deep .list{
+    border: solid 3px black;
+}

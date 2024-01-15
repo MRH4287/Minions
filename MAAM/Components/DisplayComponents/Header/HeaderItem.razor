@@ -1,0 +1,36 @@
+﻿@inject NotificationService Notify;
+
+<div class="item">
+
+    <div class="header"> @Header </div>
+    <div class="content-con" @onclick="@add">@Content</div>
+    <div class="footer-el left">@ContentLeft</div>
+    <div class="footer-el right">@ContentRight</div>
+
+</div>
+
+@code {
+    [Parameter]
+    public string Content { get; set; }
+
+    [Parameter]
+    public string Header { get; set; }
+
+    [Parameter]
+    public string ContentLeft { get; set; }
+    [Parameter]
+    public string ContentRight { get; set; }
+
+
+
+    public async Task add()
+    {
+        var result = await Notify.Prompt("Count");
+        if (!int.TryParse(result, out var number))
+        {
+            return;
+        }
+
+    }
+
+}

@@ -1,0 +1,48 @@
+﻿ @page "/"
+
+
+ 
+<div class="general">
+
+    <HeaderItem Header="hallo" Content="42" ContentLeft="0,5" ContentRight="56"></HeaderItem>
+    <HeaderItem Header="hallo" Content="42" ContentLeft="0,5" ContentRight="56"></HeaderItem>
+    <HeaderItem Header="hallo" Content="42" ContentLeft="0,5" ContentRight="56"></HeaderItem>
+    <HeaderItem Header="hallo" Content="42" ContentLeft="0,5" ContentRight="56"></HeaderItem>
+    <HeaderItem Header="hallo" Content="42" ContentLeft="0,5" ContentRight="56"></HeaderItem>
+
+</div>
+
+  <br />
+
+
+ <MudDataGrid T="Worker" Items="Asset.Workers" SortMode="SortMode.Single" Class="border-solid border mud-border">
+    <Columns>
+
+
+
+        <PropertyColumn Title="Name" Property="x => x.Name">
+            <CellTemplate Context="cellContext">
+                @cellContext.Item.Name <br />
+                @cellContext.Item.Surname
+            </CellTemplate>
+        </PropertyColumn>
+
+        <PropertyColumn Title="Age" Property="x => x.Age"></PropertyColumn>
+        <PropertyColumn Title="Race" Property="x => x.Race"></PropertyColumn>
+        <PropertyColumn Title="Sex" Property="x => x.Sex"></PropertyColumn>
+        <PropertyColumn Title="Job" Property="x => x.Job"></PropertyColumn>
+        <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment"></PropertyColumn>
+        <PropertyColumn Title="Days without pay" Property="x => x.DayWithoutPay"></PropertyColumn>
+        <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment"></PropertyColumn>
+
+       @*  <TemplateColumn CellClass="d-flex justify-end">
+            <CellTemplate Context="cellContext">
+                <MudStack Row>
+                    <MudButton OnClick="@(()=>Pay(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Success">Pay</MudButton>
+                    <MudButton OnClick="@(()=>Fire(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Fire</MudButton>
+                    <MudIconButton OnClick="@(()=>CharacterSheet(cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete"></MudIconButton>
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn> *@
+    </Columns>
+</MudDataGrid> 
