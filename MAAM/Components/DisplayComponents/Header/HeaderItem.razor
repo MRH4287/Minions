@@ -2,9 +2,16 @@
 
 <div class="item">
 
-    <div class="header"> @Header </div>
-    <div class="content-con" @onclick="@add">@Content</div>
-    <div class="footer-el left">@ContentLeft</div>
+    <div class="header" @onclick="@add"> @Header </div>
+    <div class="content-con">
+        @Content
+        @if (SmallContent != null)
+        {
+            <span class="smallcon">@SmallContent</span>
+        }
+    </div>
+
+    <div class="footer-el left" @onclick="@addfoot">@ContentLeft</div>
     <div class="footer-el right">@ContentRight</div>
 
 </div>
@@ -17,11 +24,19 @@
     public string Header { get; set; }
 
     [Parameter]
+
+    public string SmallContent { get; set; }
+
+    [Parameter]
     public string ContentLeft { get; set; }
     [Parameter]
     public string ContentRight { get; set; }
 
+    [Parameter]
+    public EventCallback<int> addsmallcontant { get; set; }
 
+    [Parameter]
+    public EventCallback<double> addfooterleft{ get; set; }
 
     public async Task add()
     {
@@ -30,6 +45,21 @@
         {
             return;
         }
+
+        await addsmallcontant.InvokeAsync(number);
+       
+
+    }
+    public async Task addfoot()
+    {
+        var result = await Notify.Prompt("Count");
+        if (!double.TryParse(result, out var number))
+        {
+            return;
+        }
+
+       
+        await addfooterleft.InvokeAsync(number);
 
     }
 

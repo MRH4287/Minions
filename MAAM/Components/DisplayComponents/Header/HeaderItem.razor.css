@@ -21,6 +21,7 @@
     font-size: 25px;
     background: linear-gradient(180deg, rgb(118,106,231) 0%, rgba(89,74,226,1) 100%);
     color: white;
+    cursor:pointer;
 }
 
 .content-con {
@@ -51,6 +52,7 @@
 
 .left {
     left: 2px;
+    cursor: pointer;
 }
 
 .right {

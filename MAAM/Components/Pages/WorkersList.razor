@@ -1,21 +1,44 @@
-﻿ @page "/"
+﻿ @inject IRepository<Asset> Repo
+ @page "/"
 
 
- 
+
 <div class="general">
 
-    <HeaderItem Header="hallo" Content="42" ContentLeft="0,5" ContentRight="56"></HeaderItem>
-    <HeaderItem Header="hallo" Content="42" ContentLeft="0,5" ContentRight="56"></HeaderItem>
-    <HeaderItem Header="hallo" Content="42" ContentLeft="0,5" ContentRight="56"></HeaderItem>
-    <HeaderItem Header="hallo" Content="42" ContentLeft="0,5" ContentRight="56"></HeaderItem>
-    <HeaderItem Header="hallo" Content="42" ContentLeft="0,5" ContentRight="56"></HeaderItem>
+    <HeaderItem Header="Rower"
+                SmallContent="@(Rowerelement.ToString())"
+                addsmallcontant="((cound)=>{Rowerelement+=cound;})"
+                addfooterleft="((cound)=>{RowerPayment +=cound;})"
+                Content="@(Rower.ToString())" 
+                ContentLeft="@(RowerPayment.ToString())"
+                ContentRight="@((Rower*RowerPayment).ToString())">
+    </HeaderItem>
+    <HeaderItem Header="Sailor"
+                SmallContent="@(Sailorselement.ToString())"
+                addsmallcontant="((cound)=>{Sailorselement+=cound;})"
+                addfooterleft="((cound)=>{fu +=cound;})"
+                Content="@(Sailors.ToString())"
+                ContentLeft="@(fu.ToString())"
+                ContentRight="@((fu*Sailors).ToString())">
+    </HeaderItem>
+    <HeaderItem Header="Money"
+                Content="42"
+                ContentLeft="0,5"
+                ContentRight="56">
+    </HeaderItem>
+    <HeaderItem Header="Payment"
+                Content="42">
+    </HeaderItem>
+    <HeaderItem Header="Current Payment"
+                Content="42">
+    </HeaderItem>
 
 </div>
 
-  <br />
+<br />
 
 
- <MudDataGrid T="Worker" Items="Asset.Workers" SortMode="SortMode.Single" Class="border-solid border mud-border">
+<MudDataGrid T="Worker" Items="Asset.Workers" SortMode="SortMode.Single" Class="border-solid border mud-border">
     <Columns>
 
 
@@ -35,14 +58,14 @@
         <PropertyColumn Title="Days without pay" Property="x => x.DayWithoutPay"></PropertyColumn>
         <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment"></PropertyColumn>
 
-       @*  <TemplateColumn CellClass="d-flex justify-end">
-            <CellTemplate Context="cellContext">
-                <MudStack Row>
-                    <MudButton OnClick="@(()=>Pay(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Success">Pay</MudButton>
-                    <MudButton OnClick="@(()=>Fire(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Fire</MudButton>
-                    <MudIconButton OnClick="@(()=>CharacterSheet(cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete"></MudIconButton>
-                </MudStack>
-            </CellTemplate>
+        @*  <TemplateColumn CellClass="d-flex justify-end">
+        <CellTemplate Context="cellContext">
+        <MudStack Row>
+        <MudButton OnClick="@(()=>Pay(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Success">Pay</MudButton>
+        <MudButton OnClick="@(()=>Fire(cellContext.Item))" Size="@Size.Small" Variant="@Variant.Filled" Color="@Color.Error">Fire</MudButton>
+        <MudIconButton OnClick="@(()=>CharacterSheet(cellContext.Item))" Icon="@Icons.Material.Filled.Build" Size="Size.Small" aria-label="delete"></MudIconButton>
+        </MudStack>
+        </CellTemplate>
         </TemplateColumn> *@
     </Columns>
-</MudDataGrid> 
+</MudDataGrid>

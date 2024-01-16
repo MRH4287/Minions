@@ -12,6 +12,30 @@ namespace MAAM.Components.Pages
 
 
 
+   
+ 
+        //public int broke => (int)Double.Floor((Asset.Money - CrewCurentPayment) / CrewPaymentDay);
+
+        public int Sailors => (Asset.Workers?.Count(x => x.Job?.Name != "Rower") ?? 0) + (Sailorselement);
+        public int Rower => (Asset.Workers?.Count(x => x.Job?.Name == "Rower") ?? 0) + (Rowerelement);
+
+        public int Sailorselement { get; set; }
+        public int Rowerelement { get; set; }
+        public double RowerPayment {  get; set; }
+        public double fu { get; set; }
+
+
+
+
+
+
+
+        protected override async Task OnInitializedAsync()
+        {
+            Asset = (await Repo.GetAll()).First();
+ 
+        }
+
 
 
 
