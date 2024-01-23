@@ -11,11 +11,7 @@
 <MudLayout>
     <MudAppBar Elevation="1">
        @*  <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" /> *@
-           <MudText>Springflut </MudText>
-        <MudSpacer />
-        <MudText>Schiffs Klasse</MudText>
-        <MudSpacer />
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+        <SectionOutlet SectionName="SectionName.InHeader"></SectionOutlet>
     </MudAppBar>
     <MudDrawer Open="true" Elevation="2">
         <MudDrawerHeader>

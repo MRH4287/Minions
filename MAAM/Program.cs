@@ -7,7 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddMudServices();
-builder.Services.AddScoped<NotificationService> ();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<AssetService>();
 builder.Services.AddHostedService<SystemService>();
 builder.Services.AddMinionsData();
 var app = builder.Build();

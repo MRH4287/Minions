@@ -23,7 +23,8 @@ public class Worker : IModel
     public string? Inventory { get; set; }
     public string? Skillls { get; set; }
     public string? Notes { get; set; }
-    public bool Deleted { get; set; } = false;
+
+    public bool Deleted { get; set; }
 
 }
 public enum Sex { Male, Female, Other };

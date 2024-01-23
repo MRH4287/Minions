@@ -33,14 +33,15 @@ namespace MAAM.Services
                                 Sex = Sex.Female,
                                 Race = Race.Nekomata,
                                 Age = int.MaxValue,
+                                Payment = 2,
                             },
                             new Worker()
                             {
                                 Name="Tia",
                                 Sex = Sex.Female,
-                                Race = Race.Nekomata,
+                                Race = Race.Mew,
                                 Age = int.MaxValue,
-                                
+                                Payment = 2,
                             },
                              new Worker()
                             {
@@ -48,13 +49,15 @@ namespace MAAM.Services
                                 Sex = Sex.Female,
                                 Race = Race.Mew,
                                 Age = int.MaxValue,
+                                Payment = 2,
                             },
                               new Worker()
                             {
                                 Name="Mira",
                                 Sex = Sex.Female,
-                                Race = Race.Mew,
+                                Race = Race.Nekomata,
                                 Age = int.MaxValue,
+                                Payment = 2,
                             },
                                new Worker()
                             {
@@ -62,6 +65,7 @@ namespace MAAM.Services
                                 Sex = Sex.Female,
                                 Race = Race.God,
                                 Age = int.MaxValue,
+                                Payment = 2,
                             }
                         }
 
