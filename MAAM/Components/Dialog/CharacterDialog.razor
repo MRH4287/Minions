@@ -1,0 +1,93 @@
+﻿
+  @inject IRepository<Race> RaceRepo
+
+
+
+<MudDialog>
+
+
+
+
+
+
+
+
+    <DialogContent>
+
+        <MudTextField T="string" Label="Name" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField T="string" Label="Sure Name" Variant="Variant.Outlined"></MudTextField>
+
+
+
+        <MudSelect T="string" Label="Race" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+
+            @foreach (Race item in RaceOptions)
+            {
+                <MudSelectItem Value="@item.Name">@item.Name</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudTextField T="string" Label="Job" Variant="Variant.Outlined"></MudTextField>
+        <MudGrid>
+            <MudItem xs="6">
+                <MudNumericField T="int" HideSpinButtons="true" Label="Age" Variant="Variant.Outlined"></MudNumericField>
+            </MudItem>
+            <MudItem xs="6">
+                <MudTextField T="string" Label="Sex" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid>
+            <MudItem xs="6">
+                <MudNumericField T="int" HideSpinButtons="true" Label="Payment" Variant="Variant.Outlined"></MudNumericField>
+            </MudItem>
+            <MudItem xs="6">
+                <MudNumericField T="int" HideSpinButtons="true" Label="Days without pay" Variant="Variant.Outlined"></MudNumericField>
+            </MudItem>
+        </MudGrid>
+
+
+
+
+
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+
+
+
+</MudDialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    public List<Race> RaceOptions { get; set; } = new List<Race>();
+
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        RaceOptions = (await RaceRepo.GetAll()).ToList();
+
+        await base.OnInitializedAsync();
+    }
+
+}

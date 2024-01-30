@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minions", "Minions\Minions.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "Data\DataAccess.csproj", "{016E7B27-16F1-426F-A442-536B5587713F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAAM", "MAAM\MAAM.csproj", "{72D321BE-47B2-4220-B02C-396693FB5DDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAAM", "MAAM\MAAM.csproj", "{72D321BE-47B2-4220-B02C-396693FB5DDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -33,7 +33,7 @@
     public string ContentRight { get; set; }
 
     [Parameter]
-    public EventCallback<int> addsmallcontant { get; set; }
+    public EventCallback<int> addcontant { get; set; }
 
     [Parameter]
     public EventCallback<double> addfooterleft{ get; set; }
@@ -46,8 +46,8 @@
             return;
         }
 
-        await addsmallcontant.InvokeAsync(number);
-       
+        await addcontant.InvokeAsync(number);
+        
 
     }
     public async Task addfoot()

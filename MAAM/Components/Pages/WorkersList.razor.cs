@@ -1,4 +1,6 @@
-﻿using MAAM.Models;
+﻿using MAAM.Components.Dialog;
+using MAAM.Models;
+using MudBlazor;
 
 namespace MAAM.Components.Pages
 {
@@ -13,19 +15,25 @@ namespace MAAM.Components.Pages
 
 
 
+        public double Payment => Asset.Workers?.Sum(x => x.Payment) ?? 0;
 
-        //public int broke => (int)Double.Floor((Asset.Money - CrewCurentPayment) / CrewPaymentDay);
+        public double CurrentPayment => Asset.Workers?.Sum(x => x.CurrentPayment) ?? 0;
 
-        public int Sailors => (Asset.Workers?.Count(x => x.Job?.Name != "Rower") ?? 0) + (Sailorselement);
-        public int Rower => (Asset.Workers?.Count(x => x.Job?.Name == "Rower") ?? 0) + (Rowerelement);
+        public int Broke => (int)Double.Floor((Asset.Money - CurrentPayment) / Payment);
 
+
+
+
+        #region Crow
         public int Sailorselement { get; set; }
         public int Rowerelement { get; set; }
         public double RowerPayment { get; set; }
-        public double fu { get; set; }
+        public double SailorsPayment { get; set; }
+        public int Sailors => (Asset.Workers?.Count(x => x.Job?.Name != "Rower") ?? 0) + (Sailorselement);
+        public int Rower => (Asset.Workers?.Count(x => x.Job?.Name == "Rower") ?? 0) + (Rowerelement);
 
+        #endregion
 
-        
 
         protected override async Task OnInitializedAsync()
         {
@@ -61,9 +69,33 @@ namespace MAAM.Components.Pages
 
 
 
+        private async Task EditChar(Worker element)
+        {
+            var options = new DialogOptions { CloseOnEscapeKey = true,  FullWidth = true, CloseButton = true };
+            var parameter = new DialogParameters<CharacterDialog>();
 
 
+            //parameter.Add(x => x.Element, element);
 
+
+            var dialog = await Dialog.ShowAsync<CharacterDialog>("", parameter, options);
+            var result = await dialog.Result;
+            //await repo.Save(element);
+        }
+
+        private async Task AddChar()
+        {
+            var options = new DialogOptions { CloseOnEscapeKey = true,  FullWidth = true, CloseButton = true };
+            var parameter = new DialogParameters<CharacterDialog>();
+
+
+            //parameter.Add(x => x.Element, element);
+
+
+            var dialog = await Dialog.ShowAsync<CharacterDialog>("", parameter, options);
+            var result = await dialog.Result;
+            //await repo.Save(element);
+        }
 
 
 

@@ -10,10 +10,12 @@ namespace MAAM.Services
         {
            var AssetRepo = Provider.GetRequiredService<IRepository<Asset>>();
             var Asset =  (await AssetRepo.GetAll()).ToList();
-           
 
-           
-            
+            var RaceRepo = Provider.GetRequiredService<IRepository<Race>>();
+            var Race = (await RaceRepo.GetAll()).ToList();
+
+
+
 
 
 
@@ -31,7 +33,7 @@ namespace MAAM.Services
                             {
                                 Name ="Linda",
                                 Sex = Sex.Female,
-                                Race = Race.Nekomata,
+                                Race = "Nekomata",
                                 Age = int.MaxValue,
                                 Payment = 2,
                             },
@@ -39,7 +41,7 @@ namespace MAAM.Services
                             {
                                 Name="Tia",
                                 Sex = Sex.Female,
-                                Race = Race.Mew,
+                                Race = "Mew",
                                 Age = int.MaxValue,
                                 Payment = 2,
                             },
@@ -47,7 +49,7 @@ namespace MAAM.Services
                             {
                                 Name="Mew",
                                 Sex = Sex.Female,
-                                Race = Race.Mew,
+                                Race = "Mew",
                                 Age = int.MaxValue,
                                 Payment = 2,
                             },
@@ -55,7 +57,7 @@ namespace MAAM.Services
                             {
                                 Name="Mira",
                                 Sex = Sex.Female,
-                                Race = Race.Nekomata,
+                                Race = "Nekomata",
                                 Age = int.MaxValue,
                                 Payment = 2,
                             },
@@ -63,7 +65,7 @@ namespace MAAM.Services
                             {
                                 Name="Nie",
                                 Sex = Sex.Female,
-                                Race = Race.God,
+                                Race = "God",
                                 Age = int.MaxValue,
                                 Payment = 2,
                             }
@@ -75,6 +77,18 @@ namespace MAAM.Services
                
             }
 
+
+
+            if (Race.Count == 0)
+            {
+                await RaceRepo.Save(
+                    new Race()
+                    {
+                        Name="Nekomata"
+                    }
+                );
+
+            }
 
 
 
@@ -96,6 +110,11 @@ namespace MAAM.Services
             Provider= provider.CreateScope().ServiceProvider;
         }
            
+
+
+        
+
+
 
     }
 }
