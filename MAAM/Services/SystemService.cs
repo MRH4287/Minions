@@ -14,9 +14,12 @@ namespace MAAM.Services
             var RaceRepo = Provider.GetRequiredService<IRepository<Race>>();
             var Race = (await RaceRepo.GetAll()).ToList();
 
+            var JobRepo = Provider.GetRequiredService<IRepository<Job>>();
+            var Job = (await JobRepo.GetAll()).ToList();
 
 
 
+            #region Stard Chars
 
 
             if (Asset.Count == 0)
@@ -77,6 +80,8 @@ namespace MAAM.Services
 
             }
 
+            #endregion
+            #region Stard Race Lsit 
 
             if (Race.Count == 0)
             {
@@ -195,10 +200,46 @@ namespace MAAM.Services
 
             }
 
+            #endregion
+            #region Stard Job Lsit 
+
+            if (Job.Count == 0)
+            {
+
+                #region List
+                List<string> list =
+                [
+                    "Rower",
+                    "Sailor"
+                ];
+
+                #endregion
+
+                foreach (var item in list)
+                {
+                    await JobRepo.Save(
+                                  new Job()
+                                  {
+                                      Id = item,
+                                  }
+                   );
+                }
 
 
 
 
+
+
+
+
+
+
+
+
+
+            }
+
+            #endregion
 
 
         }

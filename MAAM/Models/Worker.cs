@@ -21,10 +21,12 @@ public class Worker : IModel
     public string? ServiceEnded { get; set; }
     public int TimeOnBord { get; set; }
     public string? Inventory { get; set; }
-    public string? Skillls { get; set; }
+    public string? Skills { get; set; }
     public string? Notes { get; set; }
 
     public bool Deleted { get; set; }
+
+    public string? Image { get; set; }
 
 }
 public enum Sex { Male, Female, Other };

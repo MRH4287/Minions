@@ -1,6 +1,5 @@
-﻿
-  @inject IRepository<Race> RaceRepo
-
+﻿  @inject IRepository<Race> RaceRepo
+  @inject IRepository<Job> JobRepo
 
 
 <MudDialog>
@@ -27,7 +26,36 @@
             }
         </MudSelect>
 
-        <MudTextField @bind-Value="Element.Job" T="string" Label="Job" Variant="Variant.Outlined"></MudTextField>
+ 
+            <BlazoredTypeahead  placeholder="Job" SearchMethod="@SearchJob"
+                               @bind-Value="SelectedJob"
+                               Debounce="500"
+                               AddItemOnEmptyResultMethod="@AddJob">
+                <SelectedTemplate>
+                    @context?.Id
+                </SelectedTemplate>
+                <ResultTemplate>
+                    @context?.Id
+                </ResultTemplate>
+                <NotFoundTemplate>
+                    @context (New Item)
+                </NotFoundTemplate>
+            </BlazoredTypeahead>
+
+@*         <MudFileUpload T="IBrowserFile" FilesChanged="HandleFileChange">
+            <ActivatorContent>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           StartIcon="@Icons.Material.Filled.CloudUpload">
+                    Upload Files
+                </MudButton>
+            </ActivatorContent>
+        </MudFileUpload> *@
+
+    @*     <MudField>
+        <InputFile class="form-control" OnChange="HandleFileChange"></InputFile>
+        </MudField> *@
+
         <MudGrid>
             <MudItem xs="6">
                 <MudNumericField @bind-Value="Element.Age" T="int" HideSpinButtons="true" Label="Age" Variant="Variant.Outlined"></MudNumericField>
@@ -45,9 +73,21 @@
 
         <MudGrid>
             <MudItem xs="6">
-                <MudNumericField @bind-Value="Element.Payment" T="double" HideSpinButtons="true" Label="Payment" Variant="Variant.Outlined"></MudNumericField>
+                <MudTextField @bind-Value="Element.ServiceStarted" T="string" HideSpinButtons="true" Label="ServiceStarted" Variant="Variant.Outlined"></MudTextField>
             </MudItem>
             <MudItem xs="6">
+                <MudTextField @bind-Value="Element.ServiceEnded" T="string" HideSpinButtons="true" Label="ServiceEnded" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid>
+            <MudItem xs="4">
+                <MudNumericField @bind-Value="Element.TimeOnBord" T="int" HideSpinButtons="true" Label="TimeOnBord" Variant="Variant.Outlined"></MudNumericField>
+            </MudItem>
+            <MudItem xs="4">
+                <MudNumericField @bind-Value="Element.Payment" T="double" HideSpinButtons="true" Label="Payment" Variant="Variant.Outlined"></MudNumericField>
+            </MudItem>
+            <MudItem xs="4">
                 <MudNumericField @bind-Value="Element.DayWithoutPay" T="int" HideSpinButtons="true" Label="Days without pay" Variant="Variant.Outlined"></MudNumericField>
             </MudItem>
         </MudGrid>
@@ -86,6 +126,19 @@
     [Parameter] public Worker Element { get; set; }
     public List<Race> RaceOptions { get; set; } = new List<Race>();
 
+    private Job? _selectedJob;
+    public Job? SelectedJob
+    {
+        get => _selectedJob;
+        set
+        {
+            this._selectedJob = value;
+            if (Element != null)
+            {
+                Element.Job = _selectedJob?.Id;
+            }
+        }
+    }
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
@@ -93,8 +146,49 @@
     protected override async Task OnInitializedAsync()
     {
         RaceOptions = (await RaceRepo.GetAll()).OrderBy(x => x.Name).ToList();
+        _selectedJob = string.IsNullOrEmpty(Element.Job)
+            ? null
+            : await JobRepo.Get(Element.Job);
 
         await base.OnInitializedAsync();
     }
 
+    public async Task<IEnumerable<Job>> SearchJob(string name)
+    {
+        var data = await JobRepo.GetAll();
+        return data.Where(job => job.Id.Contains(name, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public async Task<Job> AddJob(string name)
+    {
+        var newJob = new Job()
+            {
+                Id = name
+            };
+        await JobRepo.Save(newJob);
+
+        return newJob;
+    }
+
+
+    async Task HandleFileChange(InputFileChangeEventArgs args)
+    {
+        if (args == null || args.FileCount == 0)
+        {
+            return;
+        }
+
+        var file = args.File;
+        using var stream = file.OpenReadStream();
+
+        byte[] result = new byte[file.Size];
+        await stream.ReadAsync(result);
+
+        var sb = new System.Text.StringBuilder();
+        sb.Append("data:").Append(file.ContentType).Append(";base64,")
+            .Append(Convert.ToBase64String(result));
+
+
+        Element.Image = sb.ToString();
+    }
 }

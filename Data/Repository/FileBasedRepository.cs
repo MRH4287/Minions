@@ -150,15 +150,16 @@ namespace DataAccess.Repository
         private static string GetTypeName()
         {
             var type = typeof(TValue);
-            using var hasher = MD5.Create();
-            var hash = hasher.ComputeHash(Encoding.UTF8.GetBytes(type.FullName ?? type.Name));
-            var hashText = Convert.ToBase64String(hash);
-            var name = $"{type.Name}_{hashText}";
-            foreach (var item in Path.GetInvalidFileNameChars())
-            {
-                name = name.Replace(item, '_');
-            }
-            return name;
+            //using var hasher = MD5.Create();
+            //var hash = hasher.ComputeHash(Encoding.UTF8.GetBytes(type.FullName ?? type.Name));
+            //var hashText = Convert.ToBase64String(hash);
+            //var name = $"{type.Name}_{hashText}";
+            //foreach (var item in Path.GetInvalidFileNameChars())
+            //{
+            //    name = name.Replace(item, '_');
+            //}
+            //return name;
+            return type.Name;
         }
 
     }

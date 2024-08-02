@@ -47,9 +47,10 @@
 <br />
 
 <MudTabs Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
-    <MudTabPanel Text="Tab One">
+    <MudTabPanel Text="Worker List">
 
-        <MudDataGrid T="Worker" Items="Asset.Workers" SortMode="SortMode.Single" Class="border-solid border mud-border">
+        <MudDataGrid T="Worker" Items="Asset.Workers" SortMode="SortMode.Single" Class="border-solid border mud-border" ColumnsPanelReordering="true" ShowMenuIcon="true"
+                     Hideable="true" Filterable="true" Groupable="true" >
             <Columns>
 
 
@@ -77,10 +78,25 @@
                     </FooterTemplate>
                 </PropertyColumn>
 
+                 <TemplateColumn >
+                     <CellTemplate Context="cellContext">
+                        @if(cellContext.Item.Image != null)
+                        {
+                            @* <img src="@(cellContext.Item.Image)" /> *@
+                        }
+                    </CellTemplate>
+                 </TemplateColumn>
+
                 <PropertyColumn Title="Age" Property="x => x.Age"></PropertyColumn>
                 <PropertyColumn Title="Race" Property="x => x.Race"></PropertyColumn>
                 <PropertyColumn Title="Sex" Property="x => x.Sex"></PropertyColumn>
                 <PropertyColumn Title="Job" Property="x => x.Job"></PropertyColumn>
+
+                <PropertyColumn Title="ServiceStarted" Property="x => x.ServiceStarted"></PropertyColumn>
+                <PropertyColumn Title="ServiceEnded" Property="x => x.ServiceEnded"></PropertyColumn>
+
+                <PropertyColumn Title="TimeOnBord" Property="x => x.TimeOnBord"></PropertyColumn>
+
                 <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment"></PropertyColumn>
                 <PropertyColumn Title="Days without pay" Property="x => x.DayWithoutPay"></PropertyColumn>
                 <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment"></PropertyColumn>
@@ -91,6 +107,7 @@
                             <MudMenuItem OnClick="@(()=>Pay(cellContext.Item))">Pay</MudMenuItem>
                             <MudMenuItem OnClick="@(()=>Fire(cellContext.Item))">Fire</MudMenuItem>
                             <MudMenuItem OnClick="@(()=> EditChar(cellContext.Item))">Character Sheet </MudMenuItem>
+                            <MudSwitch  Label="Info" Color="Color.Info" />
                         </MudMenu>
 
                     </CellTemplate>
@@ -102,15 +119,13 @@
         </MudDataGrid>
 
     </MudTabPanel>
-    <MudTabPanel Text="Tab Two">
+    <MudTabPanel Text="Finance">
         <MudText>Content Two</MudText>
     </MudTabPanel>
-    <MudTabPanel Text="Tab Three">
+    <MudTabPanel Text="Asset">
         <MudText>Content Three</MudText>
     </MudTabPanel>
-    <MudTabPanel Text="Tab Disabled" Disabled="true">
-        <MudText>Content Disabled</MudText>
-    </MudTabPanel>
+    
 </MudTabs>
 
 

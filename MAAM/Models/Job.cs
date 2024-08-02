@@ -4,9 +4,9 @@ namespace MAAM.Models
 {
     public class Job : IModel
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public required string Id { get; set; } 
 
-        public string? Name { get; set; }
+        
 
         public string? Description { get; set; }
 
@@ -18,7 +18,7 @@ namespace MAAM.Models
 
         public override string ToString()
         {
-            return Name ?? "";
+            return Id ?? "";
         }
 
 
