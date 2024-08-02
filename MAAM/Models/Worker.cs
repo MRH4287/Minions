@@ -14,7 +14,7 @@ public class Worker : IModel
     public string? Rank { get; set; }
     public int Rating { get; set; }
     public double Payment { get; set; }
-    public Job Job { get; set; }
+    public string? Job { get; set; }
     public double CurrentPayment { get; set; }
     public int DayWithoutPay { get; set; }
     public string? ServiceStarted { get; set; }

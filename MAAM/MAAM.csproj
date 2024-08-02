@@ -18,8 +18,4 @@
     <ProjectReference Include="..\Data\DataAccess.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="_data\" />
-  </ItemGroup>
-
 </Project>

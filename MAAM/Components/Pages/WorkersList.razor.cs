@@ -1,6 +1,7 @@
 ﻿using MAAM.Components.Dialog;
 using MAAM.Models;
 using MudBlazor;
+using System.Linq.Expressions;
 
 namespace MAAM.Components.Pages
 {
@@ -29,8 +30,8 @@ namespace MAAM.Components.Pages
         public int Rowerelement { get; set; }
         public double RowerPayment { get; set; }
         public double SailorsPayment { get; set; }
-        public int Sailors => (Asset.Workers?.Count(x => x.Job?.Name != "Rower") ?? 0) + (Sailorselement);
-        public int Rower => (Asset.Workers?.Count(x => x.Job?.Name == "Rower") ?? 0) + (Rowerelement);
+        public int Sailors => (Asset.Workers?.Count(x => x.Job != "Rower") ?? 0) + (Sailorselement);
+        public int Rower => (Asset.Workers?.Count(x => x.Job == "Rower") ?? 0) + (Rowerelement);
 
         #endregion
 
@@ -60,7 +61,7 @@ namespace MAAM.Components.Pages
         public async Task Time()
         {
 
-            AssetService.AddTimeCat(Asset, 1);
+            AssetService.AddTimeCat(Asset, 1 );
             await Repo.Save(Asset);
         }
 
@@ -74,8 +75,8 @@ namespace MAAM.Components.Pages
             var options = new DialogOptions { CloseOnEscapeKey = true,  FullWidth = true, CloseButton = true };
             var parameter = new DialogParameters<CharacterDialog>();
 
-
-            //parameter.Add(x => x.Element, element);
+            
+            parameter.Add(x => x.Element, element);
 
 
             var dialog = await Dialog.ShowAsync<CharacterDialog>("", parameter, options);
@@ -87,14 +88,22 @@ namespace MAAM.Components.Pages
         {
             var options = new DialogOptions { CloseOnEscapeKey = true,  FullWidth = true, CloseButton = true };
             var parameter = new DialogParameters<CharacterDialog>();
+            var element = new Worker();
 
 
-            //parameter.Add(x => x.Element, element);
+            parameter.Add(x => x.Element, element);
 
+
+            
 
             var dialog = await Dialog.ShowAsync<CharacterDialog>("", parameter, options);
             var result = await dialog.Result;
-            //await repo.Save(element);
+            if (!result.Canceled)
+            {
+                Asset.Workers.Add(element);
+                //await repo.Save(element); 
+            }
+           
         }
 
 

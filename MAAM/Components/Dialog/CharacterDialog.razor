@@ -14,12 +14,12 @@
 
     <DialogContent>
 
-        <MudTextField T="string" Label="Name" Variant="Variant.Outlined"></MudTextField>
-        <MudTextField T="string" Label="Sure Name" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="Element.Name" T="string" Label="Name" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="Element.Surname" T="string" Label="Sure Name" Variant="Variant.Outlined"></MudTextField>
 
 
 
-        <MudSelect T="string" Label="Race" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+        <MudSelect @bind-Value="Element.Race" T="string" Label="Race" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
 
             @foreach (Race item in RaceOptions)
             {
@@ -27,22 +27,28 @@
             }
         </MudSelect>
 
-        <MudTextField T="string" Label="Job" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="Element.Job" T="string" Label="Job" Variant="Variant.Outlined"></MudTextField>
         <MudGrid>
             <MudItem xs="6">
-                <MudNumericField T="int" HideSpinButtons="true" Label="Age" Variant="Variant.Outlined"></MudNumericField>
+                <MudNumericField @bind-Value="Element.Age" T="int" HideSpinButtons="true" Label="Age" Variant="Variant.Outlined"></MudNumericField>
             </MudItem>
             <MudItem xs="6">
-                <MudTextField T="string" Label="Sex" Variant="Variant.Outlined"></MudTextField>
+                <MudSelect @bind-Value="Element.Sex" T="Sex" Label="Sex" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+
+                    @foreach (Sex item in Enum.GetValues(typeof(Sex)))
+                    {
+                        <MudSelectItem Value="@item">@item</MudSelectItem>
+                    }
+                </MudSelect>
             </MudItem>
         </MudGrid>
 
         <MudGrid>
             <MudItem xs="6">
-                <MudNumericField T="int" HideSpinButtons="true" Label="Payment" Variant="Variant.Outlined"></MudNumericField>
+                <MudNumericField @bind-Value="Element.Payment" T="double" HideSpinButtons="true" Label="Payment" Variant="Variant.Outlined"></MudNumericField>
             </MudItem>
             <MudItem xs="6">
-                <MudNumericField T="int" HideSpinButtons="true" Label="Days without pay" Variant="Variant.Outlined"></MudNumericField>
+                <MudNumericField @bind-Value="Element.DayWithoutPay" T="int" HideSpinButtons="true" Label="Days without pay" Variant="Variant.Outlined"></MudNumericField>
             </MudItem>
         </MudGrid>
 
@@ -77,6 +83,7 @@
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Worker Element { get; set; }
     public List<Race> RaceOptions { get; set; } = new List<Race>();
 
 
@@ -85,7 +92,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        RaceOptions = (await RaceRepo.GetAll()).ToList();
+        RaceOptions = (await RaceRepo.GetAll()).OrderBy(x => x.Name).ToList();
 
         await base.OnInitializedAsync();
     }
