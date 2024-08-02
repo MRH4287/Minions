@@ -126,7 +126,12 @@
         const form = document.getElementById('imageForm');
         if (!form) {
             console.error('Form not found!');
-            return;
+            return null;
+        }
+
+        const field = document.getElementById('file');
+        if (!field.value) {
+            return null;
         }
 
         const formData = new FormData(form);
@@ -183,6 +188,7 @@
 
         MudDialog.Close(DialogResult.Ok(true));
     }
+
     void Cancel() => MudDialog.Cancel();
 
     protected override async Task OnInitializedAsync()
@@ -215,7 +221,10 @@
     public async Task<bool> HandleSubmit()
     {
         var imageUrl = await js.InvokeAsync<string?>("handleSubmit");
-        Element.ImageUri = imageUrl;
+        if (imageUrl != null)
+        {
+            Element.ImageUri = imageUrl;
+        }
 
         return false;
     }
