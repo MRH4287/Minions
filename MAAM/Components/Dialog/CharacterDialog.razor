@@ -1,6 +1,6 @@
 ﻿  @inject IRepository<Race> RaceRepo
   @inject IRepository<Job> JobRepo
-
+  @inject IJSRuntime js
 
 <MudDialog>
 
@@ -26,36 +26,47 @@
             }
         </MudSelect>
 
- 
-            <BlazoredTypeahead  placeholder="Job" SearchMethod="@SearchJob"
-                               @bind-Value="SelectedJob"
-                               Debounce="500"
-                               AddItemOnEmptyResultMethod="@AddJob">
-                <SelectedTemplate>
-                    @context?.Id
-                </SelectedTemplate>
-                <ResultTemplate>
-                    @context?.Id
-                </ResultTemplate>
-                <NotFoundTemplate>
-                    @context (New Item)
-                </NotFoundTemplate>
-            </BlazoredTypeahead>
 
-@*         <MudFileUpload T="IBrowserFile" FilesChanged="HandleFileChange">
-            <ActivatorContent>
-                <MudButton Variant="Variant.Filled"
-                           Color="Color.Primary"
-                           StartIcon="@Icons.Material.Filled.CloudUpload">
-                    Upload Files
-                </MudButton>
-            </ActivatorContent>
+        <BlazoredTypeahead placeholder="Job" SearchMethod="@SearchJob"
+                           @bind-Value="SelectedJob"
+                           Debounce="500"
+                           AddItemOnEmptyResultMethod="@AddJob">
+            <SelectedTemplate>
+                @context?.Id
+            </SelectedTemplate>
+            <ResultTemplate>
+                @context?.Id
+            </ResultTemplate>
+            <NotFoundTemplate>
+                @context (New Item)
+            </NotFoundTemplate>
+        </BlazoredTypeahead>
+
+        @*         <MudFileUpload T="IBrowserFile" FilesChanged="HandleFileChange">
+        <ActivatorContent>
+        <MudButton Variant="Variant.Filled"
+        Color="Color.Primary"
+        StartIcon="@Icons.Material.Filled.CloudUpload">
+        Upload Files
+        </MudButton>
+        </ActivatorContent>
         </MudFileUpload> *@
 
-    @*     <MudField>
+        @*     <MudField>
         <InputFile class="form-control" OnChange="HandleFileChange"></InputFile>
         </MudField> *@
+        <MudField>
+            <form action="/api/@AssetId/image/@(Element.Id)"
+                  method="post"
+                  enctype="multipart/form-data"
+                  onsubmit="return false"
+                  id="imageForm">
 
+                <label for="file">Image</label>
+                <input id="file" name="file" type="file" />
+                @* <button>Upload</button> *@
+            </form>
+        </MudField>
         <MudGrid>
             <MudItem xs="6">
                 <MudNumericField @bind-Value="Element.Age" T="int" HideSpinButtons="true" Label="Age" Variant="Variant.Outlined"></MudNumericField>
@@ -110,13 +121,38 @@
 
 
 
+<script type="text/javascript">
+    async function handleSubmit() {
+        const form = document.getElementById('imageForm');
+        if (!form) {
+            console.error('Form not found!');
+            return;
+        }
+
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+
+                const json = await response.json();
+                console.log('OK', json);
+
+                return json;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
+        return null;
+    }
 
 
-
-
-
-
-
+</script>
 
 
 
@@ -124,6 +160,7 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Worker Element { get; set; }
+    [Parameter] public string AssetId { get; set; }
     public List<Race> RaceOptions { get; set; } = new List<Race>();
 
     private Job? _selectedJob;
@@ -140,7 +177,12 @@
         }
     }
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    async Task Submit()
+    {
+        await HandleSubmit();
+
+        MudDialog.Close(DialogResult.Ok(true));
+    }
     void Cancel() => MudDialog.Cancel();
 
     protected override async Task OnInitializedAsync()
@@ -170,25 +212,12 @@
         return newJob;
     }
 
-
-    async Task HandleFileChange(InputFileChangeEventArgs args)
+    public async Task<bool> HandleSubmit()
     {
-        if (args == null || args.FileCount == 0)
-        {
-            return;
-        }
+        var imageUrl = await js.InvokeAsync<string?>("handleSubmit");
+        Element.ImageUri = imageUrl;
 
-        var file = args.File;
-        using var stream = file.OpenReadStream();
-
-        byte[] result = new byte[file.Size];
-        await stream.ReadAsync(result);
-
-        var sb = new System.Text.StringBuilder();
-        sb.Append("data:").Append(file.ContentType).Append(";base64,")
-            .Append(Convert.ToBase64String(result));
-
-
-        Element.Image = sb.ToString();
+        return false;
     }
+
 }

@@ -4,8 +4,8 @@
     {
         void Delete(string id);
         bool Exists(string id);
-        Task<T?> Get(string id);
-        Task<IEnumerable<T>> GetAll();
+        Task<T?> Get(string id, bool includeWebIgnore = false);
+        Task<IEnumerable<T>> GetAll(bool includeWebIgnore = false);
         Task Save(T item);
     }
 
@@ -20,9 +20,9 @@
 
         bool Exists(TKey collectionId, string id);
 
-        Task<TValue?> Get(TKey collectionId, string id);
+        Task<TValue?> Get(TKey collectionId, string id, bool includeWebIgnore = false);
 
-        Task<IEnumerable<TValue>> GetAll(TKey collectionId);
+        Task<IEnumerable<TValue>> GetAll(TKey collectionId, bool includeWebIgnore = false);
 
         Task Save(TKey collectionId, TValue item);
     }

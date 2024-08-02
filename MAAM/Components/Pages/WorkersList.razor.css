@@ -7,3 +7,9 @@
 ::deep .list{
     border: solid 3px black;
 }
+
+.preview-image {
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: contain;
+}

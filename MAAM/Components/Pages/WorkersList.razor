@@ -80,9 +80,9 @@
 
                  <TemplateColumn >
                      <CellTemplate Context="cellContext">
-                        @if(cellContext.Item.Image != null)
+                        @if(cellContext.Item.ImageUri != null)
                         {
-                            @* <img src="@(cellContext.Item.Image)" /> *@
+                            <img src="@(cellContext.Item.ImageUri)" class="preview-image" />
                         }
                     </CellTemplate>
                  </TemplateColumn>

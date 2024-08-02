@@ -26,7 +26,7 @@ public class Worker : IModel
 
     public bool Deleted { get; set; }
 
-    public string? Image { get; set; }
+    public string? ImageUri { get; set; }
 
 }
 public enum Sex { Male, Female, Other };

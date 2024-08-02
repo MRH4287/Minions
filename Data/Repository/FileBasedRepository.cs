@@ -1,6 +1,7 @@
 ﻿using DataAccess.Contracts;
 using DataAccess.Models;
 using Microsoft.Extensions.Options;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -54,9 +55,9 @@ namespace DataAccess.Repository
             CollectionId = collectionId;
         }
 
-        public async Task<TValue?> Get(string id) => await Get(CollectionId, id);
+        public async Task<TValue?> Get(string id, bool includeWebIgnore = false) => await Get(CollectionId, id, includeWebIgnore);
 
-        public async Task<TValue?> Get(TKey? collectionId, string id)
+        public async Task<TValue?> Get(TKey? collectionId, string id, bool includeWebIgnore = false)
         {
             ValidatePath(collectionId);
             var file = GetFilePath(collectionId, id);
@@ -66,13 +67,13 @@ namespace DataAccess.Repository
                 return null;
             }
 
-            TValue? result = await GetItemByFilePath(file);
+            TValue? result = await GetItemByFilePath(file, includeWebIgnore);
 
             return result;
         }
 
-        public async Task<IEnumerable<TValue>> GetAll() => await GetAll(CollectionId);
-        public async Task<IEnumerable<TValue>> GetAll(TKey? collectionId)
+        public async Task<IEnumerable<TValue>> GetAll(bool includeWebIgnore = false) => await GetAll(CollectionId, includeWebIgnore);
+        public async Task<IEnumerable<TValue>> GetAll(TKey? collectionId, bool includeWebIgnore = false)
         {
             ValidatePath(collectionId);
             var basePath = _basePath;
@@ -85,7 +86,7 @@ namespace DataAccess.Repository
             var result = new List<TValue>();
             foreach (var item in files)
             {
-                var element = await GetItemByFilePath(item);
+                var element = await GetItemByFilePath(item, includeWebIgnore);
                 if (element is null)
                 {
                     continue;
@@ -140,10 +141,13 @@ namespace DataAccess.Repository
         private static string GetFileName(string id)
          => id + ".json";
 
-        private static async Task<TValue?> GetItemByFilePath(string file)
+        private static async Task<TValue?> GetItemByFilePath(string file, bool includeWebIgnore)
         {
             var content = await File.ReadAllTextAsync(file);
             var result = System.Text.Json.JsonSerializer.Deserialize<TValue>(content);
+
+            PatchFields(result, includeWebIgnore);
+
             return result;
         }
 
@@ -162,6 +166,29 @@ namespace DataAccess.Repository
             return type.Name;
         }
 
+        private static void PatchFields(IModel? item, bool includeWebIgnore)
+        {
+            if (item == null || includeWebIgnore)
+            {
+                return;
+            }
+
+            var type = item.GetType();
+            var properties = type.GetProperties();
+
+            var ignoredProperties = properties.Where(prop => prop.GetCustomAttribute<WebIgnoreAttribute>() != null);
+            foreach (var prop in ignoredProperties)
+            {
+                prop.SetValue(item, null);
+            }
+
+            var childModels = properties.Where(prop => typeof(IModel).IsAssignableFrom(prop.PropertyType));
+            foreach (var childModel in childModels)
+            {
+                var child = childModel.GetValue(item) as IModel;
+                PatchFields(child, includeWebIgnore);
+            }
+        }
     }
 
 }

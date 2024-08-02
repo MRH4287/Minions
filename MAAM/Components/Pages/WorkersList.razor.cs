@@ -77,6 +77,7 @@ namespace MAAM.Components.Pages
 
             
             parameter.Add(x => x.Element, element);
+            parameter.Add(x => x.AssetId, Asset.Id);
 
 
             var dialog = await Dialog.ShowAsync<CharacterDialog>("", parameter, options);
@@ -92,9 +93,10 @@ namespace MAAM.Components.Pages
 
 
             parameter.Add(x => x.Element, element);
+            parameter.Add(x => x.AssetId, Asset.Id);
 
 
-            
+
 
             var dialog = await Dialog.ShowAsync<CharacterDialog>("", parameter, options);
             var result = await dialog.Result;
