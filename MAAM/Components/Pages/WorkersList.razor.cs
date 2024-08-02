@@ -82,7 +82,7 @@ namespace MAAM.Components.Pages
 
             var dialog = await Dialog.ShowAsync<CharacterDialog>("", parameter, options);
             var result = await dialog.Result;
-            //await repo.Save(element);
+            await Repo.Save(Asset);
         }
 
         private async Task AddChar()
@@ -103,7 +103,7 @@ namespace MAAM.Components.Pages
             if (!result.Canceled)
             {
                 Asset.Workers.Add(element);
-                //await repo.Save(element); 
+                await Repo.Save(Asset);
             }
            
         }
