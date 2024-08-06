@@ -5,7 +5,7 @@
  @page "/"
 
 <SectionContent SectionName="SectionName.InHeader">
-    <MudTextField Label="Hello World" Value="Rowerelement.ToString()"></MudTextField>
+    <MudTextField Label="Hello World" Value="Asset.UnnamedRower.ToString()"></MudTextField>
     <MudSpacer />
     <MudText>Schiffs Klasse</MudText>
     <MudSpacer />
@@ -15,38 +15,38 @@
 <div class="general">
 
     <HeaderItem Header="Rower"
-                SmallContent="@(Rowerelement.ToString())"
+                SmallContentTitle="Number of Rowers"
+                SmallContent="@(Asset.UnnamedRower.ToString())"
                 
-                addcontant="((cound)=>{Rowerelement+=cound;})"
-                addfooterleft="((cound)=>{RowerPayment +=cound;})"
+                AddContent="@(async (count) => await AddUnnamedRower(count))"
+                AddFooterLeft="@(async (payment) => await AddUnnamedRowerPayment(payment))"
+                ContentTitle="Number of Asset.Rowers  (including those with names)"
+                Content="@(Asset.Rower.ToString())"
 
-                ContentTitle="Number of Rowers"
-                Content="@(Rower.ToString())"
+                ContentLeftTitle="Payment of one Asset.Rower"
+                ContentLeft="@(Asset.UnnamedRowerPayment.ToString())"
 
-                ContentLeftTitle="Payment of one Rower"
-                ContentLeft="@(RowerPayment.ToString())"
-
-                ContentRightTitle="Sum of costs of all Rowers"
-                ContentRight="@(double.Round((Rowerelement*RowerPayment),2).ToString())">
+                ContentRightTitle="Sum of costs of all Asset.Rowers"
+                ContentRight="@(Asset.SumOfCostsOfAllRowers.ToString())">
     </HeaderItem>
     <HeaderItem Header="Sailor"
                 SmallContentTitle="Number of Sailors"
-                SmallContent="@(Sailorselement.ToString())"
-                addcontant="((cound)=>{Sailorselement+=cound;})"
-                addfooterleft="((cound)=>{SailorsPayment +=cound;})"
+                SmallContent="@(Asset.UnnamedSailor.ToString())"
+                AddContent="@(async (count) => await AddUnnamedSailor(count))"
+                AddFooterLeft="@(async (payment) => await AddUnnamedSailorPayment(payment))"
 
                 ContentTitle="Number of Sailors (including those with names)"
-                Content="@(Sailors.ToString())"
+                Content="@(Asset.Sailors.ToString())"
 
                 ContentLeftTitle="Payment of Sailors"
-                ContentLeft="@(SailorsPayment.ToString())"
+                ContentLeft="@(Asset.UnnamedSailorsPayment.ToString())"
 
                 ContentRightTitle="Sum of all Sailor Costs"
-                ContentRight="@(double.Round((SailorsPayment*Sailorselement),2).ToString())">
+                ContentRight="@(Asset.SumOfAllSailorCosts.ToString())">
     </HeaderItem>
     <HeaderItem Header="Money"
                 Content="@(Asset.Money.ToString())"
-                addcontant="((cound)=>{Asset.Money+=cound;})"
+                AddContent="@(async (money) => await AddMoney(money))"
                 ContentRight="@(Broke.ToString())">
     </HeaderItem>
     <HeaderItem Header="Payment"

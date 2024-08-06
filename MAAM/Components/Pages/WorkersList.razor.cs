@@ -16,7 +16,7 @@ namespace MAAM.Components.Pages
 
 
 
-        public double Payment => double.Round( Asset.Workers?.Sum(x => x.Payment) + SailorsPayment + RowerPayment ?? 0,2);
+        public double Payment => double.Round(( Asset.Workers?.Sum(x => x.Payment) ?? 0) + Asset.SumOfCostsOfAllRowers + Asset.SumOfAllSailorCosts ,2);
 
         public double CurrentPayment => double.Round( Asset.Workers?.Sum(x => x.CurrentPayment) ?? 0,2);
 
@@ -25,15 +25,6 @@ namespace MAAM.Components.Pages
 
 
 
-        #region Crow
-        public int Sailorselement { get; set; }
-        public int Rowerelement { get; set; }
-        public double RowerPayment { get; set; }
-        public double SailorsPayment { get; set; }
-        public int Sailors => (Asset.Workers?.Count(x => x.Job != "Rower") ?? 0) + (Sailorselement);
-        public int Rower => (Asset.Workers?.Count(x => x.Job == "Rower") ?? 0) + (Rowerelement);
-
-        #endregion
 
 
         protected override async Task OnInitializedAsync()
@@ -100,7 +91,7 @@ namespace MAAM.Components.Pages
 
             var dialog = await Dialog.ShowAsync<CharacterDialog>("", parameter, options);
             var result = await dialog.Result;
-            if (!result.Canceled)
+            if (result != null && !result.Canceled)
             {
                 Asset.Workers.Add(element);
                 await Repo.Save(Asset);
@@ -117,13 +108,35 @@ namespace MAAM.Components.Pages
 
 
 
+        public async Task AddUnnamedRower(int count)
+        {
+            Asset.UnnamedRower += count;
+            await Repo.Save(Asset);
+        }
 
+        public async Task AddUnnamedRowerPayment(double payment)
+        {
+            Asset.UnnamedRowerPayment += payment;
+            await Repo.Save(Asset);
+        }
 
+        public async Task AddUnnamedSailor(int count)
+        {
+            Asset.UnnamedSailor += count;
+            await Repo.Save(Asset);
+        }
 
+        public async Task AddUnnamedSailorPayment(double payment)
+        {
+            Asset.UnnamedSailorsPayment += payment;
+            await Repo.Save(Asset);
+        }
 
-
-
-
-
+        public async Task AddMoney(double money)
+        {
+            Asset.Money += money;
+            await Repo.Save(Asset);
+        }
+     
     }
 }
