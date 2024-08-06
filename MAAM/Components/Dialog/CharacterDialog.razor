@@ -22,7 +22,7 @@
 
             @foreach (Race item in RaceOptions)
             {
-                <MudSelectItem Value="@item.Name">@item.Name</MudSelectItem>
+                <MudSelectItem Value="@item.Id">@item.Id</MudSelectItem>
             }
         </MudSelect>
 
@@ -193,7 +193,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        RaceOptions = (await RaceRepo.GetAll()).OrderBy(x => x.Name).ToList();
+        RaceOptions = (await RaceRepo.GetAll()).OrderBy(x => x.Id).ToList();
         _selectedJob = string.IsNullOrEmpty(Element.Job)
             ? null
             : await JobRepo.Get(Element.Job);

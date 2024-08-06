@@ -25,6 +25,7 @@
         Task<IEnumerable<TValue>> GetAll(TKey collectionId, bool includeWebIgnore = false);
 
         Task Save(TKey collectionId, TValue item);
+        void SetStrictTypeName(bool strictTypeName);
     }
 
     public interface ICollectionRepository<TValue> : ICollectionRepository<TValue, string>

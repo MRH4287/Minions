@@ -22,6 +22,9 @@ namespace DataAccess.Repository
         private string _typeName;
         private string _basePath;
 
+        private bool _useStrictTypeName = false;
+        private readonly IOptions<MinionsDataOptions> _options;
+
         public TKey? CollectionId { get; protected set; } = default;
 
         public FileBasedCollectionRepository(IOptions<MinionsDataOptions> options)
@@ -29,6 +32,7 @@ namespace DataAccess.Repository
             _typeName = GetTypeName();
 
             _basePath = (options.Value.BasePath ?? "./data") + "/" + _typeName;
+            _options = options;
         }
 
         private void ValidatePath(TKey? collectionId)
@@ -53,6 +57,14 @@ namespace DataAccess.Repository
         public void SetCollectionId(TKey collectionId)
         {
             CollectionId = collectionId;
+        }
+
+        public void SetStrictTypeName(bool strictTypeName)
+        {
+            _useStrictTypeName = strictTypeName;
+
+            _typeName = GetTypeName();
+            _basePath = (_options.Value.BasePath ?? "./data") + "/" + _typeName;
         }
 
         public async Task<TValue?> Get(string id, bool includeWebIgnore = false) => await Get(CollectionId, id, includeWebIgnore);
@@ -139,7 +151,16 @@ namespace DataAccess.Repository
         }
 
         private static string GetFileName(string id)
-         => id + ".json";
+        {
+            var name = new StringBuilder(id);
+            foreach (var invalidChar in Path.GetInvalidFileNameChars())
+            {
+                name.Replace(invalidChar, '_');
+            }
+
+            return name.ToString() + ".json";
+
+        }
 
         private static async Task<TValue?> GetItemByFilePath(string file, bool includeWebIgnore)
         {
@@ -151,18 +172,21 @@ namespace DataAccess.Repository
             return result;
         }
 
-        private static string GetTypeName()
+        private string GetTypeName()
         {
             var type = typeof(TValue);
-            //using var hasher = MD5.Create();
-            //var hash = hasher.ComputeHash(Encoding.UTF8.GetBytes(type.FullName ?? type.Name));
-            //var hashText = Convert.ToBase64String(hash);
-            //var name = $"{type.Name}_{hashText}";
-            //foreach (var item in Path.GetInvalidFileNameChars())
-            //{
-            //    name = name.Replace(item, '_');
-            //}
-            //return name;
+            if (_useStrictTypeName)
+            {
+                using var hasher = MD5.Create();
+                var hash = hasher.ComputeHash(Encoding.UTF8.GetBytes(type.FullName ?? type.Name));
+                var hashText = Convert.ToBase64String(hash);
+                var name = $"{type.Name}_{hashText}";
+                foreach (var item in Path.GetInvalidFileNameChars())
+                {
+                    name = name.Replace(item, '_');
+                }
+                return name;
+            }
             return type.Name;
         }
 
