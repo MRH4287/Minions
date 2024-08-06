@@ -23,13 +23,23 @@ public class Worker : IModel
     public string? Inventory { get; set; }
     public string? Skills { get; set; }
     public string? Notes { get; set; }
+    public string? Condition { get; set; }
+
+    public List<string>? Tags { get; set; }
 
     public bool Deleted { get; set; }
 
     public string? ImageUri { get; set; }
 
 }
+
+
 public enum Sex { Male, Female, Other };
+
+
+
+
+
 //public enum Race
 //{
 //    Aarakocra,

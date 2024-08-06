@@ -42,19 +42,7 @@
             </NotFoundTemplate>
         </BlazoredTypeahead>
 
-        @*         <MudFileUpload T="IBrowserFile" FilesChanged="HandleFileChange">
-        <ActivatorContent>
-        <MudButton Variant="Variant.Filled"
-        Color="Color.Primary"
-        StartIcon="@Icons.Material.Filled.CloudUpload">
-        Upload Files
-        </MudButton>
-        </ActivatorContent>
-        </MudFileUpload> *@
 
-        @*     <MudField>
-        <InputFile class="form-control" OnChange="HandleFileChange"></InputFile>
-        </MudField> *@
         <MudField>
             <form action="/api/@AssetId/image/@(Element.Id)"
                   method="post"
@@ -67,11 +55,25 @@
                 @* <button>Upload</button> *@
             </form>
         </MudField>
+
         <MudGrid>
             <MudItem xs="6">
-                <MudNumericField @bind-Value="Element.Age" T="int" HideSpinButtons="true" Label="Age" Variant="Variant.Outlined"></MudNumericField>
+                <MudTextField @bind-Value="Element.ServiceStarted" T="string" HideSpinButtons="true" Label="ServiceStarted" Variant="Variant.Outlined"></MudTextField>
             </MudItem>
             <MudItem xs="6">
+                <MudTextField @bind-Value="Element.ServiceEnded" T="string" HideSpinButtons="true" Label="ServiceEnded" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid>
+              <MudItem xs="4">
+                <MudTextField  @bind-Value="Element.Condition" T="string" Label="Condition" Variant="Variant.Outlined"></MudTextField>
+              </MudItem>
+  
+            <MudItem xs="4">
+                <MudNumericField @bind-Value="Element.Age" T="int" HideSpinButtons="true" Label="Age" Variant="Variant.Outlined"></MudNumericField>
+            </MudItem>
+            <MudItem xs="4">
                 <MudSelect @bind-Value="Element.Sex" T="Sex" Label="Sex" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
 
                     @foreach (Sex item in Enum.GetValues(typeof(Sex)))
@@ -82,14 +84,7 @@
             </MudItem>
         </MudGrid>
 
-        <MudGrid>
-            <MudItem xs="6">
-                <MudTextField @bind-Value="Element.ServiceStarted" T="string" HideSpinButtons="true" Label="ServiceStarted" Variant="Variant.Outlined"></MudTextField>
-            </MudItem>
-            <MudItem xs="6">
-                <MudTextField @bind-Value="Element.ServiceEnded" T="string" HideSpinButtons="true" Label="ServiceEnded" Variant="Variant.Outlined"></MudTextField>
-            </MudItem>
-        </MudGrid>
+    
 
         <MudGrid>
             <MudItem xs="4">
@@ -104,6 +99,12 @@
         </MudGrid>
 
 
+
+
+
+
+
+        <MudTextField T="string" Label="Notes"  Variant="Variant.Outlined" Lines="5" />
 
 
 
@@ -158,6 +159,8 @@
 
 
 @code {
+
+    #region Properties 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter] public Worker Element { get; set; }
     [Parameter] public string AssetId { get; set; }
@@ -177,14 +180,8 @@
         }
     }
 
-    async Task Submit()
-    {
-        await HandleSubmit();
-
-        MudDialog.Close(DialogResult.Ok(true));
-    }
-    void Cancel() => MudDialog.Cancel();
-
+    #endregion
+    #region Constructor
     protected override async Task OnInitializedAsync()
     {
         RaceOptions = (await RaceRepo.GetAll()).OrderBy(x => x.Name).ToList();
@@ -194,6 +191,20 @@
 
         await base.OnInitializedAsync();
     }
+    #endregion
+
+
+
+    async Task Submit()
+    {
+        await HandleSubmit();
+
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    void Cancel() => MudDialog.Cancel();
+
+    
 
     public async Task<IEnumerable<Job>> SearchJob(string name)
     {

@@ -5,7 +5,19 @@ using MAAM.Models;
 namespace MAAM.Services
 {
     public class SystemService : IHostedService
-    {
+    { 
+        
+        public IServiceProvider Provider { get; set; }
+
+
+
+          public SystemService(IServiceProvider provider)
+        {
+            Provider = provider.CreateScope().ServiceProvider;
+        }
+        
+        
+        
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             var AssetRepo = Provider.GetRequiredService<IRepository<Asset>>();
@@ -249,12 +261,9 @@ namespace MAAM.Services
             return Task.CompletedTask;
         }
 
-        public IServiceProvider Provider { get; set; }
+      
 
-        public SystemService(IServiceProvider provider)
-        {
-            Provider = provider.CreateScope().ServiceProvider;
-        }
+     
 
 
 

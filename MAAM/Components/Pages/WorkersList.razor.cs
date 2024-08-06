@@ -16,9 +16,9 @@ namespace MAAM.Components.Pages
 
 
 
-        public double Payment => Asset.Workers?.Sum(x => x.Payment) ?? 0;
+        public double Payment => double.Round( Asset.Workers?.Sum(x => x.Payment) + SailorsPayment + RowerPayment ?? 0,2);
 
-        public double CurrentPayment => Asset.Workers?.Sum(x => x.CurrentPayment) ?? 0;
+        public double CurrentPayment => double.Round( Asset.Workers?.Sum(x => x.CurrentPayment) ?? 0,2);
 
         public int Broke => (int)Double.Floor((Asset.Money - CurrentPayment) / Payment);
 
