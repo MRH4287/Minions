@@ -3,6 +3,7 @@
     "http": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "http://localhost:5016/minions",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

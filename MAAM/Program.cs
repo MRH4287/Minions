@@ -22,8 +22,8 @@ builder.Services.AddResponseCompression(opts =>
 
 builder.Services.AddControllers();
 var app = builder.Build();
-app.UsePathBase("/minions");
-app.MapBlazorHub("/minions");
+app.UsePathBase("/minions/");
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
