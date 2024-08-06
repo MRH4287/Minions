@@ -193,7 +193,7 @@ namespace MAAM.Services
                     await RaceRepo.Save(
                                   new Race()
                                   {
-                                      Name = item,
+                                      Id = item,
                                   }
                    );
                 }

@@ -2,35 +2,47 @@
 
 <div class="item">
 
-    <div class="header" @onclick="@add"> @Header </div>
+    <div class="header" @onclick="@add" title="@HeaderTitle"> @Header </div>
     <div class="content-con">
+        <span title="@ContentTitle">
         @Content
+        </span>
         @if (SmallContent != null)
         {
-            <span class="smallcon">@SmallContent</span>
+            <span class="smallcon" title="@SmallContentTitle">@SmallContent</span>
         }
     </div>
 
-    <div class="footer-el left" @onclick="@addfoot">@ContentLeft</div>
-    <div class="footer-el right">@ContentRight</div>
+    <div class="footer-el left" @onclick="@addfoot" title="@ContentLeftTitle">@ContentLeft</div>
+    <div class="footer-el right" title="@ContentRightTitle">@ContentRight</div>
 
 </div>
 
 @code {
     [Parameter]
     public string Content { get; set; }
+    [Parameter]
+    public string ContentTitle { get; set; }
 
     [Parameter]
     public string Header { get; set; }
+    [Parameter]
+    public string HeaderTitle { get; set; }
 
     [Parameter]
-
     public string SmallContent { get; set; }
+    [Parameter]
+    public string SmallContentTitle { get; set; }
 
     [Parameter]
     public string ContentLeft { get; set; }
     [Parameter]
+    public string ContentLeftTitle { get; set; }
+
+    [Parameter]
     public string ContentRight { get; set; }
+    [Parameter]
+    public string ContentRightTitle { get; set; }
 
     [Parameter]
     public EventCallback<int> addcontant { get; set; }

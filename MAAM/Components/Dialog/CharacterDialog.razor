@@ -22,7 +22,7 @@
 
             @foreach (Race item in RaceOptions)
             {
-                <MudSelectItem Value="@item.Name">@item.Name</MudSelectItem>
+                <MudSelectItem Value="@item.Id">@item.Id</MudSelectItem>
             }
         </MudSelect>
 
@@ -127,7 +127,12 @@
         const form = document.getElementById('imageForm');
         if (!form) {
             console.error('Form not found!');
-            return;
+            return null;
+        }
+
+        const field = document.getElementById('file');
+        if (!field.value) {
+            return null;
         }
 
         const formData = new FormData(form);
@@ -184,7 +189,7 @@
     #region Constructor
     protected override async Task OnInitializedAsync()
     {
-        RaceOptions = (await RaceRepo.GetAll()).OrderBy(x => x.Name).ToList();
+        RaceOptions = (await RaceRepo.GetAll()).OrderBy(x => x.Id).ToList();
         _selectedJob = string.IsNullOrEmpty(Element.Job)
             ? null
             : await JobRepo.Get(Element.Job);
@@ -226,7 +231,10 @@
     public async Task<bool> HandleSubmit()
     {
         var imageUrl = await js.InvokeAsync<string?>("handleSubmit");
-        Element.ImageUri = imageUrl;
+        if (imageUrl != null)
+        {
+            Element.ImageUri = imageUrl;
+        }
 
         return false;
     }

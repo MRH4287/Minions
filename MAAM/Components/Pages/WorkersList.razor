@@ -16,18 +16,32 @@
 
     <HeaderItem Header="Rower"
                 SmallContent="@(Rowerelement.ToString())"
+                
                 addcontant="((cound)=>{Rowerelement+=cound;})"
                 addfooterleft="((cound)=>{RowerPayment +=cound;})"
+
+                ContentTitle="Number of Rowers"
                 Content="@(Rower.ToString())"
+
+                ContentLeftTitle="Payment of one Rower"
                 ContentLeft="@(RowerPayment.ToString())"
+
+                ContentRightTitle="Sum of costs of all Rowers"
                 ContentRight="@(double.Round((Rowerelement*RowerPayment),2).ToString())">
     </HeaderItem>
     <HeaderItem Header="Sailor"
+                SmallContentTitle="Number of Sailors"
                 SmallContent="@(Sailorselement.ToString())"
                 addcontant="((cound)=>{Sailorselement+=cound;})"
                 addfooterleft="((cound)=>{SailorsPayment +=cound;})"
+
+                ContentTitle="Number of Sailors (including those with names)"
                 Content="@(Sailors.ToString())"
+
+                ContentLeftTitle="Payment of Sailors"
                 ContentLeft="@(SailorsPayment.ToString())"
+
+                ContentRightTitle="Sum of all Sailor Costs"
                 ContentRight="@(double.Round((SailorsPayment*Sailorselement),2).ToString())">
     </HeaderItem>
     <HeaderItem Header="Money"
