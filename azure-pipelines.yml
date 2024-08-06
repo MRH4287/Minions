@@ -11,23 +11,23 @@ resources:
 pool: 'Main'
 
 variables:
-  tag: 'home-server:5000/mrh4287/minions'
+  tag: 'home-server:5000/mrh4287/minions_maam'
 
 steps:
 
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: 'docker build -f Minions/Dockerfile "$(build.SourcesDirectory)" -t home-server:5000/mrh4287/minions'
+    script: 'docker build -f Minions/Dockerfile "$(build.SourcesDirectory)" -t home-server:5000/mrh4287/minions_maam'
 
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: 'docker push home-server:5000/mrh4287/minions'
+    script: 'docker push home-server:5000/mrh4287/minions_maam'
 - task: SSH@0
   inputs:
     sshEndpoint: 'Home-Server'
     runOptions: 'inline'
-    inline: 'docker service update minions_mrh4287 --image=home-server:5000/mrh4287/minions'
+    inline: 'docker service update minions_mrh4287 --image=home-server:5000/mrh4287/minions_maam'
     readyTimeout: '20000'
     args: 
