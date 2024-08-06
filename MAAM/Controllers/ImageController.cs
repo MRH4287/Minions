@@ -49,7 +49,7 @@ namespace MAAM.Controllers
 
             await _imageRepository.Save(assetId, data);
 
-            return  new JsonResult($"/api/{assetId}/image/{workerId}");
+            return  new JsonResult($"/minions/api/{assetId}/image/{workerId}");
         }
     }
 }
