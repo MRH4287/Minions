@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using MudBlazor.Services;
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -21,6 +22,8 @@ builder.Services.AddResponseCompression(opts =>
 
 builder.Services.AddControllers();
 var app = builder.Build();
+app.UsePathBase("/minions");
+app.MapBlazorHub("/minions");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
