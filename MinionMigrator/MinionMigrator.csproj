@@ -10,7 +10,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Data\DataAccess.csproj" />
     <ProjectReference Include="..\MAAM\MAAM.csproj" />
-    <ProjectReference Include="..\Minions\Minions.csproj" />
   </ItemGroup>
 
 </Project>
