@@ -14,6 +14,7 @@ namespace MAAM.Models
         public int DayWithoutPay { get; set; }
         public List<Worker> Workers { get; set; } = new List<Worker>();
 
+        public List<DisplayBlockDefinition>? DisplayBlocks { get; set; }
 
 
         #region Crow

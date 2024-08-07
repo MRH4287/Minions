@@ -1,0 +1,18 @@
+﻿@{
+    if (Definition != null)
+    {
+        switch (Definition.Type)
+        {
+            case DisplayBlockDefinitionType.None:
+            default:
+                <HeaderItem Header="@Definition.Name" Content="Invalid">
+                </HeaderItem>
+                break;
+        }
+    }
+}
+
+@code {
+    [Parameter]
+    public DisplayBlockDefinition? Definition { get; set; }
+}

@@ -7,6 +7,12 @@ namespace MAAM.Components.Pages
 {
     public partial class WorkersList
     {
+#if DEBUG
+        public bool IsDebug = true;
+#else
+        public bool IsDebug = false;
+#endif
+
         #region Liste
 
         public Asset Asset { get; set; } = new Asset();
