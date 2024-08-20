@@ -30,6 +30,7 @@ public class Worker : IModel
     public bool Deleted { get; set; }
 
     public string? ImageUri { get; set; }
+    public string? ExternalLink { get; set; }
 
 }
 

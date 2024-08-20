@@ -92,8 +92,19 @@
 
                 <PropertyColumn Title="Name" Property="x => x.Name" @bind-Hidden="ColumnPersistence.Name">
                     <CellTemplate Context="cellContext">
-                        @cellContext.Item.Name <br />
-                        @cellContext.Item.Surname
+                        @if (!string.IsNullOrEmpty(cellContext.Item.ExternalLink))
+                        {
+                            <a href="@cellContext.Item.ExternalLink">
+                                @cellContext.Item.Name <br />
+                                @cellContext.Item.Surname
+
+                                <MudIcon Icon="@Icons.Material.Filled.Link" Size="Size.Small"></MudIcon>
+                            </a>
+                        } else
+                        {
+                            @cellContext.Item.Name <br />
+                            @cellContext.Item.Surname
+                        }
                     </CellTemplate>
 
 
