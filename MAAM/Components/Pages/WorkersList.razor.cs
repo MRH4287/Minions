@@ -1,5 +1,6 @@
 ﻿using MAAM.Components.Dialog;
 using MAAM.Models;
+using MAAM.Models.Persistence;
 using MudBlazor;
 using System.Linq.Expressions;
 
@@ -20,23 +21,37 @@ namespace MAAM.Components.Pages
         #endregion
 
 
+        public WorkerListColumnPersistence ColumnPersistence { get; set; } = new WorkerListColumnPersistence();
+        private IDisposable? _columnSubscription;
 
+        public double Payment => double.Round((Asset.Workers?.Sum(x => x.Payment) ?? 0) + Asset.SumOfCostsOfAllRowers + Asset.SumOfAllSailorCosts, 2);
 
-        public double Payment => double.Round(( Asset.Workers?.Sum(x => x.Payment) ?? 0) + Asset.SumOfCostsOfAllRowers + Asset.SumOfAllSailorCosts ,2);
-
-        public double CurrentPayment => double.Round( Asset.Workers?.Sum(x => x.CurrentPayment) ?? 0,2);
+        public double CurrentPayment => double.Round(Asset.Workers?.Sum(x => x.CurrentPayment) ?? 0, 2);
 
         public int Broke => (int)Double.Floor((Asset.Money - CurrentPayment) / Payment);
-
-
-
-
 
 
         protected override async Task OnInitializedAsync()
         {
             Asset = (await Repo.GetAll()).First();
 
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (firstRender)
+            {
+                ColumnPersistence = await PersistenceService.GetValue(ColumnPersistence);
+                _columnSubscription = PersistenceService.Register(ColumnPersistence);
+                StateHasChanged();
+            }
+        }
+
+        public void Dispose()
+        {
+            _columnSubscription?.Dispose();
         }
 
         public async Task Fire(Worker element)
@@ -58,7 +73,7 @@ namespace MAAM.Components.Pages
         public async Task Time()
         {
 
-            AssetService.AddTimeCat(Asset, 1 );
+            AssetService.AddTimeCat(Asset, 1);
             await Repo.Save(Asset);
         }
 
@@ -69,10 +84,10 @@ namespace MAAM.Components.Pages
 
         private async Task EditChar(Worker element)
         {
-            var options = new DialogOptions { CloseOnEscapeKey = true,  FullWidth = true, CloseButton = true };
+            var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, CloseButton = true };
             var parameter = new DialogParameters<CharacterDialog>();
 
-            
+
             parameter.Add(x => x.Element, element);
             parameter.Add(x => x.AssetId, Asset.Id);
 
@@ -84,7 +99,7 @@ namespace MAAM.Components.Pages
 
         private async Task AddChar()
         {
-            var options = new DialogOptions { CloseOnEscapeKey = true,  FullWidth = true, CloseButton = true };
+            var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, CloseButton = true };
             var parameter = new DialogParameters<CharacterDialog>();
             var element = new Worker();
 
@@ -102,7 +117,7 @@ namespace MAAM.Components.Pages
                 Asset.Workers.Add(element);
                 await Repo.Save(Asset);
             }
-           
+
         }
 
 
@@ -143,6 +158,6 @@ namespace MAAM.Components.Pages
             Asset.Money += money;
             await Repo.Save(Asset);
         }
-     
+
     }
 }

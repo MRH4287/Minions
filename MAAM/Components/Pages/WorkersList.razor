@@ -1,6 +1,8 @@
 ﻿ @inject IRepository<Asset> Repo
  @inject AssetService AssetService
 @inject IDialogService Dialog
+@inject PersistenceService PersistenceService
+@implements IDisposable
 
  @page "/"
 
@@ -88,7 +90,7 @@
 
 
 
-                <PropertyColumn Title="Name" Property="x => x.Name">
+                <PropertyColumn Title="Name" Property="x => x.Name" @bind-Hidden="ColumnPersistence.Name">
                     <CellTemplate Context="cellContext">
                         @cellContext.Item.Name <br />
                         @cellContext.Item.Surname
@@ -111,31 +113,34 @@
                     </FooterTemplate>
                 </PropertyColumn>
 
-                <TemplateColumn>
+                <TemplateColumn @bind-Hidden="ColumnPersistence.Image">
                     <CellTemplate Context="cellContext">
                         @if (cellContext.Item.ImageUri != null)
                         {
                             <img src="@(cellContext.Item.ImageUri)" class="preview-image" />
+                        } else
+                        {
+                            <div class="img-placeholder"></div>
                         }
                     </CellTemplate>
                 </TemplateColumn>
 
-                <PropertyColumn Title="Age" Property="x => x.Age"></PropertyColumn>
-                <PropertyColumn Title="Race" Property="x => x.Race"></PropertyColumn>
-                <PropertyColumn Title="Sex" Property="x => x.Sex"></PropertyColumn>
-                <PropertyColumn Title="Job" Property="x => x.Job"></PropertyColumn>
+                <PropertyColumn Title="Age" Property="x => x.Age" @bind-Hidden="ColumnPersistence.Age"></PropertyColumn>
+                <PropertyColumn Title="Race" Property="x => x.Race" @bind-Hidden="ColumnPersistence.Race"></PropertyColumn>
+                <PropertyColumn Title="Sex" Property="x => x.Sex" @bind-Hidden="ColumnPersistence.Sex"></PropertyColumn>
+                <PropertyColumn Title="Job" Property="x => x.Job" @bind-Hidden="ColumnPersistence.Job"></PropertyColumn>
 
-                <PropertyColumn Title="ServiceStarted" Property="x => x.ServiceStarted"></PropertyColumn>
-                <PropertyColumn Title="ServiceEnded" Property="x => x.ServiceEnded"></PropertyColumn>
+                <PropertyColumn Title="ServiceStarted" Property="x => x.ServiceStarted" @bind-Hidden="ColumnPersistence.ServiceStarted"></PropertyColumn>
+                <PropertyColumn Title="ServiceEnded" Property="x => x.ServiceEnded" @bind-Hidden="ColumnPersistence.ServiceEnded"></PropertyColumn>
 
-                <PropertyColumn Title="TimeOnBord" Property="x => x.TimeOnBord"></PropertyColumn>
+                <PropertyColumn Title="TimeOnBord" Property="x => x.TimeOnBord" @bind-Hidden="ColumnPersistence.TimeOnBoard"></PropertyColumn>
 
-                <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment"></PropertyColumn>
-                <PropertyColumn Title="Days without pay" Property="x => x.DayWithoutPay"></PropertyColumn>
-                <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment"></PropertyColumn>
-                <PropertyColumn Title="Condition" Property="x => x.Condition"></PropertyColumn>
+                <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment" @bind-Hidden="ColumnPersistence.Payment"></PropertyColumn>
+                <PropertyColumn Title="Days without pay" Property="x => x.DayWithoutPay" @bind-Hidden="ColumnPersistence.DaysWithoutPay"></PropertyColumn>
+                <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment" @bind-Hidden="ColumnPersistence.CurrentPayment"></PropertyColumn>
+                <PropertyColumn Title="Condition" Property="x => x.Condition" @bind-Hidden="ColumnPersistence.Condition"></PropertyColumn>
 
-                <TemplateColumn CellClass="d-flex justify-end">
+                <TemplateColumn CellClass="d-flex justify-end" @bind-Hidden="ColumnPersistence.Menu">
                     <CellTemplate Context="cellContext">
                         <MudMenu Icon="@Icons.Material.Filled.MoreVert">
                             <MudMenuItem OnClick="@(()=>Pay(cellContext.Item))">Pay</MudMenuItem>

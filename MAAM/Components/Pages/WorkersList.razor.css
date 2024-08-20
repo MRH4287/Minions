@@ -13,3 +13,9 @@
     max-height: 80px;
     object-fit: contain;
 }
+
+.img-placeholder {
+    width: 80px;
+    height: 80px;
+    border: 1px dashed grey;
+}

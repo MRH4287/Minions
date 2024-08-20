@@ -1,7 +1,10 @@
+using Blazored.LocalStorage;
 using MAAM.Components;
 using MAAM.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 using MudBlazor.Services;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -13,6 +16,18 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<AssetService>();
 builder.Services.AddHostedService<SystemService>();
 builder.Services.AddMinionsData();
+
+builder.Services.AddScoped<PersistenceService>();
+builder.Services.AddBlazoredLocalStorage(config =>
+{
+    config.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+    config.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    config.JsonSerializerOptions.IgnoreReadOnlyProperties = false;
+    config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    config.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    config.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
+    config.JsonSerializerOptions.WriteIndented = false;
+});
 
 builder.Services.AddResponseCompression(opts =>
 {
