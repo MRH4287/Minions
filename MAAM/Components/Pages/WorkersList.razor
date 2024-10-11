@@ -28,7 +28,7 @@
                 ContentRightTitle="Sum of costs of all Asset.Rowers"
                 ContentRight="@(Asset.SumOfCostsOfAllRowers.ToString())">
     </HeaderItem>
-    <HeaderItem Header="Sailor"
+    <HeaderItem Header="Crew"
                 SmallContentTitle="Number of Sailors"
                 SmallContent="@(Asset.UnnamedSailor.ToString())"
                 AddContent="@(async (count) => await AddUnnamedSailor(count))"
@@ -82,7 +82,7 @@
 <br />
 
 <MudTabs Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
-    <MudTabPanel Text="Worker List">
+    <MudTabPanel Text="Crew">
 
         <MudDataGrid T="Worker" Items="Asset.Workers" SortMode="SortMode.Single" Class="border-solid border mud-border" ColumnsPanelReordering="true" ShowMenuIcon="true"
                      Hideable="true" Filterable="true" Groupable="true">
@@ -115,7 +115,7 @@
 
                             </MudItem>
                             <MudItem>
-                                <MudText>NEW Char</MudText>
+                                <MudText>Hire new Employee</MudText>
                             </MudItem>
                         </MudGrid>
 
@@ -124,7 +124,7 @@
                     </FooterTemplate>
                 </PropertyColumn>
 
-                <TemplateColumn @bind-Hidden="ColumnPersistence.Image">
+                <TemplateColumn Title="Icon" @bind-Hidden="ColumnPersistence.Image">
                     <CellTemplate Context="cellContext">
                         @if (cellContext.Item.ImageUri != null)
                         {
@@ -169,11 +169,14 @@
         </MudDataGrid>
 
     </MudTabPanel>
-    <MudTabPanel Text="Finance">
+    <MudTabPanel Text="Generic Crew">
         <MudText>Content Two</MudText>
     </MudTabPanel>
-    <MudTabPanel Text="Asset">
+    <MudTabPanel Text="Finance">
         <MudText>Content Three</MudText>
+    </MudTabPanel>
+    <MudTabPanel Text="Asset">
+        <MudText>Content Four</MudText>
     </MudTabPanel>
 
 </MudTabs>
