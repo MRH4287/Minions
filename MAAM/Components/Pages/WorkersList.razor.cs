@@ -21,7 +21,8 @@ namespace MAAM.Components.Pages
         #endregion
 
 
-        public WorkerListColumnPersistence ColumnPersistence { get; set; } = new WorkerListColumnPersistence();
+        public WorkerListColumnPersistence WorkerColumnPersistence { get; set; } = new WorkerListColumnPersistence();
+        public GenericWorkerListColumnPersistence GenericWorkerColumnPersistence { get; set; } = new GenericWorkerListColumnPersistence();
         private IDisposable? _columnSubscription;
 
         public double Payment => double.Round((Asset.Workers?.Sum(x => x.Payment) ?? 0) + Asset.SumOfCostsOfAllRowers + Asset.SumOfAllSailorCosts, 2);
@@ -43,8 +44,10 @@ namespace MAAM.Components.Pages
 
             if (firstRender)
             {
-                ColumnPersistence = await PersistenceService.GetValue(ColumnPersistence);
-                _columnSubscription = PersistenceService.Register(ColumnPersistence);
+                WorkerColumnPersistence = await PersistenceService.GetValue(WorkerColumnPersistence);
+                GenericWorkerColumnPersistence = await PersistenceService.GetValue(GenericWorkerColumnPersistence);
+                _columnSubscription = PersistenceService.Register(WorkerColumnPersistence);
+                _columnSubscription = PersistenceService.Register(GenericWorkerColumnPersistence);
                 StateHasChanged();
             }
         }
@@ -61,7 +64,7 @@ namespace MAAM.Components.Pages
             await Repo.Save(Asset);
             //StateHasChanged();
         }
-        public async Task Pay(Worker element)
+        public async Task Pay(BaseWorker element)
         {
 
             Asset.Money = Asset.Money - element.CurrentPayment;
@@ -117,6 +120,29 @@ namespace MAAM.Components.Pages
                 Asset.Workers.Add(element);
                 await Repo.Save(Asset);
             }
+
+        }
+
+        private async Task AddGenericWorkers()
+        {
+            //var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, CloseButton = true };
+            //var parameter = new DialogParameters<CharacterDialog>();
+            //var element = new Worker();
+
+
+            //parameter.Add(x => x.Element, element);
+            //parameter.Add(x => x.AssetId, Asset.Id);
+
+
+
+
+            //var dialog = await Dialog.ShowAsync<CharacterDialog>("", parameter, options);
+            //var result = await dialog.Result;
+            //if (result != null && !result.Canceled)
+            //{
+            //    Asset.Workers.Add(element);
+            //    await Repo.Save(Asset);
+            //}
 
         }
 

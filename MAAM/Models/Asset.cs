@@ -13,7 +13,7 @@ namespace MAAM.Models
         public double CurrentPayment { get; set; }
         public int DayWithoutPay { get; set; }
         public List<Worker> Workers { get; set; } = new List<Worker>();
-        public List<GenericWorker> GenericWorker { get; set; } = new List<GenericWorker>();
+        public List<GenericWorker> GenericWorkers { get; set; } = new List<GenericWorker>();
         public List<DisplayBlockDefinition>? DisplayBlocks { get; set; }
 
 
