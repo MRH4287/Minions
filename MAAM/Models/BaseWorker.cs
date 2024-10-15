@@ -6,7 +6,7 @@ public abstract class BaseWorker : IModel
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public double Payment { get; set; }
-    public double CurrentPayment { get; set; }
+    public double CurrentPayment { get { return Payment * DayWithoutPay; } }
     public int DayWithoutPay { get; set; }
     //TODO potentiell hier nicht nötig
     public string? ServiceStarted { get; set; }

@@ -14,22 +14,17 @@ namespace MAAM.Components.Pages
         public bool IsDebug = false;
 #endif
 
-        #region Liste
-
         public Asset Asset { get; set; } = new Asset();
-
-        #endregion
-
 
         public WorkerListColumnPersistence WorkerColumnPersistence { get; set; } = new WorkerListColumnPersistence();
         public GenericWorkerListColumnPersistence GenericWorkerColumnPersistence { get; set; } = new GenericWorkerListColumnPersistence();
         private IDisposable? _columnSubscription;
 
-        public double Payment => double.Round((Asset.Workers?.Sum(x => x.Payment) ?? 0) + Asset.SumOfCostsOfAllRowers + Asset.SumOfAllSailorCosts, 2);
+        public double DailyPayment => double.Round((Asset.Workers?.Sum(x => x.Payment) ?? 0) + (Asset.GenericWorkers?.Sum(x => x.Payment * x.Amount) ?? 0), 2);
 
-        public double CurrentPayment => double.Round(Asset.Workers?.Sum(x => x.CurrentPayment) ?? 0, 2);
+        public double CurrentPayment => double.Round((Asset.Workers?.Sum(x => x.CurrentPayment) ?? 0) + (Asset.GenericWorkers?.Sum(x => x.CurrentPayment * x.Amount) ?? 0), 2);
 
-        public int Broke => (int)Double.Floor((Asset.Money - CurrentPayment) / Payment);
+        public int Broke => (int)Double.Floor((Asset.Money - CurrentPayment) / DailyPayment);
 
 
         protected override async Task OnInitializedAsync()
@@ -66,10 +61,8 @@ namespace MAAM.Components.Pages
         }
         public async Task Pay(BaseWorker element)
         {
-
             Asset.Money = Asset.Money - element.CurrentPayment;
             element.DayWithoutPay = 0;
-            element.CurrentPayment = 0;
             await Repo.Save(Asset);
         }
 
@@ -80,15 +73,24 @@ namespace MAAM.Components.Pages
             await Repo.Save(Asset);
         }
 
-
-
-
-
-
         private async Task EditChar(Worker element)
         {
             var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, CloseButton = true };
             var parameter = new DialogParameters<CharacterDialog>();
+
+
+            parameter.Add(x => x.Element, element);
+            parameter.Add(x => x.AssetId, Asset.Id);
+
+
+            var dialog = await Dialog.ShowAsync<CharacterDialog>("", parameter, options);
+            var result = await dialog.Result;
+            await Repo.Save(Asset);
+        }
+        private async Task EditChar(GenericWorker element)
+        {
+            var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, CloseButton = true };
+            var parameter = new DialogParameters<GenericCharacterDialog>();
 
 
             parameter.Add(x => x.Element, element);
@@ -125,24 +127,20 @@ namespace MAAM.Components.Pages
 
         private async Task AddGenericWorkers()
         {
-            //var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, CloseButton = true };
-            //var parameter = new DialogParameters<CharacterDialog>();
-            //var element = new Worker();
+            var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, CloseButton = true };
+            var parameter = new DialogParameters<GenericCharacterDialog>();
+            var element = new GenericWorker();
 
+            parameter.Add(x => x.Element, element);
+            parameter.Add(x => x.AssetId, Asset.Id);
 
-            //parameter.Add(x => x.Element, element);
-            //parameter.Add(x => x.AssetId, Asset.Id);
-
-
-
-
-            //var dialog = await Dialog.ShowAsync<CharacterDialog>("", parameter, options);
-            //var result = await dialog.Result;
-            //if (result != null && !result.Canceled)
-            //{
-            //    Asset.Workers.Add(element);
-            //    await Repo.Save(Asset);
-            //}
+            var dialog = await Dialog.ShowAsync<GenericCharacterDialog>("", parameter, options);
+            var result = await dialog.Result;
+            if (result != null && !result.Canceled)
+            {
+                Asset.GenericWorkers.Add(element);
+                await Repo.Save(Asset);
+            }
 
         }
 

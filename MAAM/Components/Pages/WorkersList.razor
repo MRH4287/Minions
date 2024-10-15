@@ -46,7 +46,7 @@
                 ContentRight="@(Broke.ToString())">
     </HeaderItem>
     <HeaderItem Header="Payment"
-                Content="@(Payment.ToString())">
+                Content="@(DailyPayment.ToString())">
     </HeaderItem>
     <HeaderItem Header="Current Payment"
                 Content="@(CurrentPayment.ToString())">
@@ -162,7 +162,7 @@
                     <FooterTemplate>
                         <MudGrid>
                             <MudItem>
-                                <MudIconButton OnClick="@AddChar" Icon="@Icons.Material.Filled.Add"></MudIconButton>
+                                <MudIconButton OnClick="@AddGenericWorkers" Icon="@Icons.Material.Filled.Add"></MudIconButton>
                             </MudItem>
                             <MudItem>
                                 <MudText>Hire new Employee</MudText>
@@ -182,7 +182,7 @@
                     <CellTemplate Context="cellContext">
                         <MudMenu Icon="@Icons.Material.Filled.MoreVert">
                             <MudMenuItem OnClick="@(()=>Pay(cellContext.Item))">Pay</MudMenuItem>
-                            <!--<MudMenuItem OnClick="@(()=> EditChar(cellContext.Item))">Character Sheet </MudMenuItem>-->
+                            <MudMenuItem OnClick="@(()=> EditChar(cellContext.Item))">Character Sheet </MudMenuItem>
                             <MudSwitch Label="Info" Color="Color.Info" />
                         </MudMenu>
 
