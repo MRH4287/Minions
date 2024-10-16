@@ -8,9 +8,7 @@ public abstract class BaseWorker : IModel
     public double Payment { get; set; }
     public double CurrentPayment { get { return Payment * DayWithoutPay; } }
     public int DayWithoutPay { get; set; }
-    //TODO potentiell hier nicht nötig
     public string? ServiceStarted { get; set; }
-    //TODO potentiell hier nicht nötig
     public string? ServiceEnded { get; set; }
     public int TimeOnBord { get; set; }
     public string? Notes { get; set; }
