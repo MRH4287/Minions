@@ -97,7 +97,7 @@ namespace MAAM.Components.Pages
             parameter.Add(x => x.AssetId, Asset.Id);
 
 
-            var dialog = await Dialog.ShowAsync<CharacterDialog>("", parameter, options);
+            var dialog = await Dialog.ShowAsync<GenericCharacterDialog>("", parameter, options);
             var result = await dialog.Result;
             await Repo.Save(Asset);
         }
