@@ -1,0 +1,59 @@
+﻿  @inject IRepository<Race> RaceRepo
+  @inject IRepository<Job> JobRepo
+  @inject IJSRuntime js
+
+<MudDialog>
+    <DialogContent>
+
+        <MudTextField @bind-Value="Element.WorkerType" T="string" Label="Worker Type" Variant="Variant.Outlined"></MudTextField>
+        <MudNumericField @bind-Value="Element.Amount" T="int" Label="Amount" Variant="Variant.Outlined" Min="0"></MudNumericField>
+
+        <MudGrid>
+            <MudItem xs="6">
+                <MudTextField @bind-Value="Element.ServiceStarted" T="string" HideSpinButtons="true" Label="ServiceStarted" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+            <MudItem xs="6">
+                <MudTextField @bind-Value="Element.ServiceEnded" T="string" HideSpinButtons="true" Label="ServiceEnded" Variant="Variant.Outlined"></MudTextField>
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid>
+            <MudItem xs="4">
+                <MudNumericField @bind-Value="Element.TimeOnBord" T="int" HideSpinButtons="true" Label="TimeOnBord" Variant="Variant.Outlined"></MudNumericField>
+            </MudItem>
+            <MudItem xs="4">
+                <MudNumericField @bind-Value="Element.Payment" T="double" HideSpinButtons="true" Label="Payment" Variant="Variant.Outlined"></MudNumericField>
+            </MudItem>
+            <MudItem xs="4">
+                <MudNumericField @bind-Value="Element.DayWithoutPay" T="int" HideSpinButtons="true" Label="Days without pay" Variant="Variant.Outlined"></MudNumericField>
+            </MudItem>
+        </MudGrid>
+
+        <MudTextField T="string" Label="Notes"  Variant="Variant.Outlined" Lines="5" />
+
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public GenericWorker Element { get; set; }
+    [Parameter] public string AssetId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}
