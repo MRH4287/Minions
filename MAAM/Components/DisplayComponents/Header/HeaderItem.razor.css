@@ -9,7 +9,6 @@
     max-width: 300px;
     border-radius: 8px;
     overflow: hidden;
-    /*box-shadow: 0px 1px 23px 9px rgba(0,0,0,0.1);*/
 }
 
 .header {
@@ -21,10 +20,9 @@
     font-size: 25px;
     background: linear-gradient(180deg, rgb(118,106,231) 0%, rgba(89,74,226,1) 100%);
     color: white;
-    cursor:pointer;
 }
 
-.content-con {
+.content-container {
     display: flex;
     flex: 1;
     color: black;
@@ -32,29 +30,4 @@
     align-items: center;
     justify-content: center;
     font-size: 25px;
-}
-
-.smallcon {
-    font-weight: normal;
-    font-size: 15px;
-    margin-left: 4px;
-}
-
-.footer-el {
-    display: flex;
-    color: black;
-    justify-content: center;
-    font-size: 18px;
-    position: absolute;
-    opacity: 0.5;
-    bottom: 2px;
-}
-
-.left {
-    left: 2px;
-    cursor: pointer;
-}
-
-.right {
-    right: 2px;
 }

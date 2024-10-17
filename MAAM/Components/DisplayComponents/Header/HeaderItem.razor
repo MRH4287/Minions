@@ -1,21 +1,15 @@
-﻿@inject NotificationService Notify;
+﻿@using Templates.Models
+@inject NotificationService Notify;
 
 <div class="item">
 
-    <div class="header" @onclick="@Add" title="@HeaderTitle"> @Header </div>
-    <div class="content-con">
+    <div class="header" title="@HeaderTitle"> @Header </div>
+    <div class="content-container">
         <span title="@ContentTitle">
         @Content
-        </span>
-        @if (SmallContent != null)
-        {
-            <span class="smallcon" title="@SmallContentTitle">@SmallContent</span>
-        }
+        </span>        
     </div>
-
-    <div class="footer-el left" @onclick="@AddFoot" title="@ContentLeftTitle">@ContentLeft</div>
-    <div class="footer-el right" title="@ContentRightTitle">@ContentRight</div>
-
+    <div>@ChildContent</div>
 </div>
 
 @code {
@@ -30,49 +24,8 @@
     public string HeaderTitle { get; set; }
 
     [Parameter]
-    public string SmallContent { get; set; }
-    [Parameter]
-    public string SmallContentTitle { get; set; }
+    public TemplateRef Template { get; set; }
 
     [Parameter]
-    public string ContentLeft { get; set; }
-    [Parameter]
-    public string ContentLeftTitle { get; set; }
-
-    [Parameter]
-    public string ContentRight { get; set; }
-    [Parameter]
-    public string ContentRightTitle { get; set; }
-
-    [Parameter]
-    public EventCallback<int> AddContent { get; set; }
-
-    [Parameter]
-    public EventCallback<double> AddFooterLeft{ get; set; }
-
-    public async Task Add()
-    {
-        var result = await Notify.Prompt("Count");
-        if (!int.TryParse(result, out var number))
-        {
-            return;
-        }
-
-        await AddContent.InvokeAsync(number);
-        
-
-    }
-    public async Task AddFoot()
-    {
-        var result = await Notify.Prompt("Count");
-        if (!double.TryParse(result, out var number))
-        {
-            return;
-        }
-
-       
-        await AddFooterLeft.InvokeAsync(number);
-
-    }
-
+    public RenderFragment ChildContent { get; set; }
 }

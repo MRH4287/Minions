@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data\DataAccess.csproj" />
+    <ProjectReference Include="..\Templates\Templates.csproj" />
   </ItemGroup>
 
 </Project>

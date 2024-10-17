@@ -1,5 +1,7 @@
 ﻿using DataAccess.Contracts;
 using MAAM.Components.Pages;
+using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace MAAM.Models
 {
@@ -17,18 +19,19 @@ namespace MAAM.Models
         public List<DisplayBlockDefinition>? DisplayBlocks { get; set; }
 
 
-        #region Crew
-        public int UnnamedSailor { get; set; }
-        public int UnnamedRower { get; set; }
-        public double UnnamedRowerPayment { get; set; }
-        public double UnnamedSailorsPayment { get; set; }
-        public int Sailors => (Workers?.Count(x => x.Job != "Rower") ?? 0) + (UnnamedSailor);
-        public int Rower => (Workers?.Count(x => x.Job == "Rower") ?? 0) + (UnnamedRower);
+        #region HeaderItemProperties
+        [JsonIgnore]
+        public int GenericCrewCount => GenericWorkers?.Sum(x => x.Amount) ?? 0;
+        [JsonIgnore]
+        public double GenericCrewPayment => GenericWorkers?.Sum(x => x.Payment) ?? 0;
 
         #endregion
 
-        public double SumOfCostsOfAllRowers => double.Round((UnnamedRowerPayment * UnnamedRower),2);
-
-        public double SumOfAllSailorCosts => double.Round((UnnamedSailorsPayment * UnnamedSailor),2);
+        #region DiplayBlockTemplateProperties
+        [JsonIgnore]
+        public int Sailors => ((Workers?.Count(x => x.Tags?.Any(y => y.Equals("Sailor")) ?? false) ?? 0) + (GenericWorkers?.Where(x => x.WorkerType == "Sailor").Sum(x => x.Amount)) ?? 0);
+        [JsonIgnore]
+        public int Rower => ((Workers?.Count(x => x.Job == "Rower") ?? 0) + (GenericWorkers?.Where(x => x.WorkerType == "Rower").Sum(x => x.Amount)) ?? 0);
+        #endregion
     }
 }

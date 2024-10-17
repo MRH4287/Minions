@@ -143,45 +143,5 @@ namespace MAAM.Components.Pages
             }
 
         }
-
-
-
-
-
-
-
-
-
-
-        public async Task AddUnnamedRower(int count)
-        {
-            Asset.UnnamedRower += count;
-            await Repo.Save(Asset);
-        }
-
-        public async Task AddUnnamedRowerPayment(double payment)
-        {
-            Asset.UnnamedRowerPayment += payment;
-            await Repo.Save(Asset);
-        }
-
-        public async Task AddUnnamedSailor(int count)
-        {
-            Asset.UnnamedSailor += count;
-            await Repo.Save(Asset);
-        }
-
-        public async Task AddUnnamedSailorPayment(double payment)
-        {
-            Asset.UnnamedSailorsPayment += payment;
-            await Repo.Save(Asset);
-        }
-
-        public async Task AddMoney(double money)
-        {
-            Asset.Money += money;
-            await Repo.Save(Asset);
-        }
-
     }
 }
