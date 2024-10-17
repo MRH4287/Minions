@@ -139,15 +139,16 @@
                 <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment" @bind-Hidden="WorkerColumnPersistence.CurrentPayment"></PropertyColumn>
                 <PropertyColumn Title="Condition" Property="x => x.Condition" @bind-Hidden="WorkerColumnPersistence.Condition"></PropertyColumn>
 
-                <TemplateColumn CellClass="d-flex justify-end" @bind-Hidden="WorkerColumnPersistence.Menu">
+                <TemplateColumn @bind-Hidden="WorkerColumnPersistence.Menu">
                     <CellTemplate Context="cellContext">
-                        <MudMenu Icon="@Icons.Material.Filled.MoreVert">
-                            <MudMenuItem OnClick="@(()=>Pay(cellContext.Item))">Pay</MudMenuItem>
-                            <MudMenuItem OnClick="@(()=>Fire(cellContext.Item))">Fire</MudMenuItem>
-                            <MudMenuItem OnClick="@(()=>EditChar(cellContext.Item))">Character Sheet</MudMenuItem>
-                            <MudSwitch Label="Info" Color="Color.Info" />
-                        </MudMenu>
-
+                        <div class="menu-column">
+                            <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                                <MudMenuItem OnClick="@(()=>Pay(cellContext.Item))">Pay</MudMenuItem>
+                                <MudMenuItem OnClick="@(()=>Fire(cellContext.Item))">Fire</MudMenuItem>
+                                <MudMenuItem OnClick="@(()=>EditChar(cellContext.Item))">Character Sheet</MudMenuItem>
+                                <MudSwitch Label="Info" Color="Color.Info" />
+                            </MudMenu>
+                        </div>
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
