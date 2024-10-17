@@ -1,0 +1,32 @@
+﻿@using Templates.Models
+@typeparam TValue
+@code {
+    [Parameter] public RenderFragment<TValue>? ChildContent { get; set; }
+    [Parameter] public EventCallback<RenderFragment<TValue>> OnItemChanged { get; set; }
+    [Parameter] public TemplateRef<TValue>? TemplateRef { get; set; }
+
+    private RenderFragment<TValue>? item;
+
+    public RenderFragment<TValue> Item
+    {
+        get => item!;
+        set
+        {
+            if (item != value)
+            {
+                item = value;
+                OnItemChanged.InvokeAsync(item);
+            }
+
+            if (this.TemplateRef != null)
+            {
+                this.TemplateRef.Fragment = item;
+            }
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        Item = ChildContent!;
+    }
+}
