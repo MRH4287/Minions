@@ -100,7 +100,8 @@
 
                                 <MudIcon Icon="@Icons.Material.Filled.Link" Size="Size.Small"></MudIcon>
                             </a>
-                        } else
+                        }
+                        else
                         {
                             @cellContext.Item.Name <br />
                             @cellContext.Item.Surname
@@ -129,7 +130,8 @@
                         @if (cellContext.Item.ImageUri != null)
                         {
                             <img src="@(cellContext.Item.ImageUri)" class="preview-image" />
-                        } else
+                        }
+                        else
                         {
                             <div class="img-placeholder"></div>
                         }
@@ -151,14 +153,16 @@
                 <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment" @bind-Hidden="ColumnPersistence.CurrentPayment"></PropertyColumn>
                 <PropertyColumn Title="Condition" Property="x => x.Condition" @bind-Hidden="ColumnPersistence.Condition"></PropertyColumn>
 
-                <TemplateColumn CellClass="d-flex justify-end" @bind-Hidden="ColumnPersistence.Menu">
+                <TemplateColumn @bind-Hidden="ColumnPersistence.Menu">
                     <CellTemplate Context="cellContext">
-                        <MudMenu Icon="@Icons.Material.Filled.MoreVert">
-                            <MudMenuItem OnClick="@(()=>Pay(cellContext.Item))">Pay</MudMenuItem>
-                            <MudMenuItem OnClick="@(()=>Fire(cellContext.Item))">Fire</MudMenuItem>
-                            <MudMenuItem OnClick="@(()=> EditChar(cellContext.Item))">Character Sheet </MudMenuItem>
-                            <MudSwitch Label="Info" Color="Color.Info" />
-                        </MudMenu>
+                        <div class="menu-column">
+                            <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                                <MudMenuItem OnClick="@(()=>Pay(cellContext.Item))">Pay</MudMenuItem>
+                                <MudMenuItem OnClick="@(()=>Fire(cellContext.Item))">Fire</MudMenuItem>
+                                <MudMenuItem OnClick="@(()=> EditChar(cellContext.Item))">Character Sheet </MudMenuItem>
+                                <MudSwitch Label="Info" Color="Color.Info" />
+                            </MudMenu>
+                        </div>
 
                     </CellTemplate>
                 </TemplateColumn>
