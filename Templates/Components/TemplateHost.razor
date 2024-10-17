@@ -1,0 +1,10 @@
+﻿@using Templates.Models
+@typeparam TValue
+@if (TemplateRef?.Fragment != null)
+{
+    @TemplateRef.Fragment(Context!)
+}
+@code {
+    [Parameter] public TemplateRef<TValue>? TemplateRef { get; set; }
+    [Parameter] public TValue? Context { get; set; }
+}

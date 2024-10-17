@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "Data\DataAcce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAAM", "MAAM\MAAM.csproj", "{72D321BE-47B2-4220-B02C-396693FB5DDC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Templates", "Templates\Templates.csproj", "{59CFC6AF-98B4-4F97-BB3E-053F1CBAFB40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{72D321BE-47B2-4220-B02C-396693FB5DDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72D321BE-47B2-4220-B02C-396693FB5DDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72D321BE-47B2-4220-B02C-396693FB5DDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59CFC6AF-98B4-4F97-BB3E-053F1CBAFB40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59CFC6AF-98B4-4F97-BB3E-053F1CBAFB40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59CFC6AF-98B4-4F97-BB3E-053F1CBAFB40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59CFC6AF-98B4-4F97-BB3E-053F1CBAFB40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
