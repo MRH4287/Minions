@@ -179,14 +179,15 @@
                 <PropertyColumn Title="Days without pay" Property="x => x.DayWithoutPay" @bind-Hidden="GenericWorkerColumnPersistence.DaysWithoutPay"></PropertyColumn>
                 <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment" @bind-Hidden="GenericWorkerColumnPersistence.CurrentPayment"></PropertyColumn>
 
-                <TemplateColumn CellClass="d-flex justify-end" @bind-Hidden="GenericWorkerColumnPersistence.Menu">
+                <TemplateColumn @bind-Hidden="GenericWorkerColumnPersistence.Menu">
                     <CellTemplate Context="cellContext">
-                        <MudMenu Icon="@Icons.Material.Filled.MoreVert">
-                            <MudMenuItem OnClick="@(()=>Pay(cellContext.Item))">Pay</MudMenuItem>
-                            <MudMenuItem OnClick="@(()=>EditChar(cellContext.Item))">Edit</MudMenuItem>
-                            <MudSwitch Label="Info" Color="Color.Info" />
-                        </MudMenu>
-
+                        <div class="menu-column">
+                            <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                                <MudMenuItem OnClick="@(()=>Pay(cellContext.Item))">Pay</MudMenuItem>
+                                <MudMenuItem OnClick="@(()=>EditChar(cellContext.Item))">Edit</MudMenuItem>
+                                <MudSwitch Label="Info" Color="Color.Info" />
+                            </MudMenu>
+                        </div>
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
