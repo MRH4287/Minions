@@ -14,17 +14,17 @@
     {
         TKey? CollectionId { get; }
 
-        void SetCollectionId(TKey collectionId);
+        void SetCollectionId(TKey? collectionId);
 
-        void Delete(TKey collectionId, string id);
+        void Delete(TKey? collectionId, string id);
 
-        bool Exists(TKey collectionId, string id);
+        bool Exists(TKey? collectionId, string id);
 
-        Task<TValue?> Get(TKey collectionId, string id, bool includeWebIgnore = false);
+        Task<TValue?> Get(TKey? collectionId, string id, bool includeWebIgnore = false);
 
-        Task<IEnumerable<TValue>> GetAll(TKey collectionId, bool includeWebIgnore = false);
+        Task<IEnumerable<TValue>> GetAll(TKey? collectionId, bool includeWebIgnore = false);
 
-        Task Save(TKey collectionId, TValue item);
+        Task Save(TKey? collectionId, TValue item);
         void SetStrictTypeName(bool strictTypeName);
     }
 

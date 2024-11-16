@@ -1,6 +1,7 @@
 ﻿using MAAM.Components.Dialog;
 using MAAM.Models;
 using MAAM.Models.Persistence;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Linq.Expressions;
 
@@ -13,6 +14,8 @@ namespace MAAM.Components.Pages
 #else
         public bool IsDebug = false;
 #endif
+        [Parameter]
+        public string? AssetId { get; set; }
 
         #region Liste
 
@@ -33,8 +36,26 @@ namespace MAAM.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            Asset = (await Repo.GetAll()).First();
+            var assets = await Repo.GetAll();
+            if (string.IsNullOrEmpty(AssetId))
+            {
+                Asset = assets.First();
+                return;
+            }
 
+            var found = assets.FirstOrDefault(Asset => Asset.Id == AssetId);
+            if (found == null)
+            {
+                var newAsset = new Asset()
+                {
+                    Id = AssetId,
+                };
+                await Repo.Save(newAsset);
+                Asset = newAsset;
+                return;
+            }
+
+            Asset = found;
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

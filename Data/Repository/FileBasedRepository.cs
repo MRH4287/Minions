@@ -54,7 +54,7 @@ namespace DataAccess.Repository
             }
         }
 
-        public void SetCollectionId(TKey collectionId)
+        public void SetCollectionId(TKey? collectionId)
         {
             CollectionId = collectionId;
         }
