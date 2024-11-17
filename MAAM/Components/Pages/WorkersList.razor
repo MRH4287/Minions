@@ -9,9 +9,9 @@
  
 
 <SectionContent SectionName="SectionName.InHeader">
-    <MudTextField Label="Hello World" Value="Asset.UnnamedRower.ToString()"></MudTextField>
+    @* <MudTextField Label="Hello World" Value="Asset.UnnamedRower.ToString()"></MudTextField>
     <MudSpacer />
-    <MudText>Schiffs Klasse</MudText>
+    <MudText>Schiffs Klasse</MudText> *@
     <MudSpacer />
     <MudIconButton Icon="@Icons.Material.Filled.MoreTime" OnClick="@Time" />
 </SectionContent>
@@ -58,7 +58,7 @@
 
 <DisplayBlock Definition="null"></DisplayBlock>
 
-@if (IsDebug)
+@* @if (IsDebug)
 {
     @if (Asset.DisplayBlocks != null)
     {
@@ -68,7 +68,7 @@
         }
 
     }
-    @* This is very bad code! Just for Testing!! *@
+    @* This is very bad code! Just for Testing!! * @
     <button @onclick="@(() => {
     Asset.DisplayBlocks ??= new List<DisplayBlockDefinition>();
     Asset.DisplayBlocks.Add(new DisplayBlockDefinition() {
@@ -80,7 +80,7 @@
         Add Test-Elemenet
     </button>
 }
-
+ *@
 <br />
 
 <MudTabs Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
