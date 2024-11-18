@@ -1,0 +1,23 @@
+﻿@inject IRepository<Asset> AssetRepo
+
+<MudNavMenu>
+    <MudNavLink Match="NavLinkMatch.All">Home</MudNavLink>
+
+    @* @foreach (var item in NavLinks)
+    {
+        <MudNavLink Href="@($"/minions/{item.id}/worker")">@item.name</MudNavLink>
+    } *@
+
+</MudNavMenu>
+
+@code {
+    // private readonly List<(string id, string name)> NavLinks = new();
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     var assets = await AssetRepo.GetAll();
+
+    //     NavLinks.AddRange(assets.Select(item => (item.Id, item.Name ?? "")));
+    // }
+
+}
