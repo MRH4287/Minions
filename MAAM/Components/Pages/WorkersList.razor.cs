@@ -33,6 +33,11 @@ namespace MAAM.Components.Pages
         protected override async Task OnInitializedAsync()
         {
             var assets = await Repo.GetAll();
+            await SetAssetById(assets);
+        }
+
+        private async Task SetAssetById(IEnumerable<Asset> assets)
+        {
             if (string.IsNullOrEmpty(AssetId))
             {
                 Asset = assets.First();
@@ -45,6 +50,7 @@ namespace MAAM.Components.Pages
                 var newAsset = new Asset()
                 {
                     Id = AssetId,
+                    Name = AssetId
                 };
                 await Repo.Save(newAsset);
                 Asset = newAsset;

@@ -7,17 +7,16 @@
 
 <MudLayout>
     <MudAppBar Elevation="1">
-       @*  <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" /> *@
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleDrawer())" />
         <SectionOutlet SectionName="SectionName.InHeader"></SectionOutlet>
     </MudAppBar>
-    <MudDrawer Open="true" Elevation="2">
+    <MudDrawer @bind-Open="@_open" ClipMode="DrawerClipMode.Always" Elevation="2">
         <MudDrawerHeader>
-            <MudText Typo="Typo.h5" Class="mt-1">Application</MudText>
+            <MudText Typo="Typo.h5" Class="mt-1">Minions Manager</MudText>
         </MudDrawerHeader>
-        @*NavMenu*@
+        <NavMenu></NavMenu>
     </MudDrawer>
     <MudMainContent>
-        @*Body*@
         @Body
     </MudMainContent>
 </MudLayout>
@@ -27,3 +26,12 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+@code {
+    private bool _open = false;
+
+    private void ToggleDrawer()
+    {
+        _open = !_open;
+    }
+}
