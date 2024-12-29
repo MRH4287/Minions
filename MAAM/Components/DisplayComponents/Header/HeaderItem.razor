@@ -2,10 +2,10 @@
 
 <div class="item">
 
-    <div class="header" @onclick="@Add" title="@HeaderTitle"> @Header </div>
+    <div class="@("header " + (EnableInteraction ? "clickable" : ""))" @onclick="@Add" title="@HeaderTitle"> @Header </div>
     <div class="content-con">
         <span title="@ContentTitle">
-        @Content
+            @Content
         </span>
         @if (SmallContent != null)
         {
@@ -13,7 +13,7 @@
         }
     </div>
 
-    <div class="footer-el left" @onclick="@AddFoot" title="@ContentLeftTitle">@ContentLeft</div>
+    <div class="footer-el left" title="@ContentLeftTitle">@ContentLeft</div>
     <div class="footer-el right" title="@ContentRightTitle">@ContentRight</div>
 
 </div>
@@ -45,13 +45,20 @@
     public string ContentRightTitle { get; set; }
 
     [Parameter]
-    public EventCallback<int> AddContent { get; set; }
+    public bool EnableInteraction { get; set; } = false;
+
 
     [Parameter]
-    public EventCallback<double> AddFooterLeft{ get; set; }
+    public EventCallback<int> AddContent { get; set; }
+
 
     public async Task Add()
     {
+        if (!EnableInteraction)
+        {
+            return;
+        }
+
         var result = await Notify.Prompt("Count");
         if (!int.TryParse(result, out var number))
         {
@@ -59,19 +66,7 @@
         }
 
         await AddContent.InvokeAsync(number);
-        
 
-    }
-    public async Task AddFoot()
-    {
-        var result = await Notify.Prompt("Count");
-        if (!double.TryParse(result, out var number))
-        {
-            return;
-        }
-
-       
-        await AddFooterLeft.InvokeAsync(number);
 
     }
 

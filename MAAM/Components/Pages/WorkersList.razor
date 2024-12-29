@@ -21,31 +21,24 @@
     <HeaderItem Header="Rower"
                 SmallContentTitle="Number of Rowers"
                 SmallContent="@(Asset.UnnamedRower.ToString())"
-                AddContent="@(async (count) => await AddUnnamedRower(count))"
-                AddFooterLeft="@(async (payment) => await AddUnnamedRowerPayment(payment))"
                 ContentTitle="Number of Asset.Rowers  (including those with names)"
                 Content="@(Asset.Rower.ToString())"
-                ContentLeftTitle="Payment of one Asset.Rower"
-                ContentLeft="@(Asset.UnnamedRowerPayment.ToString())"
                 ContentRightTitle="Sum of costs of all Asset.Rowers"
                 ContentRight="@(Asset.SumOfCostsOfAllRowers.ToString())">
     </HeaderItem>
     <HeaderItem Header="Crew"
                 SmallContentTitle="Number of Sailors"
                 SmallContent="@(Asset.UnnamedSailor.ToString())"
-                AddContent="@(async (count) => await AddUnnamedSailor(count))"
-                AddFooterLeft="@(async (payment) => await AddUnnamedSailorPayment(payment))"
                 ContentTitle="Number of Sailors (including those with names)"
                 Content="@(Asset.Sailors.ToString())"
-                ContentLeftTitle="Payment of Sailors"
-                ContentLeft="@(Asset.UnnamedSailorsPayment.ToString())"
                 ContentRightTitle="Sum of all Sailor Costs"
                 ContentRight="@(Asset.SumOfAllSailorCosts.ToString())">
     </HeaderItem>
     <HeaderItem Header="Money"
                 Content="@(Asset.Money.ToString())"
                 AddContent="@(async (money) => await AddMoney(money))"
-                ContentRight="@(Broke.ToString())">
+                ContentRight="@(Broke.ToString())"
+                EnableInteraction="true">
     </HeaderItem>
     <HeaderItem Header="Payment"
                 Content="@(DailyPayment.ToString())">

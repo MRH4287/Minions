@@ -23,11 +23,11 @@ namespace MAAM.Components.Pages
         public GenericWorkerListColumnPersistence GenericWorkerColumnPersistence { get; set; } = new GenericWorkerListColumnPersistence();
         private IDisposable? _columnSubscription;
 
-        public double DailyPayment => double.Round((Asset.Workers?.Sum(x => x.Payment) ?? 0) + (Asset.GenericWorkers?.Sum(x => x.Payment * x.Amount) ?? 0), 2);
+        public double DailyPayment => double.Round(Asset.Payment + Asset.UnnamedSailorPayment + Asset.UnnamedRowerPayment, 2);
 
-        public double CurrentPayment => double.Round((Asset.Workers?.Sum(x => x.CurrentPayment) ?? 0) + (Asset.GenericWorkers?.Sum(x => x.CurrentPayment * x.Amount) ?? 0), 2);
+        public double CurrentPayment => double.Round(Asset.CurrentPayment + Asset.UnnamedSailorCurrentPayment + Asset.UnnamedRowerCurrentPayment, 2);
 
-        public int Broke => (int)Double.Floor((Asset.Money - CurrentPayment) / DailyPayment);
+        public int Broke => (int)double.Floor((Asset.Money - CurrentPayment) / DailyPayment);
 
 
         protected override async Task OnInitializedAsync()
@@ -168,31 +168,6 @@ namespace MAAM.Components.Pages
                 Asset.GenericWorkers.Add(element);
                 await Repo.Save(Asset);
             }
-
-        }
-
-        public async Task AddUnnamedRower(int count)
-        {
-            Asset.UnnamedRower += count;
-            await Repo.Save(Asset);
-        }
-
-        public async Task AddUnnamedRowerPayment(double payment)
-        {
-            Asset.UnnamedRowerPayment += payment;
-            await Repo.Save(Asset);
-        }
-
-        public async Task AddUnnamedSailor(int count)
-        {
-            Asset.UnnamedSailor += count;
-            await Repo.Save(Asset);
-        }
-
-        public async Task AddUnnamedSailorPayment(double payment)
-        {
-            Asset.UnnamedSailorsPayment += payment;
-            await Repo.Save(Asset);
         }
 
         public async Task AddMoney(double money)
