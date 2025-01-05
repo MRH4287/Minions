@@ -6,7 +6,7 @@
 
  @page "/"
  @page "/{AssetId}/worker"
- 
+
 
 <SectionContent SectionName="SectionName.InHeader">
     @* <MudTextField Label="Hello World" Value="Asset.UnnamedRower.ToString()"></MudTextField>
@@ -78,119 +78,42 @@
 
 <MudTabs Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
     <MudTabPanel Text="Crew">
-
-        <MudDataGrid T="Worker" Items="Asset.Workers" SortMode="SortMode.Single" Class="border-solid border mud-border" ColumnsPanelReordering="true" ShowMenuIcon="true"
-                     Hideable="true" Filterable="true" Groupable="true">
-            <Columns>
-                <PropertyColumn Title="Name" Property="x => x.Name" @bind-Hidden="WorkerColumnPersistence.Name">
-                    <CellTemplate Context="cellContext">
-                        @if (!string.IsNullOrEmpty(cellContext.Item.ExternalLink))
-                        {
-                            <a href="@cellContext.Item.ExternalLink">
-                                @cellContext.Item.Name <br />
-                                @cellContext.Item.Surname
-
-                                <MudIcon Icon="@Icons.Material.Filled.Link" Size="Size.Small"></MudIcon>
-                            </a>
-                        }
-                        else
-                        {
-                            @cellContext.Item.Name <br />
-                            @cellContext.Item.Surname
-                        }
-                    </CellTemplate>
-                    <FooterTemplate>
-                        <MudGrid>
-                            <MudItem>
-                                <MudIconButton OnClick="@AddChar" Icon="@Icons.Material.Filled.Add"></MudIconButton>
-                            </MudItem>
-                            <MudItem>
-                                <MudText>Hire new Employees</MudText>
-                            </MudItem>
-                        </MudGrid>
-                    </FooterTemplate>
-                </PropertyColumn>
-                <TemplateColumn Title="Icon" @bind-Hidden="WorkerColumnPersistence.Image">
-                    <CellTemplate Context="cellContext">
-                        @if (cellContext.Item.ImageUri != null)
-                        {
-                            <img src="@(cellContext.Item.ImageUri)" class="preview-image" />
-                        }
-                        else
-                        {
-                            <div class="img-placeholder"></div>
-                        }
-                    </CellTemplate>
-                </TemplateColumn>
-                <PropertyColumn Title="Age" Property="x => x.Age" @bind-Hidden="WorkerColumnPersistence.Age"></PropertyColumn>
-                <PropertyColumn Title="Race" Property="x => x.Race" @bind-Hidden="WorkerColumnPersistence.Race"></PropertyColumn>
-                <PropertyColumn Title="Sex" Property="x => x.Sex" @bind-Hidden="WorkerColumnPersistence.Sex"></PropertyColumn>
-                <PropertyColumn Title="Job" Property="x => x.Job" @bind-Hidden="WorkerColumnPersistence.Job"></PropertyColumn>
-                <PropertyColumn Title="ServiceStarted" Property="x => x.ServiceStarted" @bind-Hidden="WorkerColumnPersistence.ServiceStarted"></PropertyColumn>
-                <PropertyColumn Title="ServiceEnded" Property="x => x.ServiceEnded" @bind-Hidden="WorkerColumnPersistence.ServiceEnded"></PropertyColumn>
-                <PropertyColumn Title="TimeOnBord" Property="x => x.TimeOnBord" @bind-Hidden="WorkerColumnPersistence.TimeOnBoard"></PropertyColumn>
-                <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment" @bind-Hidden="WorkerColumnPersistence.Payment"></PropertyColumn>
-                <PropertyColumn Title="Days without pay" Property="x => x.DayWithoutPay" @bind-Hidden="WorkerColumnPersistence.DaysWithoutPay"></PropertyColumn>
-                <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment" @bind-Hidden="WorkerColumnPersistence.CurrentPayment"></PropertyColumn>
-                <PropertyColumn Title="Condition" Property="x => x.Condition" @bind-Hidden="WorkerColumnPersistence.Condition"></PropertyColumn>
-
-                <TemplateColumn @bind-Hidden="WorkerColumnPersistence.Menu">
-                    <CellTemplate Context="cellContext">
-                        <div class="menu-column">
-                            <MudMenu Icon="@Icons.Material.Filled.MoreVert">
-                                <MudMenuItem OnClick="@(()=>Pay(cellContext.Item))">Pay</MudMenuItem>
-                                <MudMenuItem OnClick="@(()=>Fire(cellContext.Item))">Fire</MudMenuItem>
-                                <MudMenuItem OnClick="@(()=>EditChar(cellContext.Item))">Character Sheet</MudMenuItem>
-                                <MudSwitch Label="Info" Color="Color.Info" />
-                            </MudMenu>
-                        </div>
-                    </CellTemplate>
-                </TemplateColumn>
-            </Columns>
-        </MudDataGrid>
+        <NamedPersonalList Asset="Asset"
+                           WorkerColumnPersistence="WorkerColumnPersistence"
+                           AddChar="AddChar"
+                           Pay="Pay"
+                           Fire="Fire"
+                           EditChar="EditChar"></NamedPersonalList>
 
     </MudTabPanel>
+
+
+
+
+
+
     <MudTabPanel Text="Generic Crew">
-        <MudDataGrid T="GenericWorker" Items="Asset.GenericWorkers" SortMode="SortMode.Single" Class="border-solid border mud-border" ColumnsPanelReordering="true" ShowMenuIcon="true"
-                     Hideable="true" Filterable="true" Groupable="true">
-            <Columns>
-                <PropertyColumn Title="Type" Property="x => x.WorkerType" @bind-Hidden="GenericWorkerColumnPersistence.WorkerType">
-                    <FooterTemplate>
-                        <MudGrid>
-                            <MudItem>
-                                <MudIconButton OnClick="@AddGenericWorkers" Icon="@Icons.Material.Filled.Add"></MudIconButton>
-                            </MudItem>
-                            <MudItem>
-                                <MudText>Hire new Employee</MudText>
-                            </MudItem>
-                        </MudGrid>
-                    </FooterTemplate>
-                </PropertyColumn>
-                <PropertyColumn Title="Amount" Property="x => x.Amount" @bind-Hidden="GenericWorkerColumnPersistence.Amount"></PropertyColumn>
-                <PropertyColumn Title="ServiceStarted" Property="x => x.ServiceStarted" @bind-Hidden="GenericWorkerColumnPersistence.ServiceStarted"></PropertyColumn>
-                <PropertyColumn Title="ServiceEnded" Property="x => x.ServiceEnded" @bind-Hidden="GenericWorkerColumnPersistence.ServiceEnded"></PropertyColumn>
-                <PropertyColumn Title="TimeOnBord" Property="x => x.TimeOnBord" @bind-Hidden="GenericWorkerColumnPersistence.TimeOnBoard"></PropertyColumn>
-                <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment" @bind-Hidden="GenericWorkerColumnPersistence.Payment"></PropertyColumn>
-                <PropertyColumn Title="Days without pay" Property="x => x.DayWithoutPay" @bind-Hidden="GenericWorkerColumnPersistence.DaysWithoutPay"></PropertyColumn>
-                <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment" @bind-Hidden="GenericWorkerColumnPersistence.CurrentPayment"></PropertyColumn>
+        <UnnamedPersonalList Asset="Asset"
+                             GenericWorkerColumnPersistence="GenericWorkerColumnPersistence"
+                             AddGenericWorkers="AddGenericWorkers"
+                             Pay="Pay"
+                             EditChar="EditChar"></UnnamedPersonalList>
+    </MudTabPanel>
 
-                <TemplateColumn @bind-Hidden="GenericWorkerColumnPersistence.Menu">
-                    <CellTemplate Context="cellContext">
-                        <div class="menu-column">
-                            <MudMenu Icon="@Icons.Material.Filled.MoreVert">
-                                <MudMenuItem OnClick="@(()=>Pay(cellContext.Item))">Pay</MudMenuItem>
-                                <MudMenuItem OnClick="@(()=>EditChar(cellContext.Item))">Edit</MudMenuItem>
-                                <MudSwitch Label="Info" Color="Color.Info" />
-                            </MudMenu>
-                        </div>
-                    </CellTemplate>
-                </TemplateColumn>
-            </Columns>
-        </MudDataGrid>
-    </MudTabPanel>
+
+
+
+
     <MudTabPanel Text="Finance">
-        <MudText>Content Three</MudText>
+        <FinanceList Asset="Asset">
+
+
+        </FinanceList>
     </MudTabPanel>
+
+
+
+
     <MudTabPanel Text="Asset">
         <MudText>Content Four</MudText>
     </MudTabPanel>

@@ -1,0 +1,65 @@
+﻿@using MAAM.Models.Persistence
+ @inject IRepository<Asset> Repo
+ @inject AssetService AssetService
+@inject IDialogService Dialog
+@inject PersistenceService PersistenceService
+
+
+
+<MudDataGrid T="GenericWorker" Items="Asset.GenericWorkers" SortMode="SortMode.Single" Class="border-solid border mud-border" ColumnsPanelReordering="true" ShowMenuIcon="true"
+             Hideable="true" Filterable="true" Groupable="true">
+    <Columns>
+        <PropertyColumn Title="Type" Property="x => x.WorkerType" @bind-Hidden="GenericWorkerColumnPersistence.WorkerType">
+            <FooterTemplate>
+                <MudGrid>
+                    <MudItem>
+                        <MudIconButton OnClick="@AddGenericWorkers" Icon="@Icons.Material.Filled.Add"></MudIconButton>
+                    </MudItem>
+                    <MudItem>
+                        <MudText>Hire new Employee</MudText>
+                    </MudItem>
+                </MudGrid>
+            </FooterTemplate>
+        </PropertyColumn>
+        <PropertyColumn Title="Amount" Property="x => x.Amount" @bind-Hidden="GenericWorkerColumnPersistence.Amount"></PropertyColumn>
+        <PropertyColumn Title="ServiceStarted" Property="x => x.ServiceStarted" @bind-Hidden="GenericWorkerColumnPersistence.ServiceStarted"></PropertyColumn>
+        <PropertyColumn Title="ServiceEnded" Property="x => x.ServiceEnded" @bind-Hidden="GenericWorkerColumnPersistence.ServiceEnded"></PropertyColumn>
+        <PropertyColumn Title="TimeOnBord" Property="x => x.TimeOnBord" @bind-Hidden="GenericWorkerColumnPersistence.TimeOnBoard"></PropertyColumn>
+        <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment" @bind-Hidden="GenericWorkerColumnPersistence.Payment"></PropertyColumn>
+        <PropertyColumn Title="Days without pay" Property="x => x.DayWithoutPay" @bind-Hidden="GenericWorkerColumnPersistence.DaysWithoutPay"></PropertyColumn>
+        <PropertyColumn Title="Current Payment" Property="x => x.CurrentPayment" @bind-Hidden="GenericWorkerColumnPersistence.CurrentPayment"></PropertyColumn>
+
+        <TemplateColumn @bind-Hidden="GenericWorkerColumnPersistence.Menu">
+            <CellTemplate Context="cellContext">
+                <div class="menu-column">
+                    <MudMenu Icon="@Icons.Material.Filled.MoreVert">
+                        <MudMenuItem OnClick="@(async ()=>await Pay.InvokeAsync(cellContext.Item))">Pay</MudMenuItem>
+                        <MudMenuItem OnClick="@(async ()=>await EditChar.InvokeAsync(cellContext.Item))">Edit</MudMenuItem>
+                        <MudSwitch Label="Info" Color="Color.Info" />
+                    </MudMenu>
+                </div>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+
+
+
+
+@code {
+    [Parameter]
+    public required Asset Asset { get; set; }
+
+    [Parameter]
+    public required GenericWorkerListColumnPersistence GenericWorkerColumnPersistence { get; set; }
+
+    [Parameter]
+    public EventCallback AddGenericWorkers { get; set; }
+    [Parameter]
+    public EventCallback<GenericWorker> Pay { get; set; }
+    [Parameter]
+    public EventCallback<GenericWorker> Fire { get; set; }
+    [Parameter]
+    public EventCallback<GenericWorker> EditChar { get; set; }
+
+}

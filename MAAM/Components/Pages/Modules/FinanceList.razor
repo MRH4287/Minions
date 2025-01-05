@@ -1,0 +1,149 @@
+﻿ @inject IRepository<Asset> Repo
+ @inject AssetService AssetService
+@inject IDialogService Dialog
+@inject PersistenceService PersistenceService
+
+
+
+
+
+
+<MudGrid>
+
+    <MudItem xs="6">
+
+    </MudItem>
+
+
+    <MudItem xs="6">
+        <MudExpansionPanels>
+
+            <MudExpansionPanel Text="Panel One"  Expanded="true">
+
+                <TitleContent>
+                    <div class="d-flex">
+                     
+                        <MudText><strong>Named Personal</strong></MudText>
+                        <MudSpacer></MudSpacer>
+                        <MudText>@Asset.Payment</MudText>
+
+                    </div>
+                </TitleContent>
+
+                <ChildContent>
+                    <MudDataGrid T="Worker" Items="Asset.Workers" SortMode="SortMode.Single" Class="border-solid border mud-border" ColumnsPanelReordering="true" ShowMenuIcon="true"
+                                 Hideable="true" Filterable="true" Groupable="true">
+                        <Columns>
+                            <PropertyColumn Title="Name" Property="x => x.Name">
+                                <CellTemplate Context="cellContext">
+                                    @if (!string.IsNullOrEmpty(cellContext.Item.ExternalLink))
+                                    {
+                                        <a href="@cellContext.Item.ExternalLink">
+                                            @cellContext.Item.Name <br />
+                                            @cellContext.Item.Surname
+
+                                            <MudIcon Icon="@Icons.Material.Filled.Link" Size="Size.Small"></MudIcon>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        @cellContext.Item.Name <br />
+                                        @cellContext.Item.Surname
+                                    }
+                                </CellTemplate>
+
+                            </PropertyColumn>
+
+
+                            <PropertyColumn Title="Job" Property="x => x.Job"></PropertyColumn>
+
+
+                            <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment"></PropertyColumn>
+
+
+
+                        </Columns>
+                    </MudDataGrid>
+                </ChildContent>
+
+            </MudExpansionPanel>
+
+
+
+
+
+
+
+            <MudExpansionPanel Text="Panel Two" MaxHeight="500">
+                <TitleContent>
+                    <div class="d-flex">
+
+                        <MudText><strong>Unnamed Personal</strong></MudText>
+                        <MudSpacer></MudSpacer>
+                        <MudText>@Asset.UnnamedSailorPayment</MudText>
+
+                    </div>
+                </TitleContent>
+
+                <ChildContent>
+                    <MudDataGrid T="GenericWorker" Items="Asset.GenericWorkers" SortMode="SortMode.Single" Class="border-solid border mud-border" ColumnsPanelReordering="true" ShowMenuIcon="true"
+                                 Hideable="true" Filterable="true" Groupable="true">
+                        <Columns>
+                         
+                            <PropertyColumn Title="Type" Property="x => x.WorkerType"> </PropertyColumn>
+                            <PropertyColumn Title="Amount" Property="x => x.Amount"> </PropertyColumn>
+                            <PropertyColumn Title="Payment(/Day)" Property="x => x.Payment"> </PropertyColumn>
+
+                            <TemplateColumn Title="Total" >
+                                <CellTemplate Context="cellContext">
+                                    @(cellContext.Item.Amount * cellContext.Item.Payment)
+                 
+                                </CellTemplate>
+                            </TemplateColumn>
+
+
+                        </Columns>
+                    </MudDataGrid>
+                </ChildContent>
+
+            </MudExpansionPanel>
+
+
+
+
+
+            <MudExpansionPanel Text="Panel Three" MaxHeight="1000">
+                Panel Three Content
+            </MudExpansionPanel>
+
+        </MudExpansionPanels>
+
+    </MudItem>
+
+
+
+
+
+</MudGrid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@code {
+    [Parameter]
+        public required Asset Asset { get; set; }
+
+}

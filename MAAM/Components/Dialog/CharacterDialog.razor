@@ -13,48 +13,83 @@
 
     <DialogContent>
 
-        <MudTextField @bind-Value="Element.Name" T="string" Label="Name" Variant="Variant.Outlined"></MudTextField>
-        <MudTextField @bind-Value="Element.Surname" T="string" Label="Surname" Variant="Variant.Outlined"></MudTextField>
+     
+
+         <MudGrid>
+
+            <MudItem xs="6">
+                <MudTextField @bind-Value="Element.Name" T="string" Label="Name" Variant="Variant.Outlined"></MudTextField>
+                <MudTextField @bind-Value="Element.Surname" T="string" Label="Surname" Variant="Variant.Outlined"></MudTextField>
 
 
 
-        <MudSelect @bind-Value="Element.Race" T="string" Label="Race" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+                <MudSelect @bind-Value="Element.Race" T="string" Label="Race" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
 
-            @foreach (Race item in RaceOptions)
-            {
-                <MudSelectItem Value="@item.Id">@item.Id</MudSelectItem>
-            }
-        </MudSelect>
-
-
-        <BlazoredTypeahead placeholder="Job" SearchMethod="@SearchJob"
-                           @bind-Value="SelectedJob"
-                           Debounce="500"
-                           AddItemOnEmptyResultMethod="@AddJob">
-            <SelectedTemplate>
-                @context?.Id
-            </SelectedTemplate>
-            <ResultTemplate>
-                @context?.Id
-            </ResultTemplate>
-            <NotFoundTemplate>
-                @context (New Item)
-            </NotFoundTemplate>
-        </BlazoredTypeahead>
+                    @foreach (Race item in RaceOptions)
+                    {
+                        <MudSelectItem Value="@item.Id">@item.Id</MudSelectItem>
+                    }
+                </MudSelect>
 
 
-        <MudField>
-            <form action="/minions/api/@AssetId/image/@(Element.Id)"
-                  method="post"
-                  enctype="multipart/form-data"
-                  onsubmit="return false"
-                  id="imageForm">
 
-                <label for="file">Image</label>
-                <input id="file" name="file" type="file" />
-                @* <button>Upload</button> *@
-            </form>
-        </MudField>
+                <MudField>
+                    <BlazoredTypeahead placeholder="Job" SearchMethod="@SearchJob"
+                                       @bind-Value="SelectedJob"
+                                       Debounce="500"
+                                       AddItemOnEmptyResultMethod="@AddJob">
+                        <SelectedTemplate>
+                            @context?.Id
+                        </SelectedTemplate>
+                        <ResultTemplate>
+                            @context?.Id
+                        </ResultTemplate>
+                        <NotFoundTemplate>
+                            @context (New Item)
+                        </NotFoundTemplate>
+                    </BlazoredTypeahead>
+                </MudField>
+
+          
+
+
+            </MudItem>
+            <MudItem xs="6">
+                @if (Element.ImageUri != null)
+                {
+                    <img src="@(Element.ImageUri)" class="preview-image" />
+                }
+                else
+                {
+                    <div class="img-placeholder"></div>
+                }
+                <MudField>
+
+                    <form action="/minions/api/@AssetId/image/@(Element.Id)"
+                          method="post"
+                          enctype="multipart/form-data"
+                          onsubmit="return false"
+                          id="imageForm">
+
+                        <label for="file">Image</label>
+                        <input id="file" name="file" type="file" />
+                        @* <button>Upload</button> *@
+                    </form>
+                </MudField>
+            </MudItem>
+         </MudGrid>
+
+
+
+
+
+
+
+
+
+
+
+
 
         <MudGrid>
             <MudItem xs="6">
@@ -104,7 +139,7 @@
 
 
 
-        <MudTextField T="string" Label="Notes"  Variant="Variant.Outlined" Lines="5" />
+        <MudTextField T="string" Label="Notes"  Variant="Variant.Outlined" Lines="5" @bind-Value="Element.Notes"/>
         <MudTextField T="string" Label="External Link" Variant="Variant.Outlined" @bind-Value="Element.ExternalLink"></MudTextField>
 
 
@@ -124,6 +159,7 @@
 
 <script type="text/javascript">
     async function handleSubmit() {
+
         const form = document.getElementById('imageForm');
         if (!form) {
             console.error('Form not found!');
